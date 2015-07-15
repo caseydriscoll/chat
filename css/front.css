@@ -1,8 +1,0 @@
-#patchchat {
-	position: fixed;
-	right: 100px; bottom: 0px;
-	width: 200px; height: 30px;
-
-	border: 1px #777777 solid;
-	border-width: 1px 1px 0 1px;
-}
