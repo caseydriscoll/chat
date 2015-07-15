@@ -15,7 +15,18 @@ include 'patchchatadmin.php';
 class PatchChat {
 
 	function __construct() {
-		add_action( 'admin_menu', array( 'PatchChatAdmin', 'register_menu' ) );
+
+		if ( is_admin() ) {
+		
+			add_action( 'admin_menu', 'PatchChatAdmin::register_menu' );
+		
+		} else {
+
+
+		}
+
+
+
 	}
 
 }
