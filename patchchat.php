@@ -10,3 +10,14 @@ Text Domain: patchworks
 Domain Path: /languages
 */
 
+include 'patchchatadmin.php';
+
+class PatchChat {
+
+	function __construct() {
+		add_action( 'admin_menu', array( 'PatchChatAdmin', 'register_menu' ) );
+	}
+
+}
+
+new PatchChat();
