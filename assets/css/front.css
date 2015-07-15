@@ -1,10 +1,41 @@
-/* line 1, ../sass/front.scss */
-#patchchat {
+/* line 7, ../sass/front.scss */
+.patchchat {
   position: fixed;
   right: 100px;
   bottom: 0px;
-  width: 200px;
-  height: 30px;
+  width: 250px;
+  height: auto;
   border: 1px #777777 solid;
   border-width: 1px 1px 0 1px;
+}
+/* line 15, ../sass/front.scss */
+.patchchat header {
+  display: block;
+  height: 40px;
+  padding: 5px 10px;
+  font-family: sans-serif;
+  cursor: pointer;
+  border-bottom: 1px #777777 solid;
+}
+/* line 24, ../sass/front.scss */
+.patchchat section {
+  display: none;
+  height: 250px;
+  background: #ffffff;
+}
+/* line 29, ../sass/front.scss */
+.patchchat section textarea {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 30px;
+  padding: 5px 5px 0 5px;
+  border: 0px #777777 solid;
+  border-top-width: 1px;
+  font-family: sans-serif;
+  resize: none;
+  font-size: 14px;
+  line-height: 18px;
+  overflow-y: hidden;
+  /* fixes scrollbar flash - kudos to @brettjonesdev */
 }
