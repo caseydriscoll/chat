@@ -24,9 +24,12 @@ class PatchChat {
 
 			add_action( 'wp_enqueue_scripts', 'PatchChat::load_assets' );
 
+
 		}
 
 
+		add_action( 'wp_ajax_submit_patchchat', array( $this, 'submit_patchchat' ) );
+		add_action( 'wp_ajax_nopriv_submit_patchchat', array( $this, 'submit_patchchat' ) );
 	}
 
 
@@ -39,6 +42,12 @@ class PatchChat {
 
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/front.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
 
+	}
+
+
+
+	public function submit_patchchat() {
+		wp_send_json_success( 'hello there' );
 	}
 
 }

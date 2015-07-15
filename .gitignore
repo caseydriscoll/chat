@@ -1,2 +1,3 @@
 *.module-cache
 assets/.sass-cache
+.idea

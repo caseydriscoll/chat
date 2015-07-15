@@ -19,42 +19,54 @@ $white: #ffffff;
 		font-family: sans-serif;
 	}
 
-	header { 
-		display: block;
-		height: 40px;
-		padding: 5px 10px;
-		cursor: pointer;
-		border-bottom: 1px $grey solid;
-		background: $light;
-	}
+	
 
 	section {
-		// display: none;
-		height: 250px;
 
-		label {
-			padding: 20px 10px 0 10px;
+		header { 
+			display: block !important;
+			height: 40px;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-bottom: 1px $grey solid;
+			background: $light;
 		}
 
-		input {
-			width: 230px;
-			padding: 5px; margin: 0 10px 10px;
+		.patchchat-body {
+
+			display: none;
+			height: 250px;
+			padding-top: 10px;
+
+			form {
+				label {
+					padding: 20px 10px 0 10px;
+				}
+
+				input {
+					width: 230px;
+					padding: 5px; margin: 0 10px 10px;
+				}
+
+				textarea {
+					position: absolute;
+					bottom: 0;
+					width: 100%; min-height: 30px;
+					padding: 5px 5px 0 5px;
+					border: 0px $grey solid;
+					border-top-width: 1px;
+					font-family: sans-serif;
+					resize: none;
+
+					font-size: 14px;
+					line-height: 18px;
+					overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+				}
+			}
+
 		}
 
-		textarea {
-			position: absolute;
-			bottom: 0;
-			width: 100%; min-height: 30px;
-			padding: 5px 5px 0 5px;
-			border: 0px $grey solid;
-			border-top-width: 1px;
-			font-family: sans-serif;
-			resize: none;
-
-			font-size: 14px;
-			line-height: 18px;
-			overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-		}
+		
 	}
 
 }

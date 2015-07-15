@@ -13,31 +13,33 @@
 .patchchat * {
   font-family: sans-serif;
 }
-/* line 22, ../sass/front.scss */
-.patchchat header {
-  display: block;
+/* line 26, ../sass/front.scss */
+.patchchat section header {
+  display: block !important;
   height: 40px;
   padding: 5px 10px;
   cursor: pointer;
   border-bottom: 1px #777777 solid;
   background: #bbbbbb;
 }
-/* line 31, ../sass/front.scss */
-.patchchat section {
-  height: 250px;
-}
 /* line 35, ../sass/front.scss */
-.patchchat section label {
+.patchchat section .patchchat-body {
+  display: none;
+  height: 250px;
+  padding-top: 10px;
+}
+/* line 42, ../sass/front.scss */
+.patchchat section .patchchat-body form label {
   padding: 20px 10px 0 10px;
 }
-/* line 39, ../sass/front.scss */
-.patchchat section input {
+/* line 46, ../sass/front.scss */
+.patchchat section .patchchat-body form input {
   width: 230px;
   padding: 5px;
   margin: 0 10px 10px;
 }
-/* line 44, ../sass/front.scss */
-.patchchat section textarea {
+/* line 51, ../sass/front.scss */
+.patchchat section .patchchat-body form textarea {
   position: absolute;
   bottom: 0;
   width: 100%;
