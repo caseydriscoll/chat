@@ -22,10 +22,22 @@ class PatchChat {
 		
 		} else {
 
+			add_action( 'wp_enqueue_scripts', 'PatchChat::load_assets' );
 
 		}
 
 
+	}
+
+
+	static function load_assets() {
+
+		wp_enqueue_style( 'patchchat-front', plugins_url( '/css/front.css', __FILE__ ) );
+
+
+		wp_register_script( 'react', plugins_url( '/js/react-with-addons.js', __FILE__ ) );
+
+		wp_enqueue_script( 'patchchat-front', plugins_url( '/js/front.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
 
 	}
 
