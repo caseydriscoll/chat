@@ -7,7 +7,7 @@
 				'PatchChat',
 				'PatchChat',
 				'manage_options',
-				'patchchat.php',
+				'patchchat',
 				'PatchChatAdmin::render',
 				'dashicons-format-chat',
 				'25.1'
