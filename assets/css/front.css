@@ -1,4 +1,4 @@
-/* line 7, ../sass/front.scss */
+/* line 9, ../sass/front.scss */
 .patchchat {
   position: fixed;
   right: 100px;
@@ -7,23 +7,36 @@
   height: auto;
   border: 1px #777777 solid;
   border-width: 1px 1px 0 1px;
+  background: #ffffff;
 }
-/* line 15, ../sass/front.scss */
+/* line 18, ../sass/front.scss */
+.patchchat * {
+  font-family: sans-serif;
+}
+/* line 22, ../sass/front.scss */
 .patchchat header {
   display: block;
   height: 40px;
   padding: 5px 10px;
-  font-family: sans-serif;
   cursor: pointer;
   border-bottom: 1px #777777 solid;
+  background: #bbbbbb;
 }
-/* line 24, ../sass/front.scss */
+/* line 31, ../sass/front.scss */
 .patchchat section {
-  display: none;
   height: 250px;
-  background: #ffffff;
 }
-/* line 29, ../sass/front.scss */
+/* line 35, ../sass/front.scss */
+.patchchat section label {
+  padding: 20px 10px 0 10px;
+}
+/* line 39, ../sass/front.scss */
+.patchchat section input {
+  width: 230px;
+  padding: 5px;
+  margin: 0 10px 10px;
+}
+/* line 44, ../sass/front.scss */
 .patchchat section textarea {
   position: absolute;
   bottom: 0;
