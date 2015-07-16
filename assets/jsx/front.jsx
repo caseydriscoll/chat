@@ -1,4 +1,4 @@
-PWDEBUG = 0;
+PWDEBUG = 1;
 
 jQuery( document ).ready( function() {
 
@@ -67,7 +67,7 @@ function submitPatchChat() {
 		'/wp-admin/admin-ajax.php',
 		data,
 		function( response ) {
-			console.log( response );
+			if ( PWDEBUG ) console.log( response );
 		}
 	);
 

@@ -47,6 +47,29 @@ class PatchChat {
 
 
 	public function submit_patchchat() {
+
+		// TODO: Catch the honeypot?
+		// TODO: Can bots submit a POST if no 'submit' button?
+		// TODO: Create test for each error case
+
+
+		/* Simple Validation for all fields */
+		extract( $_POST );
+
+		$error = false;
+
+		    if ( empty( $name ) )                 $error = "Name is empty";
+		elseif ( empty( $email ) )                $error = "Email is empty";
+		elseif ( ! is_email( $email ) )           $error = "Email is not valid";
+		elseif ( get_user_by( 'email', $email ) ) $error = "Email already attached to user";
+		elseif ( empty( $text ) )                 $error = "Text is empty";
+
+
+		if ( $error ) wp_send_json_error( $error );
+
+
+
+
 		wp_send_json_success( 'hello there' );
 	}
 
