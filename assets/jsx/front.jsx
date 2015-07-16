@@ -27,16 +27,13 @@ jQuery( document ).ready( function() {
 	jQuery( '.patchchat form' )
 		.delegate( 'textarea', 'keyup', function (e) {
 
-			if ( e.which == 13 || e.keyCode == 13 ) {
-//				jQuery( e.target ).val( '' );
-			}
-
 			jQuery( this ).height( 0 );
 			jQuery( this ).height( this.scrollHeight );
 
 		} ).delegate( 'textarea', 'keydown', function(e) {
 			
 			if ( e.which == 13 || e.keyCode == 13 ) {
+				e.preventDefault();
 				submitPatchChat( e.target );
 			}
 
@@ -63,7 +60,7 @@ function submitPatchChat() {
 		'/wp-admin/admin-ajax.php',
 		data,
 		function( response ) {
-
+			console.log( response );
 		}
 	);
 
@@ -99,10 +96,6 @@ function validPatchChat() {
 		patchchat.email = email;
 		patchchat.text = text;
 	}
-
-
-	console.log( error, valid, name, email, text );
-
 
 	return valid;
 }
