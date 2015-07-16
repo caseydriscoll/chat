@@ -1,3 +1,5 @@
+PWDEBUG = 0;
+
 jQuery( document ).ready( function() {
 
 	jQuery( 'body' ).append( '<div class="patchchat"></div>' );
@@ -9,6 +11,7 @@ jQuery( document ).ready( function() {
 				<form>
 					<label>Name</label><input name="patchchat-name" type="name" required />
 					<label>Email</label><input name="patchchat-email" type="email" required />
+					<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
 					<textarea name="patchchat-text" required></textarea>
 				</form>
 			</div>
@@ -47,7 +50,11 @@ var patchchat = {};
 
 function submitPatchChat() {
 
-	if ( ! validPatchChat() ) return false;
+	valid = validPatchChat();
+
+	if ( PWDEBUG ) console.log( 'valid: ' + valid );
+
+	if ( ! valid ) return false;
 
 	data = {
 		'action' : 'submit_patchchat',
@@ -75,6 +82,8 @@ function validPatchChat() {
 	email = jQuery( 'input[name=patchchat-email]' ).val();
 	text  = jQuery( 'textarea[name=patchchat-text]' ).val();
 
+	honey = jQuery( 'input[name=patchchat-honeypot]' ).val();
+
 	re    = /\S+@\S+/;
 	valid = false;
 	error = false;
@@ -88,6 +97,9 @@ function validPatchChat() {
 	else if ( text == '' )
 		error = 'Text is blank';
 
+	if ( honey != '' )
+		error = 'Caught the honeypot';
+
 
 	if ( error == false ) {
 		valid = true;
@@ -96,6 +108,8 @@ function validPatchChat() {
 		patchchat.email = email;
 		patchchat.text = text;
 	}
+
+	if ( PWDEBUG ) console.log( 'name: ' + name, 'email: ' + email, 'text: ' + text, 'error: ' + error );
 
 	return valid;
 }

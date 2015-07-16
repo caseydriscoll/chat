@@ -54,3 +54,7 @@
   overflow-y: hidden;
   /* fixes scrollbar flash - kudos to @brettjonesdev */
 }
+/* line 66, ../sass/front.scss */
+.patchchat section .patchchat-body form #patchchat-honeypot {
+  display: none;
+}
