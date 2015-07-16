@@ -7,20 +7,22 @@ jQuery( document ).ready( function() {
 			React.createElement("header", null, "PatchChat"), 
 			React.createElement("div", {className: "patchchat-body"}, 
 				React.createElement("form", null, 
-					React.createElement("label", null, "Name"), React.createElement("input", {name: "patchchat-name", type: "text"}), 
-					React.createElement("label", null, "Email"), React.createElement("input", {name: "patchchat-email", type: "email"}), 
-					React.createElement("textarea", {name: "patchchat-text"})
+					React.createElement("label", null, "Name"), React.createElement("input", {name: "patchchat-name", type: "name", required: true}), 
+					React.createElement("label", null, "Email"), React.createElement("input", {name: "patchchat-email", type: "email", required: true}), 
+					React.createElement("textarea", {name: "patchchat-text", required: true})
 				)
 			)
 		),
 		document.getElementsByClassName('patchchat')[0]
 	);
 
+
 	jQuery( '.patchchat header')
 		.on( 'click', function() {
 			jQuery( '.patchchat-body' ).toggle();
 			jQuery( '.patchchat input' )[0].focus();
 		} );
+
 
 	jQuery( '.patchchat form' )
 		.delegate( 'textarea', 'keyup', function (e) {
@@ -43,8 +45,12 @@ jQuery( document ).ready( function() {
 } );
 
 
+var patchchat = {};
+
 
 function submitPatchChat() {
+
+	if ( ! validPatchChat() ) return false;
 
 	data = {
 		'action' : 'submit_patchchat',
@@ -57,8 +63,46 @@ function submitPatchChat() {
 		'/wp-admin/admin-ajax.php',
 		data,
 		function( response ) {
-			
+
 		}
 	);
 
+}
+
+
+function validPatchChat() {
+
+	patchchat = {};
+
+	name  = jQuery( 'input[name=patchchat-name]' ).val();
+	email = jQuery( 'input[name=patchchat-email]' ).val();
+	text  = jQuery( 'textarea[name=patchchat-text]' ).val();
+
+	re    = /\S+@\S+/;
+	valid = false;
+	error = false;
+
+	if ( name == '' )
+		error = 'Name is blank';
+	else if ( email == '' )
+		error = 'Email is blank';
+	else if ( ! re.test( email ) )
+		error = 'Not a valid email';
+	else if ( text == '' )
+		error = 'Text is blank';
+
+
+	if ( error == false ) {
+		valid = true;
+
+		patchchat.name = name;
+		patchchat.email = email;
+		patchchat.text = text;
+	}
+
+
+	console.log( error, valid, name, email, text );
+
+
+	return valid;
 }

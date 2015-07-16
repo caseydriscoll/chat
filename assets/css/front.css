@@ -24,7 +24,7 @@
 }
 /* line 35, ../sass/front.scss */
 .patchchat section .patchchat-body {
-  display: none;
+  display: block;
   height: 250px;
   padding-top: 10px;
 }
