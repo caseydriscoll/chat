@@ -45,12 +45,26 @@ class PatchChat {
 	}
 
 
-
+	/**
+	 * The POST handler for all chat submissions
+	 *
+	 * Validates POST request
+	 *
+	 * Inserts user, post, comment, if valid
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-16 20:14:26
+	 *
+	 * @return wp_send_json_error || wp_send_json_success
+	 */
 	public function submit_patchchat() {
 
 		// TODO: Catch the honeypot?
 		// TODO: Can bots submit a POST if no 'submit' button?
 		// TODO: Create test for each error case
+		// TODO: Send email reminder if email already exists
+		// TODO: Error handling for every insert
 
 
 		/* Simple Validation for all fields */
@@ -58,19 +72,61 @@ class PatchChat {
 
 		$error = false;
 
-		    if ( empty( $name ) )                 $error = "Name is empty";
-		elseif ( empty( $email ) )                $error = "Email is empty";
-		elseif ( ! is_email( $email ) )           $error = "Email is not valid";
-		elseif ( get_user_by( 'email', $email ) ) $error = "Email already attached to user";
-		elseif ( empty( $text ) )                 $error = "Text is empty";
+		    if         ( empty( $name ) ) $error = "Name is empty";
+		elseif        ( empty( $email ) ) $error = "Email is empty";
+		elseif   ( ! is_email( $email ) ) $error = "Email is not valid";
+		elseif ( email_exists( $email ) ) $error = "Email exists";
+		elseif         ( empty( $text ) ) $error = "Text is empty";
 
 
 		if ( $error ) wp_send_json_error( $error );
 
 
+		
+
+		$password = wp_generate_password( 10, false );
+		$time = current_time('mysql');
 
 
-		wp_send_json_success( 'hello there' );
+		/* Create User */
+		$user_id = wp_create_user( $email, $password, $email );
+
+		wp_new_user_notification( $user_id, $password );
+
+
+
+
+		/* Create Post */
+		$post = array(
+			'post_title'  => substr( wp_strip_all_tags( $text ), 0, 40 ),
+			'post_type'   => 'patchchat',
+			'post_author' => $user_id,
+			'post_status' => 'new',
+			'post_date'   => $time
+		);
+
+		$post_id = wp_insert_post( $post );
+
+
+
+
+		/* Create First Comment */
+		$comment = array(
+			'comment_post_ID'   => $post_id,
+			'user_id'           => $user_id,
+			'comment_content'   => $text,
+			'comment_date'      => $time,
+			'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+			'comment_agent'     => $_SERVER['HTTP_USER_AGENT']
+		);
+
+		$comment_id = wp_insert_comment( $comment );
+
+
+
+
+		wp_send_json_success( array( $user_id, $post_id, $comment_id ) );
+
 	}
 
 }
