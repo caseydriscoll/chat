@@ -19,7 +19,7 @@ jQuery( document ).ready( function() {
 				)
 			)
 		),
-		document.getElementsByClassName('patchchat')[0]
+		document.getElementsByClassName( 'patchchat' )[0]
 	);
 
 
@@ -75,7 +75,32 @@ function submitPatchChat() {
 			if ( PWDEBUG ) console.log( response );
 
 			jQuery( '.patchchat .spinner' ).hide();
-			jQuery( '.patchchat textarea').val( '' );
+
+			if ( response.success ) {
+				jQuery( '.patchchat textarea').val( '' ).focus();
+
+				React.render(
+					React.createElement("section", null, 
+						React.createElement("header", null, 
+							"PatchChat", 
+							React.createElement("img", {className: "spinner", src: "/wp-admin/images/wpspin_light.gif"})
+						), 
+						React.createElement("div", {className: "patchchat-body"}, 
+							React.createElement("ul", null, 
+								React.createElement("li", {className: "user"}, response.data.text), 
+								React.createElement("li", {className: "admin"}, "Hi there what can we help you with?")
+							), 
+							React.createElement("form", null, 
+								React.createElement("textarea", {name: "patchchat-text", required: true})
+							)
+						)
+					),
+					document.getElementsByClassName( 'patchchat' )[0]
+				);
+
+			} else {
+
+			}
 		}
 	);
 

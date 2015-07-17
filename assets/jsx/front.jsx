@@ -19,7 +19,7 @@ jQuery( document ).ready( function() {
 				</form>
 			</div>
 		</section>,
-		document.getElementsByClassName('patchchat')[0]
+		document.getElementsByClassName( 'patchchat' )[0]
 	);
 
 
@@ -75,7 +75,32 @@ function submitPatchChat() {
 			if ( PWDEBUG ) console.log( response );
 
 			jQuery( '.patchchat .spinner' ).hide();
-			jQuery( '.patchchat textarea').val( '' );
+
+			if ( response.success ) {
+				jQuery( '.patchchat textarea').val( '' ).focus();
+
+				React.render(
+					<section>
+						<header>
+							PatchChat
+							<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
+						</header>
+						<div className="patchchat-body">
+							<ul>
+								<li className="user">{response.data.text}</li>
+								<li className="admin">Hi there what can we help you with?</li>
+							</ul>
+							<form>
+								<textarea name="patchchat-text" required></textarea>
+							</form>
+						</div>
+					</section>,
+					document.getElementsByClassName( 'patchchat' )[0]
+				);
+
+			} else {
+
+			}
 		}
 	);
 

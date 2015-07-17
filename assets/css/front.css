@@ -1,4 +1,4 @@
-/* line 9, ../sass/front.scss */
+/* line 10, ../sass/front.scss */
 .patchchat {
   position: fixed;
   right: 100px;
@@ -9,11 +9,11 @@
   border-width: 1px 1px 0 1px;
   background: #ffffff;
 }
-/* line 18, ../sass/front.scss */
+/* line 19, ../sass/front.scss */
 .patchchat * {
   font-family: sans-serif;
 }
-/* line 26, ../sass/front.scss */
+/* line 27, ../sass/front.scss */
 .patchchat section header {
   display: block !important;
   height: 40px;
@@ -22,29 +22,57 @@
   border-bottom: 1px #777777 solid;
   background: #bbbbbb;
 }
-/* line 34, ../sass/front.scss */
+/* line 35, ../sass/front.scss */
 .patchchat section header .spinner {
   display: none;
   float: right;
   margin: 6px;
 }
-/* line 40, ../sass/front.scss */
+/* line 41, ../sass/front.scss */
 .patchchat section .patchchat-body {
   display: block;
   height: 250px;
   padding-top: 10px;
 }
-/* line 47, ../sass/front.scss */
+/* line 48, ../sass/front.scss */
+.patchchat section .patchchat-body ul li {
+  display: inline-block;
+  max-width: 80%;
+  list-style: none;
+  padding: 3px 5px;
+  margin: 5px 8px;
+  font-size: 14px;
+  line-height: 18px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+/* line 58, ../sass/front.scss */
+.patchchat section .patchchat-body ul li.user {
+  float: left;
+}
+/* line 59, ../sass/front.scss */
+.patchchat section .patchchat-body ul li.admin {
+  float: right;
+  border-color: #333333;
+}
+/* line 63, ../sass/front.scss */
+.patchchat section .patchchat-body ul:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* line 71, ../sass/front.scss */
 .patchchat section .patchchat-body form label {
   padding: 20px 10px 0 10px;
 }
-/* line 51, ../sass/front.scss */
+/* line 75, ../sass/front.scss */
 .patchchat section .patchchat-body form input {
   width: 230px;
   padding: 5px;
   margin: 0 10px 10px;
 }
-/* line 56, ../sass/front.scss */
+/* line 80, ../sass/front.scss */
 .patchchat section .patchchat-body form textarea {
   position: absolute;
   bottom: 0;
@@ -60,7 +88,7 @@
   overflow-y: hidden;
   /* fixes scrollbar flash - kudos to @brettjonesdev */
 }
-/* line 71, ../sass/front.scss */
+/* line 95, ../sass/front.scss */
 .patchchat section .patchchat-body form #patchchat-honeypot {
   display: none;
 }

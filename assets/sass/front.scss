@@ -1,8 +1,9 @@
-$black: #000000;
-$dark:  #333333;
-$grey:  #777777;
-$light: #bbbbbb;
-$white: #ffffff;
+$black:    #000000;
+$dark:     #333333;
+$grey:     #777777;
+$light:    #bbbbbb;
+$offwhite: #fafafa;
+$white:    #ffffff;
 
 
 // The main chat box
@@ -42,6 +43,29 @@ $white: #ffffff;
 			display: block;
 			height: 250px;
 			padding-top: 10px;
+
+			ul {
+				li {
+					display: inline-block;
+					max-width: 80%;
+					list-style: none;
+					padding: 3px 5px; margin: 5px 8px;
+					font-size: 14px; line-height: 18px;
+					border: 1px solid $light;
+					border-radius: 5px;
+					background-color: $offwhite;
+
+					&.user { float: left; }
+					&.admin { float: right; border-color: $dark; }
+					
+				}
+
+				&:after {
+					content: "";
+					display: table;
+					clear: both;
+				}
+			}
 
 			form {
 				label {

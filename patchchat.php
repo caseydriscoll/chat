@@ -86,6 +86,7 @@ class PatchChat {
 
 		$password = wp_generate_password( 10, false );
 		$time = current_time('mysql');
+		$text = wp_strip_all_tags( $text );
 
 
 		/* Create User */
@@ -98,7 +99,7 @@ class PatchChat {
 
 		/* Create Post */
 		$post = array(
-			'post_title'  => substr( wp_strip_all_tags( $text ), 0, 40 ),
+			'post_title'  => substr( $text , 0, 40 ),
 			'post_type'   => 'patchchat',
 			'post_author' => $user_id,
 			'post_status' => 'new',
@@ -123,9 +124,12 @@ class PatchChat {
 		$comment_id = wp_insert_comment( $comment );
 
 
+		$response = array(
+			'text' => $text
+		);
 
 
-		wp_send_json_success( array( $user_id, $post_id, $comment_id ) );
+		wp_send_json_success( $response );
 
 	}
 
