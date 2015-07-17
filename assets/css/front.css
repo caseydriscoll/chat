@@ -22,23 +22,29 @@
   border-bottom: 1px #777777 solid;
   background: #bbbbbb;
 }
-/* line 35, ../sass/front.scss */
+/* line 34, ../sass/front.scss */
+.patchchat section header .spinner {
+  display: none;
+  float: right;
+  margin: 6px;
+}
+/* line 40, ../sass/front.scss */
 .patchchat section .patchchat-body {
   display: block;
   height: 250px;
   padding-top: 10px;
 }
-/* line 42, ../sass/front.scss */
+/* line 47, ../sass/front.scss */
 .patchchat section .patchchat-body form label {
   padding: 20px 10px 0 10px;
 }
-/* line 46, ../sass/front.scss */
+/* line 51, ../sass/front.scss */
 .patchchat section .patchchat-body form input {
   width: 230px;
   padding: 5px;
   margin: 0 10px 10px;
 }
-/* line 51, ../sass/front.scss */
+/* line 56, ../sass/front.scss */
 .patchchat section .patchchat-body form textarea {
   position: absolute;
   bottom: 0;
@@ -54,7 +60,7 @@
   overflow-y: hidden;
   /* fixes scrollbar flash - kudos to @brettjonesdev */
 }
-/* line 66, ../sass/front.scss */
+/* line 71, ../sass/front.scss */
 .patchchat section .patchchat-body form #patchchat-honeypot {
   display: none;
 }

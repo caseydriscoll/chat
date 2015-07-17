@@ -30,6 +30,11 @@ $white: #ffffff;
 			cursor: pointer;
 			border-bottom: 1px $grey solid;
 			background: $light;
+
+			.spinner {
+				display: none; float: right;
+				margin: 6px;
+			}
 		}
 
 		.patchchat-body {

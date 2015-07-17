@@ -6,7 +6,10 @@ jQuery( document ).ready( function() {
 
 	React.render(
 		<section>
-			<header>PatchChat</header>
+			<header>
+				PatchChat
+				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
+			</header>
 			<div className="patchchat-body">
 				<form>
 					<label>Name</label><input name="patchchat-name" type="name" required />
@@ -56,6 +59,8 @@ function submitPatchChat() {
 
 	if ( ! valid ) return false;
 
+	jQuery( '.patchchat .spinner' ).show();
+
 	data = {
 		'action' : 'submit_patchchat',
 		'name'   : jQuery( 'input[name=patchchat-name]' ).val(),
@@ -68,6 +73,9 @@ function submitPatchChat() {
 		data,
 		function( response ) {
 			if ( PWDEBUG ) console.log( response );
+
+			jQuery( '.patchchat .spinner' ).hide();
+			jQuery( '.patchchat textarea').val( '' );
 		}
 	);
 
