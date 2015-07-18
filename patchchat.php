@@ -145,6 +145,7 @@ class PatchChat {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-18 15:04:14
+	 * @edited  2015-07-18 15:12:00 - Refactored to show in 'PatchChat' submenu
 	 *
 	 */
 	public static function register_post_type() {
@@ -153,7 +154,6 @@ class PatchChat {
 		// TODO: Remove patchchat comments from normal comments admin
 		//   http://wordpress.stackexchange.com/questions/72210/exclude-post-type-from-admin-comments-list/72220#72220
 		// TODO: Adjust query so comments appear on 'patchchat' cpt
-		// TODO: Make 'Chats' appear in the admin menu under 'PatchChat'
 		// TODO: Make 'Chats' appear in the admin menu bar
 
 		
@@ -176,7 +176,7 @@ class PatchChat {
 			'public'            => false,
 			'hierarchical'      => false,
 			'show_ui'           => true,
-			'show_in_menu'      => false,
+			'show_in_menu'      => 'patchchat',
 			'show_in_nav_menus' => true,
 			'supports'          => array( 'title', 'author', 'comments' ),
 			'has_archive'       => false,
