@@ -58,6 +58,7 @@ class PatchChat {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-16 20:14:26
+	 * @edited  2015-07-18 15:18:47 - Refactors to strip username of email '@' and domain
 	 *
 	 * @return wp_send_json_error || wp_send_json_success
 	 */
@@ -68,6 +69,8 @@ class PatchChat {
 		// TODO: Create test for each error case
 		// TODO: Send email reminder if email already exists
 		// TODO: Error handling for every insert (make pretty)
+		// TODO: Handle username duplicates (iterate or validate?)
+		// TODO: Allow title length to be set as option (currently hard coded to 40 char)
 
 
 		/* Simple Validation for all fields */
@@ -86,14 +89,14 @@ class PatchChat {
 
 
 		
-
+		$username = substr( $email, 0, strpos( $email, "@" ) );
 		$password = wp_generate_password( 10, false );
 		$time = current_time('mysql');
 		$text = wp_strip_all_tags( $text );
 
 
 		/* Create User */
-		$user_id = wp_create_user( $email, $password, $email );
+		$user_id = wp_create_user( $username, $password, $email );
 
 		wp_new_user_notification( $user_id, $password );
 
