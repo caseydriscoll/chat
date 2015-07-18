@@ -34,15 +34,14 @@ jQuery( document ).ready( function() {
 					count = jQuery( '.' + response.data.prevstatus ).find( '.count' ).html().replace(/[()]/g, '');
 					jQuery( '.' + response.data.prevstatus ).find( '.count' ).html( '(' + --count + ')' );
 
+					jQuery( '#post-' + response.data.id )
+						.removeClass( 'status-' + response.data.prevstatus )
+						.addClass( 'status-' + response.data.status );
 
 					if ( jQuery( '.post_status_page' ).val() != 'all' ) {
 						jQuery( '#post-' + response.data.id ).fadeOut( 'normal', function () {
 							jQuery( this ).remove();
 						} );
-					} else {
-						jQuery( '#post-' + response.data.id )
-							.removeClass( 'status-' + response.data.prevstatus )
-							.addClass( 'status-' + response.data.status );
 					}
 
 
