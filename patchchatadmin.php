@@ -12,6 +12,24 @@
 				'dashicons-format-chat',
 				'25.1'
 			);
+
+			add_submenu_page(
+				'patchchat',
+				'PatchChat Settings',
+				'Messenger',
+				'manage_options',
+				'patchchat_messenger',
+				'PatchChatAdmin::render'
+			);
+
+			add_submenu_page(
+				'patchchat',
+				'PatchChat Settings',
+				'Settings',
+				'manage_options',
+				'patchchat_settings',
+				'PatchChatAdmin::render'
+			);
 		}
 
 
@@ -20,5 +38,3 @@
 		
 		}
 	}
-
-?>
