@@ -12,7 +12,18 @@ Domain Path: /languages
 
 include 'patchchatadmin.php';
 
+
+
+
 class PatchChat {
+
+
+
+	// TODO: Add a filter for adjusting this list?
+	public static $statuses = array( 'new', 'open', 'closed' );
+
+
+
 
 	function __construct() {
 
@@ -22,11 +33,13 @@ class PatchChat {
 
 			add_action( 'init', 'PatchChat::register_post_type' );
 			add_filter( 'post_updated_messages', 'PatchChat::updated_messages' );
+
+			add_action( 'manage_patchchat_posts_custom_column', 'PatchChat::custom_columns', 10, 2 );
+			add_filter( 'manage_patchchat_posts_columns', 'PatchChat::edit_columns' );
 		
 		} else {
 
 			add_action( 'wp_enqueue_scripts', 'PatchChat::load_assets' );
-
 
 		}
 
@@ -34,6 +47,8 @@ class PatchChat {
 		add_action( 'wp_ajax_submit_patchchat', array( $this, 'submit_patchchat' ) );
 		add_action( 'wp_ajax_nopriv_submit_patchchat', array( $this, 'submit_patchchat' ) );
 	}
+
+
 
 
 	static function load_assets() {
@@ -46,6 +61,8 @@ class PatchChat {
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/front.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
 
 	}
+
+
 
 
 	/**
@@ -148,7 +165,8 @@ class PatchChat {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-18 15:04:14
-	 * @edited  2015-07-18 15:12:00 - Refactored to show in 'PatchChat' submenu
+	 * @edited  2015-07-18 15:12:00 - Refactors to show in 'PatchChat' submenu
+	 * @edited  2015-07-18 16:20:09 - Refactors to use static statuses array
 	 *
 	 */
 	public static function register_post_type() {
@@ -189,38 +207,22 @@ class PatchChat {
 		) );
 
 
-		register_post_status( 'new', array(
-			'label'                     => _x( 'New', 'patchworks' ),
-			'public'                    => true,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => true,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'New <span class="count">(%s)</span>', 'New <span class="count">(%s)</span>' ),
-		) );
-
-
-		register_post_status( 'open', array(
-			'label'                     => _x( 'Open', 'patchworks' ),
-			'public'                    => true,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => true,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Open <span class="count">(%s)</span>', 'Open <span class="count">(%s)</span>' ),
-		) );
-
-
-		register_post_status( 'closed', array(
-			'label'                     => _x( 'Closed', 'patchworks' ),
-			'public'                    => true,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => true,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Closed <span class="count">(%s)</span>', 'Closed <span class="count">(%s)</span>' ),
-		) );
+		foreach ( PatchChat::$statuses as $status ) {
+			register_post_status( $status, array(
+				'label'                     => _x( ucfirst( $status ), 'patchworks' ),
+				'public'                    => true,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => true,
+				'show_in_admin_status_list' => true,
+				'label_count'               => _n_noop( ucfirst( $status ) . ' <span class="count">(%s)</span>', ucfirst( $status ) . ' <span class="count">(%s)</span>' ),
+			) );
+		}
 
 	}
 
 
+
+	
 	/**
 	 * TODO: This is just generic from the wp-cli scaffold, make it work
 	 *
@@ -255,6 +257,69 @@ class PatchChat {
 		);
 
 		return $messages;
+	}
+
+
+
+
+	/**
+	 * Renders the status dropdown on the 'PatchChat' admin table
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-18 16:10:32
+	 *
+	 * @param string   $column    The name of the column to display
+	 * @param int      $post_id   The ID of the current post
+	 */
+	public static function custom_columns( $column, $post_id ) {
+
+		// TODO: When status selected, adjust record with ajax and remove
+
+		global $post;
+
+		switch ( $column ) {
+			case 'status':
+
+				$select = '<select>';
+				foreach ( PatchChat::$statuses as $status ) {
+					$selected = $post->post_status == $status ? 'selected' : '';
+					$select .= '<option value="' . $status . '" ' . $selected . '>' . ucfirst( $status ) . '</option>';
+				}
+				$select .= '</select>';
+
+				echo $select;
+				break;
+		}
+
+	}
+
+
+
+
+	/**
+	 * Adds the 'Status' column to the front of the 'PatchChat' admin table
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-07-18 16:08:47
+	 *
+	 * @param   array   $columns   The current array of column names
+	 *
+	 * @return  array   $new       The new array of column names
+	 */
+	public static function edit_columns( $columns ) {
+
+		$new = array();
+
+		foreach ( $columns as $key => $value ) {
+			if ( $key == "title" ) $new['status'] = "Status";
+
+			$new[$key] = $value;
+		}
+
+		return $new;
+
 	}
 
 }
