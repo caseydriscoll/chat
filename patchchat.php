@@ -274,6 +274,7 @@ class PatchChat {
 		) );
 
 
+		// TODO: Decide to show 'closed' in 'All' view
 		foreach ( PatchChat::$statuses as $status ) {
 			register_post_status( $status, array(
 				'label'                     => _x( ucfirst( $status ), 'patchworks' ),
@@ -372,6 +373,8 @@ class PatchChat {
 	 * @return  array   $new       The new array of column names
 	 */
 	public static function edit_columns( $columns ) {
+
+		// TODO: Somehow sort by status
 
 		$new = array();
 

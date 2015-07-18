@@ -39,6 +39,10 @@ jQuery( document ).ready( function() {
 						jQuery( '#post-' + response.data.id ).fadeOut( 'normal', function () {
 							jQuery( this ).remove();
 						} );
+					} else {
+						jQuery( '#post-' + response.data.id )
+							.removeClass( 'status-' + response.data.prevstatus )
+							.addClass( 'status-' + response.data.status );
 					}
 
 

@@ -1,15 +1,36 @@
-/* line 1, ../sass/admintable.scss */
+/* line 3, ../sass/admintable.scss */
+.status-closed select {
+  background: #333333;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* line 11, ../sass/admintable.scss */
+.status-new select {
+  background: #dd3d36;
+  color: #ffffff;
+  border-color: #af0824;
+}
+
+/* line 19, ../sass/admintable.scss */
+.status-open select {
+  background: #769F33;
+  color: #ffffff;
+  border-color: #006505;
+}
+
+/* line 28, ../sass/admintable.scss */
 .column-status {
   width: 100px !important;
   overflow: hidden;
 }
-/* line 5, ../sass/admintable.scss */
+/* line 32, ../sass/admintable.scss */
 .column-status img {
   display: none;
   margin: 0 0 -3px 4px;
 }
 
-/* line 11, ../sass/admintable.scss */
+/* line 38, ../sass/admintable.scss */
 .column-author {
   width: 220px !important;
 }
