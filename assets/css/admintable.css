@@ -1,0 +1,10 @@
+/* line 1, ../sass/admintable.scss */
+.column-status {
+  width: 100px !important;
+  overflow: hidden;
+}
+/* line 5, ../sass/admintable.scss */
+.column-status img {
+  display: none;
+  margin: 0 0 -3px 4px;
+}

@@ -10,6 +10,9 @@ Text Domain: patchworks
 Domain Path: /languages
 */
 
+
+// TODO: Update Text Domain to be unique - http://wordpress.stackexchange.com/questions/98963/text-domains-across-multiple-plugins-themes
+
 include 'patchchatadmin.php';
 
 
@@ -18,17 +21,14 @@ include 'patchchatadmin.php';
 class PatchChat {
 
 
-
 	// TODO: Add a filter for adjusting this list?
 	public static $statuses = array( 'new', 'open', 'closed' );
-
-
 
 
 	function __construct() {
 
 		if ( is_admin() ) {
-		
+
 			add_action( 'admin_menu', 'PatchChatAdmin::register_menu' );
 
 			add_action( 'init', 'PatchChat::register_post_type' );
@@ -36,21 +36,29 @@ class PatchChat {
 
 			add_action( 'manage_patchchat_posts_custom_column', 'PatchChat::custom_columns', 10, 2 );
 			add_filter( 'manage_patchchat_posts_columns', 'PatchChat::edit_columns' );
-		
+			add_action( 'admin_enqueue_scripts', 'PatchChat::load_admin_assets' );
+
+
 		} else {
 
 			add_action( 'wp_enqueue_scripts', 'PatchChat::load_assets' );
 
 		}
 
+		// TODO: Possibly create separate AJAX event handler?
+
+		add_action( 'wp_ajax_change_chat_status', array( $this, 'change_chat_status' ) );
 
 		add_action( 'wp_ajax_submit_patchchat', array( $this, 'submit_patchchat' ) );
 		add_action( 'wp_ajax_nopriv_submit_patchchat', array( $this, 'submit_patchchat' ) );
 	}
 
 
-
-
+	/**
+	 * Loads the scripts and styles for the user facing chatbox
+	 *
+	 * @author caseypatrickdriscoll
+	 */
 	static function load_assets() {
 
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/front.css', __FILE__ ) );
@@ -58,11 +66,69 @@ class PatchChat {
 
 		wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
 
-		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/front.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
+		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/front.js', __FILE__ ), array(
+			'jquery',
+			'react'
+		), '', true );
 
 	}
 
 
+	/**
+	 * Loads the scripts and styles for admin table
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-18 17:51:00
+	 */
+	static function load_admin_assets() {
+
+		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] != 'patchchat' ) {
+			return;
+		}
+
+		wp_enqueue_style( 'patchchat-admintable', plugins_url( '/assets/css/admintable.css', __FILE__ ) );
+
+		wp_enqueue_script( 'patchchat-admintable', plugins_url( '/assets/js/admintable.js', __FILE__ ), array( 'jquery' ), '', true );
+
+	}
+
+
+	/**
+	 * The POST handler for status changes from the admin table
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-18 17:49:02
+	 *
+	 */
+	public function change_chat_status() {
+
+		// TODO: Assign agent when becomes 'open'
+		// TODO: Create idea of assigned agents
+		// TODO: Figure out security and sanitized stuff (although low priority as comes from select in admin POST)
+		// TODO: Handle error situations, including missing data and error on update
+		// TODO: Bulk status change in bulk editor
+		// TODO: Style the selector based on status
+		// TODO: Add thumbs up or signal if POST is success
+
+		extract( $_POST );
+
+		$post = array(
+			'ID'          => $id,
+			'post_status' => $status
+		);
+
+		wp_update_post( $post );
+
+		$response = array(
+			'id'         => $id,
+			'status'     => $status,
+			'prevstatus' => $prevstatus
+		);
+
+		wp_send_json_success( $response );
+	}
 
 
 	/**
@@ -95,21 +161,28 @@ class PatchChat {
 
 		$error = false;
 
-		    if         ( empty( $name ) ) $error = "Name is empty";
-		elseif        ( empty( $email ) ) $error = "Email is empty";
-		elseif   ( ! is_email( $email ) ) $error = "Email is not valid";
-		elseif ( email_exists( $email ) ) $error = "Email exists";
-		elseif         ( empty( $text ) ) $error = "Text is empty";
+		if ( empty( $name ) ) {
+			$error = "Name is empty";
+		} elseif ( empty( $email ) ) {
+			$error = "Email is empty";
+		} elseif ( ! is_email( $email ) ) {
+			$error = "Email is not valid";
+		} elseif ( email_exists( $email ) ) {
+			$error = "Email exists";
+		} elseif ( empty( $text ) ) {
+			$error = "Text is empty";
+		}
 
 
-		if ( $error ) wp_send_json_error( $error );
+		if ( $error ) {
+			wp_send_json_error( $error );
+		}
 
 
-		
 		$username = substr( $email, 0, strpos( $email, "@" ) );
 		$password = wp_generate_password( 10, false );
-		$time = current_time('mysql');
-		$text = wp_strip_all_tags( $text );
+		$time     = current_time( 'mysql' );
+		$text     = wp_strip_all_tags( $text );
 
 
 		/* Create User */
@@ -118,11 +191,9 @@ class PatchChat {
 		wp_new_user_notification( $user_id, $password );
 
 
-
-
 		/* Create Post */
 		$post = array(
-			'post_title'  => substr( $text , 0, 40 ),
+			'post_title'  => substr( $text, 0, 40 ),
 			'post_type'   => 'patchchat',
 			'post_author' => $user_id,
 			'post_status' => 'new',
@@ -130,8 +201,6 @@ class PatchChat {
 		);
 
 		$post_id = wp_insert_post( $post );
-
-
 
 
 		/* Create First Comment */
@@ -157,8 +226,6 @@ class PatchChat {
 	}
 
 
-
-
 	/**
 	 * Registers the 'patchchat' post type along with the 'new', 'open', and 'closed' statuses
 	 *
@@ -177,22 +244,22 @@ class PatchChat {
 		// TODO: Adjust query so comments appear on 'patchchat' cpt
 		// TODO: Make 'Chats' appear in the admin menu bar
 
-		
+
 		register_post_type( 'patchchat', array(
 			'labels'            => array(
-				'name'                => __( 'Chats', 'patchworks' ),
-				'singular_name'       => __( 'Chat', 'patchworks' ),
-				'all_items'           => __( 'Chats', 'patchworks' ),
-				'new_item'            => __( 'New Chat', 'patchworks' ),
-				'add_new'             => __( 'Add New', 'patchworks' ),
-				'add_new_item'        => __( 'Add New Chat', 'patchworks' ),
-				'edit_item'           => __( 'Edit Chat', 'patchworks' ),
-				'view_item'           => __( 'View Chats', 'patchworks' ),
-				'search_items'        => __( 'Search Chats', 'patchworks' ),
-				'not_found'           => __( 'No Chats found', 'patchworks' ),
-				'not_found_in_trash'  => __( 'No Chats found in trash', 'patchworks' ),
-				'parent_item_colon'   => __( 'Parent Chat', 'patchworks' ),
-				'menu_name'           => __( 'Patchchats', 'patchworks' ),
+				'name'               => __( 'Chats', 'patchworks' ),
+				'singular_name'      => __( 'Chat', 'patchworks' ),
+				'all_items'          => __( 'Chats', 'patchworks' ),
+				'new_item'           => __( 'New Chat', 'patchworks' ),
+				'add_new'            => __( 'Add New', 'patchworks' ),
+				'add_new_item'       => __( 'Add New Chat', 'patchworks' ),
+				'edit_item'          => __( 'Edit Chat', 'patchworks' ),
+				'view_item'          => __( 'View Chats', 'patchworks' ),
+				'search_items'       => __( 'Search Chats', 'patchworks' ),
+				'not_found'          => __( 'No Chats found', 'patchworks' ),
+				'not_found_in_trash' => __( 'No Chats found in trash', 'patchworks' ),
+				'parent_item_colon'  => __( 'Parent Chat', 'patchworks' ),
+				'menu_name'          => __( 'Patchchats', 'patchworks' ),
 			),
 			'public'            => false,
 			'hierarchical'      => false,
@@ -221,8 +288,6 @@ class PatchChat {
 	}
 
 
-
-	
 	/**
 	 * TODO: This is just generic from the wp-cli scaffold, make it work
 	 *
@@ -240,26 +305,24 @@ class PatchChat {
 		$permalink = get_permalink( $post );
 
 		$messages['patchchat'] = array(
-			0 => '', // Unused. Messages start at index 1.
-			1 => sprintf( __('Patchchat updated. <a target="_blank" href="%s">View patchchat</a>', 'patchworks'), esc_url( $permalink ) ),
-			2 => __('Custom field updated.', 'patchworks'),
-			3 => __('Custom field deleted.', 'patchworks'),
-			4 => __('Patchchat updated.', 'patchworks'),
+			0  => '', // Unused. Messages start at index 1.
+			1  => sprintf( __( 'Patchchat updated. <a target="_blank" href="%s">View patchchat</a>', 'patchworks' ), esc_url( $permalink ) ),
+			2  => __( 'Custom field updated.', 'patchworks' ),
+			3  => __( 'Custom field deleted.', 'patchworks' ),
+			4  => __( 'Patchchat updated.', 'patchworks' ),
 			/* translators: %s: date and time of the revision */
-			5 => isset($_GET['revision']) ? sprintf( __('Patchchat restored to revision from %s', 'patchworks'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6 => sprintf( __('Patchchat published. <a href="%s">View patchchat</a>', 'patchworks'), esc_url( $permalink ) ),
-			7 => __('Patchchat saved.', 'patchworks'),
-			8 => sprintf( __('Patchchat submitted. <a target="_blank" href="%s">Preview patchchat</a>', 'patchworks'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
-			9 => sprintf( __('Patchchat scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview patchchat</a>', 'patchworks'),
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Patchchat restored to revision from %s', 'patchworks' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			6  => sprintf( __( 'Patchchat published. <a href="%s">View patchchat</a>', 'patchworks' ), esc_url( $permalink ) ),
+			7  => __( 'Patchchat saved.', 'patchworks' ),
+			8  => sprintf( __( 'Patchchat submitted. <a target="_blank" href="%s">Preview patchchat</a>', 'patchworks' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			9  => sprintf( __( 'Patchchat scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview patchchat</a>', 'patchworks' ),
 				// translators: Publish box date format, see http://php.net/date
 				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-			10 => sprintf( __('Patchchat draft updated. <a target="_blank" href="%s">Preview patchchat</a>', 'patchworks'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			10 => sprintf( __( 'Patchchat draft updated. <a target="_blank" href="%s">Preview patchchat</a>', 'patchworks' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 		);
 
 		return $messages;
 	}
-
-
 
 
 	/**
@@ -269,8 +332,8 @@ class PatchChat {
 	 *
 	 * @created 2015-07-18 16:10:32
 	 *
-	 * @param string   $column    The name of the column to display
-	 * @param int      $post_id   The ID of the current post
+	 * @param string $column The name of the column to display
+	 * @param int $post_id The ID of the current post
 	 */
 	public static function custom_columns( $column, $post_id ) {
 
@@ -289,12 +352,12 @@ class PatchChat {
 				$select .= '</select>';
 
 				echo $select;
+
+				echo '<img src="' . admin_url( '/wp-admin/images/wpspin_light.gif' ) . '"/>';
 				break;
 		}
 
 	}
-
-
 
 
 	/**
@@ -304,7 +367,7 @@ class PatchChat {
 	 *
 	 * @created 2015-07-18 16:08:47
 	 *
-	 * @param   array   $columns   The current array of column names
+	 * @param   array $columns The current array of column names
 	 *
 	 * @return  array   $new       The new array of column names
 	 */
@@ -313,9 +376,11 @@ class PatchChat {
 		$new = array();
 
 		foreach ( $columns as $key => $value ) {
-			if ( $key == "title" ) $new['status'] = "Status";
+			if ( $key == "title" ) {
+				$new['status'] = "Status";
+			}
 
-			$new[$key] = $value;
+			$new[ $key ] = $value;
 		}
 
 		return $new;
