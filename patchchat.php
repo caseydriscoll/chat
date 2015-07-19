@@ -87,14 +87,22 @@ class PatchChat {
 	 */
 	static function load_admin_assets() {
 
-		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] != 'patchchat' ) {
-			return;
+		// TODO: Not sure I like 'patchchat_messenger' but the patchchat cpt took over the menu.
+		//       The original 'patchchat' admin menu is not linked
+
+		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'patchchat' ) {
+
+			wp_enqueue_style( 'patchchat-admintable', plugins_url( '/assets/css/admintable.css', __FILE__ ) );
+
+			wp_enqueue_script( 'patchchat-admintable', plugins_url( '/assets/js/admintable.js', __FILE__ ), array( 'jquery' ), '', true );
+
+		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat_messenger' ) {
+
+			wp_enqueue_style( 'patchchat-messenger', plugins_url( '/assets/css/messenger.css', __FILE__ ) );
+
+			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery' ), '', true );
+
 		}
-
-		wp_enqueue_style( 'patchchat-admintable', plugins_url( '/assets/css/admintable.css', __FILE__ ) );
-
-		wp_enqueue_script( 'patchchat-admintable', plugins_url( '/assets/js/admintable.js', __FILE__ ), array( 'jquery' ), '', true );
-
 	}
 
 
