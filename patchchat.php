@@ -11,8 +11,10 @@ Domain Path: /languages
 */
 
 
-// TODO: Update Text Domain to be unique - http://wordpress.stackexchange.com/questions/98963/text-domains-across-multiple-plugins-themes
+// TODO: Update Text Domain to be unique
+//       - http://wordpress.stackexchange.com/questions/98963/text-domains-across-multiple-plugins-themes
 
+include 'patchchatmessenger.php';
 include 'patchchatadmin.php';
 
 
@@ -30,6 +32,7 @@ class PatchChat {
 		if ( is_admin() ) {
 
 			add_action( 'admin_menu', 'PatchChatAdmin::register_menu' );
+			add_action( 'admin_menu', 'PatchChatMessenger::register_menu' );
 
 			add_action( 'init', 'PatchChat::register_post_type' );
 			add_filter( 'post_updated_messages', 'PatchChat::updated_messages' );
@@ -98,9 +101,11 @@ class PatchChat {
 
 		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat_messenger' ) {
 
+			wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
+
 			wp_enqueue_style( 'patchchat-messenger', plugins_url( '/assets/css/messenger.css', __FILE__ ) );
 
-			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery' ), '', true );
+			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
 
 		}
 	}
@@ -147,7 +152,12 @@ class PatchChat {
 	 * The POST handler for looking for chat updates
 	 */
 	public function ping_patchchat() {
-		wp_send_json_success();
+
+		$transient = get_transient( 'patchchat_new' );
+
+		if ( $transient === false ) $transient = PatchChat::build_transient( 'new' );
+
+		wp_send_json_success( $transient );
 	}
 
 
@@ -201,19 +211,21 @@ class PatchChat {
 
 		$username = substr( $email, 0, strpos( $email, "@" ) );
 		$password = wp_generate_password( 10, false );
+		$title    = substr( $text, 0, 40 );
 		$time     = current_time( 'mysql' );
 		$text     = wp_strip_all_tags( $text );
 
 
 		/* Create User */
 		$user_id = wp_create_user( $username, $password, $email );
+		// TODO: Add the user's name
 
 		wp_new_user_notification( $user_id, $password );
 
 
 		/* Create Post */
 		$post = array(
-			'post_title'  => substr( $text, 0, 40 ),
+			'post_title'  => $title,
 			'post_type'   => 'patchchat',
 			'post_author' => $user_id,
 			'post_status' => 'new',
@@ -241,8 +253,68 @@ class PatchChat {
 		);
 
 
+		/* Set 'New Transient' */
+		$patchchat = array(
+			'id'     => $post_id,
+			'img'    => md5( strtolower( trim ( $email ) ) ),
+			'name'   => $name,
+			'email'  => $email,
+			'text'   => $text,
+			'status' => 'new'
+		);
+
+		$transient = get_transient( 'patchchat_new' );
+
+		if ( $transient === false ) $transient = PatchChat::build_transient( 'new' );
+
+		array_push( $transient, $patchchat );
+
+		set_transient( 'patchchat_new', $transient );
+
+
+
 		wp_send_json_success( $response );
 
+	}
+
+
+	private static function build_transient( $type = 'new' ) {
+
+		$transient = array();
+
+		$args = array(
+			'post_type'   => 'patchchat',
+			'post_status' => $type
+		);
+
+		$chats = new WP_Query( $args );
+
+		foreach ( $chats->posts as $chat ) {
+
+			// TODO: Get the actual user's name
+
+			// Get the user and the comments
+			$user  = get_userdata( $chat->post_author );
+			$email = $user->user_email;
+			$name  = $user->display_name;
+
+			$patchchat = array(
+				'id'     => $chat->post_ID,
+				'img'    => md5( strtolower( trim ( $email ) ) ),
+				'name'   => $name,
+				'email'  => $email,
+				'text'   => $chat->post_title,
+				'status' => $type
+			);
+
+			array_push( $transient, $patchchat );
+		}
+
+
+		set_transient( 'patchchat_new', $transient );
+
+
+		return $transient;
 	}
 
 
