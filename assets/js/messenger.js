@@ -50,7 +50,7 @@ var PatchChat = React.createClass( {displayName: "PatchChat",
 	render: function() {
 		return (
 			React.createElement("div", {className: "patchchat"}, 
-				React.createElement(Header, null), 
+				React.createElement(Header, {count: this.props.data.length}), 
 				React.createElement(Chats, {data: this.props.data})
 			)
 		);
@@ -62,7 +62,7 @@ var Header = React.createClass( {displayName: "Header",
 	render: function() {
 		return (
 			React.createElement("header", null, 
-				React.createElement("h1", null, "PatchChat Messenger")
+				React.createElement("h1", null, "PatchChat Messenger (", this.props.count, ")")
 			)
 		);
 	}
@@ -78,7 +78,7 @@ var Chats = React.createClass( {displayName: "Chats",
 				React.createElement(Chat, null, 
 					React.createElement("img", {src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'}), 
 					React.createElement("h3", null, chat.name), 
-					chat.text
+					chat.title
 				)
 			);
 		} );

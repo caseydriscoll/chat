@@ -50,7 +50,7 @@ var PatchChat = React.createClass( {
 	render: function() {
 		return (
 			<div className="patchchat">
-				<Header />
+				<Header count={this.props.data.length} />
 				<Chats data={this.props.data} />
 			</div>
 		);
@@ -62,7 +62,7 @@ var Header = React.createClass( {
 	render: function() {
 		return (
 			<header>
-				<h1>PatchChat Messenger</h1>
+				<h1>PatchChat Messenger ({this.props.count})</h1>
 			</header>
 		);
 	}
@@ -78,7 +78,7 @@ var Chats = React.createClass( {
 				<Chat>
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{chat.name}</h3>
-					{chat.text}
+					{chat.title}
 				</Chat>
 			);
 		} );

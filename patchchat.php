@@ -252,12 +252,14 @@ class PatchChat {
 			'text' => $text
 		);
 
+		// TODO: Make a 'append transient' function to use in 'build_transient'
 
 		/* Set 'New Transient' */
 		$patchchat = array(
 			'id'     => $post_id,
 			'img'    => md5( strtolower( trim ( $email ) ) ),
 			'name'   => $name,
+			'title'  => $title,
 			'email'  => $email,
 			'text'   => $text,
 			'status' => 'new'
@@ -267,7 +269,7 @@ class PatchChat {
 
 		if ( $transient === false ) $transient = PatchChat::build_transient( 'new' );
 
-		array_push( $transient, $patchchat );
+		array_unshift( $transient, $patchchat );
 
 		set_transient( 'patchchat_new', $transient );
 
@@ -284,14 +286,15 @@ class PatchChat {
 
 		$args = array(
 			'post_type'   => 'patchchat',
-			'post_status' => $type
+			'post_status' => $type,
+			'nopaging'    => true
 		);
 
 		$chats = new WP_Query( $args );
 
 		foreach ( $chats->posts as $chat ) {
 
-			// TODO: Get the actual user's name
+			// TODO: Get the actual user's name, not display name
 
 			// Get the user and the comments
 			$user  = get_userdata( $chat->post_author );
@@ -299,15 +302,22 @@ class PatchChat {
 			$name  = $user->display_name;
 
 			$patchchat = array(
-				'id'     => $chat->post_ID,
+				'id'     => $chat->ID,
 				'img'    => md5( strtolower( trim ( $email ) ) ),
 				'name'   => $name,
+				'title'  => $chat->post_title,
 				'email'  => $email,
-				'text'   => $chat->post_title,
 				'status' => $type
 			);
 
-			array_push( $transient, $patchchat );
+
+			$comments = get_comments( array( 'post_id' => $chat->ID ) );
+
+			foreach ( $comments as $comment ) {
+				$patchchat['text'] = $comment->comment_content;
+			}
+
+			array_unshift( $transient, $patchchat );
 		}
 
 
