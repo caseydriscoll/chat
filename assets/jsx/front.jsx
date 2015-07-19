@@ -1,5 +1,14 @@
 PWDEBUG = 1;
 
+// TODO: Explain/document these variables
+// TODO: Document all the things
+// TODO: Localize script
+var patchchat = {};
+var pingID;
+var ajaxURL = '/wp-admin/admin-ajax.php';
+
+
+
 jQuery( document ).ready( function() {
 
 	jQuery( 'body' ).append( '<div class="patchchat"></div>' );
@@ -48,9 +57,6 @@ jQuery( document ).ready( function() {
 } );
 
 
-var patchchat = {};
-
-
 function submitPatchChat() {
 
 	valid = validPatchChat();
@@ -69,7 +75,7 @@ function submitPatchChat() {
 	};
 
 	jQuery.post(
-		'/wp-admin/admin-ajax.php',
+		ajaxURL,
 		data,
 		function( response ) {
 			if ( PWDEBUG ) console.log( response );
@@ -97,6 +103,11 @@ function submitPatchChat() {
 					</section>,
 					document.getElementsByClassName( 'patchchat' )[0]
 				);
+
+				// Start up the clock
+				// TODO: Not sure if should set up interval or timeout.
+				//       For now, new timeout set on every successful trip from server, reset by pingPatchChat callback success
+				pingPatchChat();
 
 			} else {
 
@@ -145,4 +156,25 @@ function validPatchChat() {
 	if ( PWDEBUG ) console.log( 'name: ' + name, 'email: ' + email, 'text: ' + text, 'error: ' + error );
 
 	return valid;
+}
+
+
+
+function pingPatchChat() {
+
+	data = {
+		'action' : 'ping_patchchat'
+	};
+
+	jQuery.post(
+		ajaxURL,
+		data,
+		function( response ) {
+
+			if ( response.success )
+				setTimeout( pingPatchChat, 3000 );
+
+			if ( PWDEBUG ) console.log( response );
+		}
+	)
 }

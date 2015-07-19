@@ -46,11 +46,15 @@ class PatchChat {
 		}
 
 		// TODO: Possibly create separate AJAX event handler?
+		// TODO: Convert to static methods? I think I have $this because ajax wasn't catching?
 
 		add_action( 'wp_ajax_change_chat_status', array( $this, 'change_chat_status' ) );
 
 		add_action( 'wp_ajax_submit_patchchat', array( $this, 'submit_patchchat' ) );
 		add_action( 'wp_ajax_nopriv_submit_patchchat', array( $this, 'submit_patchchat' ) );
+
+		add_action( 'wp_ajax_nopriv_ping_patchchat', array( $this, 'ping_patchchat' ) );
+		add_action( 'wp_ajax_ping_patchchat', array( $this, 'ping_patchchat' ) );
 	}
 
 
@@ -128,6 +132,14 @@ class PatchChat {
 		);
 
 		wp_send_json_success( $response );
+	}
+
+
+	/**
+	 * The POST handler for looking for chat updates
+	 */
+	public function ping_patchchat() {
+		wp_send_json_success();
 	}
 
 
