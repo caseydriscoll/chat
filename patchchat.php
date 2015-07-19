@@ -14,8 +14,7 @@ Domain Path: /languages
 // TODO: Update Text Domain to be unique
 //       - http://wordpress.stackexchange.com/questions/98963/text-domains-across-multiple-plugins-themes
 
-include 'patchchatmessenger.php';
-include 'patchchatadmin.php';
+include 'patchchatsettings.php';
 
 
 
@@ -31,8 +30,8 @@ class PatchChat {
 
 		if ( is_admin() ) {
 
-			add_action( 'admin_menu', 'PatchChatAdmin::register_menu' );
-			add_action( 'admin_menu', 'PatchChatMessenger::register_menu' );
+			add_action( 'admin_menu', 'PatchChat::register_menu' );
+			add_action( 'admin_menu', 'PatchChatSettings::register_menu' );
 
 			add_action( 'init', 'PatchChat::register_post_type' );
 			add_filter( 'post_updated_messages', 'PatchChat::updated_messages' );
@@ -58,6 +57,47 @@ class PatchChat {
 
 		add_action( 'wp_ajax_nopriv_ping_patchchat', array( $this, 'ping_patchchat' ) );
 		add_action( 'wp_ajax_ping_patchchat', array( $this, 'ping_patchchat' ) );
+	}
+
+
+	/**
+	 * Registers the main admin menu
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-19 18:44:06
+	 */
+	static function register_menu() {
+		add_menu_page(
+			'PatchChat',
+			'PatchChat',
+			'manage_options',
+			'patchchat',
+			'PatchChat::render',
+			'dashicons-format-chat',
+			'25.1'
+		);
+
+		// TODO: Make 'post_status' configurable
+		// TODO: Add 'post_status=new' as param
+		//       For some reason, when there is a second param it doesn't keep the top menu open
+		add_submenu_page(
+			'patchchat',
+			'Archive',
+			'Archive',
+			'manage_options',
+			'edit.php?post_type=patchchat'
+		);
+	}
+
+
+	/**
+	 * Renders the main admin messenger
+	 *
+	 * @edited 2015-07-19 18:48:37 - Moved from 'messenger'
+	 */
+	public static function render() {
+		// React handles everything now
 	}
 
 
@@ -99,7 +139,7 @@ class PatchChat {
 
 			wp_enqueue_script( 'patchchat-admintable', plugins_url( '/assets/js/admintable.js', __FILE__ ), array( 'jquery' ), '', true );
 
-		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat_messenger' ) {
+		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat' ) {
 
 			wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
 
@@ -366,7 +406,7 @@ class PatchChat {
 			'public'            => false,
 			'hierarchical'      => false,
 			'show_ui'           => true,
-			'show_in_menu'      => 'patchchat',
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 			'supports'          => array( 'title', 'author', 'comments' ),
 			'has_archive'       => false,
@@ -439,9 +479,7 @@ class PatchChat {
 	 * @param int $post_id The ID of the current post
 	 */
 	public static function custom_columns( $column, $post_id ) {
-
-		// TODO: When status selected, adjust record with ajax and remove
-
+		
 		global $post;
 
 		switch ( $column ) {

@@ -62,7 +62,7 @@ var Header = React.createClass( {displayName: "Header",
 	render: function() {
 		return (
 			React.createElement("header", null, 
-				React.createElement("h1", null, "PatchChat Messenger (", this.props.count, ")")
+				React.createElement("h1", null, "PatchChat (", this.props.count, ")")
 			)
 		);
 	}

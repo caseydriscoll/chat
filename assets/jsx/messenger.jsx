@@ -62,7 +62,7 @@ var Header = React.createClass( {
 	render: function() {
 		return (
 			<header>
-				<h1>PatchChat Messenger ({this.props.count})</h1>
+				<h1>PatchChat ({this.props.count})</h1>
 			</header>
 		);
 	}
