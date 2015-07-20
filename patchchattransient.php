@@ -25,6 +25,11 @@
  * - move  (to move between two transients)
  */
 
+
+// TODO: Create 'move' function to move patchchat between two transients
+// TODO: If patchchat doesn't exist in a transient you have to build
+//       Like adding a chat to 'open' that was previously 'closed'
+
 class PatchChatTransient {
 
 
@@ -119,10 +124,6 @@ class PatchChatTransient {
 	 *
 	 */
 	public static function add( $transient_name, $patchchat ) {
-
-		$transient = get_transient( $transient_name );
-
-		if ( $transient === false ) return false;
 
 		$transient = get_transient( $transient_name );
 
