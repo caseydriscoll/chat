@@ -179,6 +179,8 @@ class PatchChat {
 
 		wp_update_post( $post );
 
+		if ( $prevstatus == 'new' ) PatchChatTransient::trim( 'patchchat_new', $id );
+
 		$response = array(
 			'id'         => $id,
 			'status'     => $status,
