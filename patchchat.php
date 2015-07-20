@@ -215,6 +215,7 @@ class PatchChat {
 	 *
 	 * @created 2015-07-16 20:14:26
 	 * @edited  2015-07-18 15:18:47 - Refactors to strip username of email '@' and domain
+	 * @edited  2015-07-19 20:28:31 - Refactors to use PatchChatTransient::add
 	 *
 	 * @return wp_send_json_error || wp_send_json_success
 	 */
@@ -295,7 +296,6 @@ class PatchChat {
 			'text' => $text
 		);
 
-		// TODO: Make a 'append transient' function to use in 'build_transient'
 
 		/* Set 'New Transient' */
 		$patchchat = array(
@@ -308,13 +308,7 @@ class PatchChat {
 			'status' => 'new'
 		);
 
-		$transient = get_transient( 'patchchat_new' );
-
-		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
-
-		array_unshift( $transient, $patchchat );
-
-		set_transient( 'patchchat_new', $transient );
+		PatchChatTransient::add( 'patchchat_new', $patchchat );
 
 
 

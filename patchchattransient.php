@@ -19,10 +19,10 @@
  *
  *
  * Functions:
- * - build   (create new transient from fresh WP_Query)
- * - trim    (remove a specific node from current transient)
- * - prepend (Add new chat to front of array)
- * - move    (to move between two transients)
+ * - build (create new transient from fresh WP_Query)
+ * - trim  (remove a specific node from current transient)
+ * - add   (Add new chat to front of array)
+ * - move  (to move between two transients)
  */
 
 class PatchChatTransient {
@@ -99,6 +99,36 @@ class PatchChatTransient {
 				unset( $transient[ $index ] );
 
 		}
+
+		set_transient( $transient_name, $transient );
+
+		return true;
+	}
+
+
+	/**
+	 * Adds a patchchat to a transient's array
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-19 20:18:54
+	 *
+	 * $transient_name string The name of the transient to add to ('patchchat_new', etc)
+	 *
+	 * $patchchat array The array of information to store in transient (see 'Form' in class comments)
+	 *
+	 */
+	public static function add( $transient_name, $patchchat ) {
+
+		$transient = get_transient( $transient_name );
+
+		if ( $transient === false ) return false;
+
+		$transient = get_transient( $transient_name );
+
+		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
+
+		array_unshift( $transient, $patchchat );
 
 		set_transient( $transient_name, $transient );
 
