@@ -15,6 +15,7 @@ Domain Path: /languages
 //       - http://wordpress.stackexchange.com/questions/98963/text-domains-across-multiple-plugins-themes
 
 include 'patchchatsettings.php';
+include 'patchchattransient.php';
 
 
 
@@ -195,7 +196,7 @@ class PatchChat {
 
 		$transient = get_transient( 'patchchat_new' );
 
-		if ( $transient === false ) $transient = PatchChat::build_transient( 'new' );
+		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
 
 		wp_send_json_success( $transient );
 	}
@@ -307,7 +308,7 @@ class PatchChat {
 
 		$transient = get_transient( 'patchchat_new' );
 
-		if ( $transient === false ) $transient = PatchChat::build_transient( 'new' );
+		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
 
 		array_unshift( $transient, $patchchat );
 
@@ -317,54 +318,6 @@ class PatchChat {
 
 		wp_send_json_success( $response );
 
-	}
-
-
-	private static function build_transient( $type = 'new' ) {
-
-		$transient = array();
-
-		$args = array(
-			'post_type'   => 'patchchat',
-			'post_status' => $type,
-			'nopaging'    => true
-		);
-
-		$chats = new WP_Query( $args );
-
-		foreach ( $chats->posts as $chat ) {
-
-			// TODO: Get the actual user's name, not display name
-
-			// Get the user and the comments
-			$user  = get_userdata( $chat->post_author );
-			$email = $user->user_email;
-			$name  = $user->display_name;
-
-			$patchchat = array(
-				'id'     => $chat->ID,
-				'img'    => md5( strtolower( trim ( $email ) ) ),
-				'name'   => $name,
-				'title'  => $chat->post_title,
-				'email'  => $email,
-				'status' => $type
-			);
-
-
-			$comments = get_comments( array( 'post_id' => $chat->ID ) );
-
-			foreach ( $comments as $comment ) {
-				$patchchat['text'] = $comment->comment_content;
-			}
-
-			array_unshift( $transient, $patchchat );
-		}
-
-
-		set_transient( 'patchchat_new', $transient );
-
-
-		return $transient;
 	}
 
 
