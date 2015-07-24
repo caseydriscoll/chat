@@ -28,7 +28,7 @@ class PatchChat {
 	public static $statuses = array( 'new', 'open', 'closed' );
 
 
-	function __construct() {
+	public static function init() {
 
 		if ( is_admin() ) {
 
@@ -311,4 +311,4 @@ class PatchChat {
 
 
 
-new PatchChat();
+PatchChat::init();
