@@ -20,6 +20,7 @@ class PatchChatAJAX {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-18 17:49:02
+	 * @edited  2015-07-24 19:56:52 - Refactors to use move function
 	 *
 	 */
 	public static function change_chat_status() {
@@ -41,7 +42,7 @@ class PatchChatAJAX {
 
 		wp_update_post( $post );
 
-		if ( $prevstatus == 'new' ) PatchChatTransient::trim( 'patchchat_new', $id );
+		PatchChatTransient::move( $id, $prevstatus, $status );
 
 		$response = array(
 			'id'         => $id,

@@ -81,6 +81,42 @@ class PatchChatTransient {
 	}
 
 
+	/**
+	 * Moves a chat from one transient to another
+	 * Used in the PatchChatAJAX::change_chat_status function
+	 *
+	 * For example, moves a chat from the 'new' transient to a transient of its own
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-24 19:37:58
+	 *
+	 * @param $id
+	 * @param $from
+	 * @param $to The status to move it to
+	 */
+	public static function move( $id, $from, $to ) {
+
+		if ( $from == 'new' && $to == 'open' ) {
+
+			$transient = get_transient( 'patchchat_new' );
+
+			foreach ( $transient as $key => $newchat ) {
+
+				if ( $newchat['id'] == $id ) {
+
+					PatchChatTransient::trim( 'patchchat_new', $id );
+					PatchChatTransient::add( 'patchchat_' . $id, $newchat );
+
+					break;
+				}
+			}
+
+		}
+
+	}
+
+
 
 	/**
 	 * Trims a patchchat from a transient's array
