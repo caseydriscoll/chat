@@ -40,7 +40,7 @@ class PatchChat {
 
 		PatchChat::includes();
 
-		PatchChatAJAX::init();
+		PatchChat_AJAX::init();
 
 		if ( is_admin() ) {
 
@@ -71,7 +71,8 @@ class PatchChat {
 	 * @created 2015-07-24 22:33:24
 	 */
 	public static function includes() {
-		include_once( 'patchchatajax.php' );
+		include_once( 'includes/class-patchchat-ajax.php' );
+
 		include_once( 'patchchattransient.php' );
 	}
 

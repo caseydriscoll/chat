@@ -1,16 +1,44 @@
 <?php
+/**
+ * PatchChat AJAX
+ *
+ * Handles all ajax calls
+ *
+ * @author caseypatrickdriscoll
+ * @created 2015-07-24 23:30:03
+ */
 
-class PatchChatAJAX {
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
+/**
+ * Class PatchChat_AJAX
+ */
+class PatchChat_AJAX {
+
+	// TODO: Needs to be refactored
+	//       - Should just handle ajax events
+	//       - Conditions for transient manipulation should be handled elsewhere
+	// TODO: Needs more security
+	//       - Sanitize early
+	//       - Escape late
+	//       - Separate nopriv and admin functions?
 
 
 	public static function init() {
-		add_action( 'wp_ajax_change_chat_status', array( 'PatchChatAJAX', 'change_chat_status' ) );
+		add_action( 'wp_ajax_change_chat_status',
+			array( __CLASS__, 'change_chat_status' ) );
 
-		add_action( 'wp_ajax_submit_patchchat', array( 'PatchChatAJAX', 'submit' ) );
-		add_action( 'wp_ajax_nopriv_submit_patchchat', array( 'PatchChatAJAX', 'submit' ) );
+		add_action( 'wp_ajax_submit_patchchat',
+			array( __CLASS__, 'submit' ) );
+		add_action( 'wp_ajax_nopriv_submit_patchchat',
+			array( __CLASS__, 'submit' ) );
 
-		add_action( 'wp_ajax_nopriv_ping_patchchat', array( 'PatchChatAJAX', 'ping' ) );
-		add_action( 'wp_ajax_ping_patchchat', array( 'PatchChatAJAX', 'ping' ) );
+		add_action( 'wp_ajax_nopriv_ping_patchchat',
+			array( __CLASS__, 'ping' ) );
+		add_action( 'wp_ajax_ping_patchchat',
+			array( __CLASS__, 'ping' ) );
 	}
 
 
@@ -115,6 +143,9 @@ class PatchChatAJAX {
 			wp_send_json_error( $error );
 		}
 
+
+		// TODO: Should not be creating user here
+		//       - After validation, use controller or something to create stuff
 
 		$username = substr( $email, 0, strpos( $email, "@" ) );
 		$password = wp_generate_password( 10, false );
