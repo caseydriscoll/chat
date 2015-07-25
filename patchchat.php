@@ -98,25 +98,27 @@ class PatchChat {
 	 * @created 2015-07-19 18:44:06
 	 */
 	static function register_menu() {
+
+		// TODO: Change 'manage_options' to new 'agent' capabilities
 		add_menu_page(
-			'PatchChat',
-			'PatchChat',
-			'manage_options',
-			'patchchat',
-			'PatchChat::render',
-			'dashicons-format-chat',
-			'25.1'
+			'PatchChat',             // Page Title
+			'PatchChat',             // Menu Title
+			'manage_options',        // Required admin capabilities to see menu
+			'patchchat',             // The page slug
+			'PatchChat::render',     // Callback function to display
+			'dashicons-format-chat', // The double chat icon
+			'25.1'                   // Right below the 'Comments' menu
 		);
 
 		// TODO: Make 'post_status' configurable
 		// TODO: Add 'post_status=new' as param
 		//       For some reason, when there is a second param it doesn't keep the top menu open
 		add_submenu_page(
-			'patchchat',
-			'Archive',
-			'Archive',
-			'manage_options',
-			'edit.php?post_type=patchchat'
+			'patchchat',                   // Display under patchchat main menu
+			'Archive',                     // Page Title
+			'Archive',                     // Menu Title
+			'manage_options',              // Required admin capabilities to see menu
+			'edit.php?post_type=patchchat' // Slug to display patchchat post type
 		);
 	}
 
