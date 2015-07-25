@@ -49,10 +49,11 @@ class PatchChat {
 			PatchChat_Post_Type::init();
 
 			add_action( 'admin_menu', 'PatchChat::register_menu' );
-			add_action( 'admin_menu', 'PatchChatSettings::register_menu' );
+
+			PatchChat_Settings::init();
+
 
 			add_action( 'admin_enqueue_scripts', 'PatchChat::load_admin_assets' );
-
 
 		} else {
 
@@ -80,11 +81,12 @@ class PatchChat {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-24 22:17:44
+	 * @edited  2015-07-24 22:41:16 - Refactored for moved settings
 	 */
 	public static function admin_includes() {
 		include_once( 'includes/class-patchchat-post-type.php' );
 
-		include_once( 'patchchatsettings.php' );
+		include_once( 'includes/admin/class-patchchat-settings.php' );
 	}
 
 
@@ -117,6 +119,18 @@ class PatchChat {
 			'edit.php?post_type=patchchat'
 		);
 	}
+
+
+	/**
+	 * Render the main messenger page
+	 *
+	 * Even though everything is loaded by js, add_menu_page() needs a callback function
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-24 22:45:57
+	 */
+	public static function render() {}
 
 
 	/**
