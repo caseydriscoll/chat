@@ -1,14 +1,14 @@
 === PatchChat ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: http://example.com/
-Tags: comments, spam
+Contributors: caseypatrickdriscoll
+Donate link: https://patch.works/plugins/patchchat
+Tags: chat, business chat, chat online, chat widget, customer help, customer support, customer sales, sales, free chat, chatbox, free live chat, live chat, live help, livechat, online chat, WordPress chat
 Requires at least: 3.0.1
 Tested up to: 3.4
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+A powerful, simple, high quality chat plugin made just for WordPress.
 
 == Description ==
 
