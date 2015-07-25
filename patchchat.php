@@ -73,7 +73,7 @@ class PatchChat {
 	public static function includes() {
 		include_once( 'includes/class-patchchat-ajax.php' );
 
-		include_once( 'patchchattransient.php' );
+		include_once( 'includes/class-patchchat-transient-set.php' );
 	}
 
 	/**

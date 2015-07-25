@@ -1,24 +1,11 @@
 <?php
-
-
 /**
- * The whole purpose of this class is to affect the 'new' and 'user' transients\
+ * PatchChat Transient Set
  *
- * Form:
- * 'id'       => $chat->ID,
- * 'img'      => md5( strtolower( trim ( $email ) ) ),
- * 'name'     => $name,
- * 'title'    => $chat->post_title,
- * 'email'    => $email,
- * 'status'   => $type,
- * 'comments' => An array of all the comments with the given form:
- *     'text'
- *     'time'
- *     'author'
+ * A Transient set is an array of patchchat transients
  *
  *
- *
- * Functions:
+ * Methods:
  * - build (create new transient from fresh WP_Query)
  * - trim  (remove a specific node from current transient)
  * - add   (Add new chat to front of array)
@@ -26,11 +13,14 @@
  */
 
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
 // TODO: Create 'move' function to move patchchat between two transients
 // TODO: If patchchat doesn't exist in a transient you have to build
 //       Like adding a chat to 'open' that was previously 'closed'
 
-class PatchChatTransient {
+class PatchChat_Transient_Set {
 
 
 	public static function build( $type = 'new' ) {
@@ -105,8 +95,8 @@ class PatchChatTransient {
 
 				if ( $newchat['id'] == $id ) {
 
-					PatchChatTransient::trim( 'patchchat_new', $id );
-					PatchChatTransient::add( 'patchchat_' . $id, $newchat );
+					PatchChat_Transient_Set::trim( 'patchchat_new', $id );
+					PatchChat_Transient_Set::add( 'patchchat_' . $id, $newchat );
 
 					break;
 				}
@@ -163,7 +153,7 @@ class PatchChatTransient {
 
 		$transient = get_transient( $transient_name );
 
-		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
+		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( 'new' );
 
 		array_unshift( $transient, $patchchat );
 

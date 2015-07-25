@@ -70,7 +70,7 @@ class PatchChat_AJAX {
 
 		wp_update_post( $post );
 
-		PatchChatTransient::move( $id, $prevstatus, $status );
+		PatchChat_Transient_Set::move( $id, $prevstatus, $status );
 
 		$response = array(
 			'id'         => $id,
@@ -89,7 +89,7 @@ class PatchChat_AJAX {
 
 		$transient = get_transient( 'patchchat_new' );
 
-		if ( $transient === false ) $transient = PatchChatTransient::build( 'new' );
+		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( 'new' );
 
 		wp_send_json_success( $transient );
 	}
@@ -202,7 +202,7 @@ class PatchChat_AJAX {
 			'status' => 'new'
 		);
 
-		PatchChatTransient::add( 'patchchat_new', $patchchat );
+		PatchChat_Transient_Set::add( 'patchchat_new', $patchchat );
 
 
 
