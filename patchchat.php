@@ -120,6 +120,32 @@ class PatchChat {
 			'manage_options',              // Required admin capabilities to see menu
 			'edit.php?post_type=patchchat' // Slug to display patchchat post type
 		);
+
+		// TODO: Make displaying this an optional setting
+		// TODO: Make ability to 'sign-on' in dropdown
+		add_action( 'admin_bar_menu', array( __CLASS__, 'add_toolbar_menu' ), 999 );
+	}
+
+
+	/**
+	 * Adds the 'PatchChat' link to the admin tool bar
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-07-24 23:08:52
+	 */
+	public static function add_toolbar_menu( $wp_admin_bar ) {
+		$args = array(
+			'id'    => 'patchchat',
+			'title' => 'PatchChat',
+			'href'  => admin_url( 'admin.php?page=patchchat' ),
+			'meta'  => array(
+				'class' => 'patchchat-menu',
+				'title' => 'See all chats'
+			)
+		);
+
+		$wp_admin_bar->add_node( $args );
 	}
 
 
