@@ -5,56 +5,99 @@ $light:    #bbbbbb;
 $offwhite: #fafafa;
 $white:    #ffffff;
 
-ul.patchcomments {
+.patchchat-body {
+	ul.patchcomments {
 
-	display: none;
-	height: 100%;
-	overflow-y: scroll;
-	padding: 10px 0 50px;
+		display: none;
+		height: 100%;
+		overflow-y: scroll;
+		padding: 10px 0 50px;
 
-	li {
+		li {
 
-		display: block;
-		list-style: none;
-		clear: both;
+			display: block;
+			list-style: none;
+			clear: both;
 
-		span {
-			display: inline-block;
-			max-width: 80%;
-			padding: 3px 5px; margin: 3px 8px;
-			font-size: 14px;
-			line-height: 18px;
-			border: 1px solid $light;
-			border-radius: 5px;
-			background-color: $offwhite;
+			span {
+				display: inline-block;
+				max-width: 80%;
+				padding: 3px 5px;
+				margin: 3px 8px;
+				font-size: 14px;
+				line-height: 18px;
+				border: 1px solid $light;
+				border-radius: 5px;
+				background-color: $offwhite;
 
-			&:after {
-				content: "";
-				display: table;
-				clear: both;
+				&:after {
+					content: "";
+					display: table;
+					clear: both;
+				}
 			}
-		}
 
-		&.user span {
-			float: left;
-		}
-		&.agent span {
-			float: right;
-			border-color: $dark;
-		}
+			&.user span {
+				float: left;
+			}
+			&.agent span {
+				float: right;
+				border-color: $dark;
+			}
 
-		&.subscriber span {
-			float: left;
-		}
-		&.administrator span {
-			float: right;
-			border-color: $dark;
-		}
+			&.subscriber span {
+				float: left;
+			}
+			&.administrator span {
+				float: right;
+				border-color: $dark;
+			}
 
-		img {
-			display: none;
+			img {
+				display: none;
+			}
+
 		}
 
 	}
 
+	form {
+
+		fieldset {
+
+			width: auto;
+			padding-top: 10px;
+
+			label {
+				padding: 20px 10px 0 10px;
+			}
+
+			input {
+				display: block;
+				width: 230px;
+				padding: 5px;
+				margin: 0 10px 10px;
+			}
+		}
+
+		textarea {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			min-height: 30px;
+			padding: 5px 5px 0 5px;
+			border: 0px $grey solid;
+			border-top-width: 1px;
+			font-family: sans-serif;
+			resize: none;
+
+			font-size: 14px;
+			line-height: 18px;
+			overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+		}
+
+		#patchchat-honeypot {
+			display: none;
+		}
+	}
 }

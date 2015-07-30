@@ -49,43 +49,6 @@ $white:    #ffffff;
 
 		}
 
-		form {
-
-			fieldset {
-
-				width: auto;
-				padding-top: 10px;
-
-				label {
-					padding: 20px 10px 0 10px;
-				}
-
-				input {
-					display: block;
-					width: 230px;
-					padding: 5px;
-					margin: 0 10px 10px;
-				}
-			}
-
-			textarea {
-				position: absolute;
-				bottom: 0;
-				width: 100%; min-height: 30px;
-				padding: 5px 5px 0 5px;
-				border: 0px $grey solid;
-				border-top-width: 1px;
-				font-family: sans-serif;
-				resize: none;
-
-				font-size: 14px;
-				line-height: 18px;
-				overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-			}
-
-			#patchchat-honeypot { display: none; }
-		}
-
 	}
 
 }

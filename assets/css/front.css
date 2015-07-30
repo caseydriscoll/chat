@@ -41,39 +41,3 @@
   display: block;
   height: 300px;
 }
-/* line 54, ../sass/front.scss */
-.patchchat section form fieldset {
-  width: auto;
-  padding-top: 10px;
-}
-/* line 59, ../sass/front.scss */
-.patchchat section form fieldset label {
-  padding: 20px 10px 0 10px;
-}
-/* line 63, ../sass/front.scss */
-.patchchat section form fieldset input {
-  display: block;
-  width: 230px;
-  padding: 5px;
-  margin: 0 10px 10px;
-}
-/* line 71, ../sass/front.scss */
-.patchchat section form textarea {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  min-height: 30px;
-  padding: 5px 5px 0 5px;
-  border: 0px #777777 solid;
-  border-top-width: 1px;
-  font-family: sans-serif;
-  resize: none;
-  font-size: 14px;
-  line-height: 18px;
-  overflow-y: hidden;
-  /* fixes scrollbar flash - kudos to @brettjonesdev */
-}
-/* line 86, ../sass/front.scss */
-.patchchat section form #patchchat-honeypot {
-  display: none;
-}

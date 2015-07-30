@@ -107,8 +107,10 @@ var Chat = React.createClass( {
 		return (
 			<li className='chat'>
 				{this.props.children}
-
-				<PatchComments data={this.props.data} />
+				<div className="patchchat-body">
+					<PatchComments data={this.props.data} />
+					<PatchChatForm submit={this.submit} />
+				</div>
 			</li>
 		);
 	}

@@ -51,12 +51,13 @@ $white:    #ffffff;
 				margin: 0;
 			}
 
-			ul.patchcomments {
+			.patchchat-body {
 				display: block !important;
 				position: absolute;
 				left: 320px; top: 0;
 				width: 400px; height: 800px;
 				border-right: 1px solid $black;
+				border-bottom: 1px solid $black;
 				border-left: 1px solid $black;
 				background: $offwhite;
 
