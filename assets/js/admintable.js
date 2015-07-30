@@ -1,5 +1,7 @@
 var prevstatus = '';
 
+// TODO: Convert to new ajax controller
+
 jQuery( document ).ready( function() {
 
 	jQuery( 'select' )

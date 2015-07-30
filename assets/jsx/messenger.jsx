@@ -2,6 +2,19 @@ PWDEBUG = 1;
 
 var ajaxURL = '/wp-admin/admin-ajax.php';
 
+// TODO: Localize
+// TODO: Convert to new ajax controller
+// TODO: Make better React
+// TODO: Drop jquery if possible
+// TODO: Add bootstrap(?) tabs
+
+
+/**
+ * - PatchChat
+ *   - Header
+ *   - Chats
+ */
+
 jQuery( document ).ready( function() {
 
 	signedIn = true;

@@ -41,8 +41,111 @@
  *
  * Methods:
  *
- * - fetch:  get a transient from the db or build it
+ * - get_by_id:  get a transient from the db or build it
  * - build:  build a transient from scratch if not in DB
  * - push:   adds a comment to the comments list
  * - update: update any of the fields
  */
+
+class PatchChat_Transient {
+
+
+	public static function get_by_id( $chat_id ) {
+
+		$transient = get_transient( 'patchchat_' . $chat_id );
+
+		if ( $transient === false ) $transient = PatchChat_Transient::build( $chat_id );
+
+		return $transient;
+
+	}
+
+
+	public static function build( $chat_id ) {
+
+		$patchchat = get_post( $chat_id );
+
+		$comments = get_comments( array( 'post_id' => $chat_id ) );
+
+
+		// 1. Build main array
+		$transient = array(
+			'id'         => $chat_id,
+			'title'      => $patchchat->post_title,
+			'status'     => $patchchat->post_status,
+			'first_time' => $patchchat->post_date,
+			'last_time'  => $patchchat->post_modified,
+		);
+
+
+		// 3. Build users key in commments foreach
+		$transient['users'] = array();
+
+
+		// 3. Build comments key
+		$transient['comments'] = array();
+
+		foreach ( $comments as $comment ) {
+
+			$user_id = $comment->user_id;
+
+			array_push(
+				$transient['comments'],
+				array(
+					'id'   => $comment->comment_ID,
+					'text' => $comment->comment_content,
+					'time' => $comment->comment_date,
+					'type' => $comment->comment_type,
+					'user' => $user_id,
+				)
+			);
+
+			if ( ! isset( $transient['users'][$user_id] ) ) {
+
+				$user = get_user_by( 'id', $user_id );
+
+				$img = md5( strtolower( trim ( $user->user_email ) ) );
+				$status = '';
+
+				$transient['users'][$user_id] = array(
+					'img'    => $img,
+					'name'   => $user->display_name,
+					'role'   => $user->roles[0],
+					'email'  => $user->user_email,
+					'status' => $status,
+				);
+			}
+
+		}
+
+
+		set_transient( 'patchchat_' . $chat_id, $transient );
+
+		return $transient;
+	}
+
+
+	/**
+	 *
+	 */
+	public static function update( $chat_id, $comment ) {
+
+		$transient = get_transient( 'patchchat_' . $chat_id );
+
+		array_push(
+			$transient['comments'],
+			array(
+				'id'   => $comment['comment_id'],
+				'text' => $comment['comment_content'],
+				'time' => $comment['comment_date'],
+				'type' => $comment['comment_type'],
+				'user' => $comment['user_id'],
+			)
+		);
+
+
+		set_transient( 'patchchat_' . $chat_id, $transient );
+
+		return $transient;
+	}
+}

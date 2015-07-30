@@ -20,7 +20,9 @@ $white:    #ffffff;
 		font-family: sans-serif;
 	}
 
-	
+	&.active fieldset  { display: none; }
+	&.active .comments { display: block !important; }
+
 
 	section {
 
@@ -41,63 +43,101 @@ $white:    #ffffff;
 		.patchchat-body {
 
 			display: block;
-			height: 250px;
-			padding-top: 10px;
+			height: 300px;
 
-			ul {
+			ul.comments {
+
+				display: none;
+				height: 100%;
+				overflow-y: scroll;
+				padding: 10px 0 50px;
+
 				li {
-					display: inline-block;
-					max-width: 80%;
-					list-style: none;
-					padding: 3px 5px; margin: 5px 8px;
-					font-size: 14px; line-height: 18px;
-					border: 1px solid $light;
-					border-radius: 5px;
-					background-color: $offwhite;
 
-					&.user { float: left; }
-					&.admin { float: right; border-color: $dark; }
+					display: block;
+					list-style: none;
+					clear: both;
+
+					span {
+						display: inline-block;
+						max-width: 80%;
+						padding: 3px 5px; margin: 3px 8px;
+						font-size: 14px;
+						line-height: 18px;
+						border: 1px solid $light;
+						border-radius: 5px;
+						background-color: $offwhite;
+
+						&:after {
+							content: "";
+							display: table;
+							clear: both;
+						}
+					}
+
+					&.user span {
+						float: left;
+					}
+					&.agent span {
+						float: right;
+						border-color: $dark;
+					}
+
+					&.subscriber span {
+						float: left;
+					}
+					&.administrator span {
+						float: right;
+						border-color: $dark;
+					}
+					
+					img {
+						display: none;
+					}
 					
 				}
 
-				&:after {
-					content: "";
-					display: table;
-					clear: both;
-				}
 			}
 
-			form {
+		}
+
+		form {
+
+			fieldset {
+
+				width: auto;
+				padding-top: 10px;
+
 				label {
 					padding: 20px 10px 0 10px;
 				}
 
 				input {
+					display: block;
 					width: 230px;
-					padding: 5px; margin: 0 10px 10px;
+					padding: 5px;
+					margin: 0 10px 10px;
 				}
-
-				textarea {
-					position: absolute;
-					bottom: 0;
-					width: 100%; min-height: 30px;
-					padding: 5px 5px 0 5px;
-					border: 0px $grey solid;
-					border-top-width: 1px;
-					font-family: sans-serif;
-					resize: none;
-
-					font-size: 14px;
-					line-height: 18px;
-					overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-				}
-
-				#patchchat-honeypot { display: none; }
 			}
 
+			textarea {
+				position: absolute;
+				bottom: 0;
+				width: 100%; min-height: 30px;
+				padding: 5px 5px 0 5px;
+				border: 0px $grey solid;
+				border-top-width: 1px;
+				font-family: sans-serif;
+				resize: none;
+
+				font-size: 14px;
+				line-height: 18px;
+				overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+			}
+
+			#patchchat-honeypot { display: none; }
 		}
 
-		
 	}
 
 }

@@ -2,7 +2,11 @@
 /**
  * PatchChat AJAX
  *
- * Handles all ajax calls
+ * Handles all ajax calls, sanitizes and directs to PatchChat_Controller, returns json
+ *
+ * There are only two class methods, get and post, reflecting HTTP methods
+ *
+ * Both function operate off giant switch statements which parse for the available actions.
  *
  * @author caseypatrickdriscoll
  * @created 2015-07-24 23:30:03
@@ -30,15 +34,87 @@ class PatchChat_AJAX {
 		add_action( 'wp_ajax_change_chat_status',
 			array( __CLASS__, 'change_chat_status' ) );
 
-		add_action( 'wp_ajax_submit_patchchat',
-			array( __CLASS__, 'submit' ) );
-		add_action( 'wp_ajax_nopriv_submit_patchchat',
-			array( __CLASS__, 'submit' ) );
+		add_action( 'wp_ajax_patchchat_post',
+			array( __CLASS__, 'post' ) );
+		add_action( 'wp_ajax_nopriv_patchchat_post',
+			array( __CLASS__, 'post' ) );
 
-		add_action( 'wp_ajax_nopriv_ping_patchchat',
-			array( __CLASS__, 'ping' ) );
-		add_action( 'wp_ajax_ping_patchchat',
-			array( __CLASS__, 'ping' ) );
+		add_action( 'wp_ajax_nopriv_patchchat_get',
+			array( __CLASS__, 'get' ) );
+		add_action( 'wp_ajax_patchchat_get',
+			array( __CLASS__, 'get' ) );
+	}
+
+
+	/**
+	 * Get json from the server
+	 *
+	 * This is a large switch statement to direct activity based on the requested method
+	 *
+	 * 'get_single' => User requests single chat identified by patchchat->ID
+	 * 'get_all'    => Agent requests all new chats and their involved chats
+	 */
+	public static function get() {
+
+		$data = '';
+
+		// Sanitize request
+
+		// Switch based on request
+		switch ( $_POST['method'] ) {
+			case 'get_single' : // Return single chat
+				$data = PatchChat_Controller::get_single( $_POST['chat_id'] );
+				break;
+
+			case 'get_all' : // Return 'new' chats and chats for given user
+				$data = PatchChat_Controller::get_all( $_POST['user_id'] );
+				break;
+
+			default:
+				$data = array( 'error' => 'No method with name ' . $_POST['method'] );
+		}
+
+
+		if ( isset( $data['error'] ) )
+			wp_send_json_error( $data );
+		else
+			wp_send_json_success( $data );
+
+	}
+
+
+	/**
+	 * Post json to the server
+	 */
+	public static function post() {
+
+		$data = '';
+
+		// Sanitize request
+
+
+		$chat = $_POST['patchchat'];
+
+		// Switch based on request
+		switch ( $_POST['method'] ) {
+			case 'create' : // Create a chat
+				$data = PatchChat_Controller::create( $chat );
+				break;
+
+			case 'update' : // Update a chat
+				$data = PatchChat_Controller::update( $chat );
+				break;
+
+			default:
+				$data = array( 'error' => 'No method with name ' . $_POST['method'] );
+		}
+
+
+
+		if ( isset( $data['error'] ) )
+			wp_send_json_error( $data );
+		else
+			wp_send_json_success( $data );
 	}
 
 
@@ -142,68 +218,6 @@ class PatchChat_AJAX {
 		if ( $error ) {
 			wp_send_json_error( $error );
 		}
-
-
-		// TODO: Should not be creating user here
-		//       - After validation, use controller or something to create stuff
-
-		$username = substr( $email, 0, strpos( $email, "@" ) );
-		$password = wp_generate_password( 10, false );
-		$title    = substr( $text, 0, 40 );
-		$time     = current_time( 'mysql' );
-		$text     = wp_strip_all_tags( $text );
-
-
-		/* Create User */
-		$user_id = wp_create_user( $username, $password, $email );
-		// TODO: Add the user's name
-
-		wp_new_user_notification( $user_id, $password );
-
-
-		/* Create Post */
-		$post = array(
-			'post_title'  => $title,
-			'post_type'   => 'patchchat',
-			'post_author' => $user_id,
-			'post_status' => 'new',
-			'post_date'   => $time
-		);
-
-		$post_id = wp_insert_post( $post );
-
-
-		/* Create First Comment */
-		$comment = array(
-			'comment_post_ID'   => $post_id,
-			'user_id'           => $user_id,
-			'comment_content'   => $text,
-			'comment_date'      => $time,
-			'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-			'comment_agent'     => $_SERVER['HTTP_USER_AGENT']
-		);
-
-		$comment_id = wp_insert_comment( $comment );
-
-
-		$response = array(
-			'text' => $text
-		);
-
-
-		/* Set 'New Transient' */
-		$patchchat = array(
-			'id'     => $post_id,
-			'img'    => md5( strtolower( trim ( $email ) ) ),
-			'name'   => $name,
-			'title'  => $title,
-			'email'  => $email,
-			'text'   => $text,
-			'status' => 'new'
-		);
-
-		PatchChat_Transient_Set::add( 'patchchat_new', $patchchat );
-
 
 
 		wp_send_json_success( $response );
