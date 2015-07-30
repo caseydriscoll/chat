@@ -40,6 +40,7 @@ var PatchChat = React.createClass( {
 			url     : ajaxURL,
 			data    : ajaxdata,
 			success : function ( response ) {
+
 				this.setState({ data : { chats: response.data } });
 
 				if ( PWDEBUG ) console.log( 'response 2: ', response );
@@ -86,7 +87,7 @@ var Chats = React.createClass( {
 	render: function() {
 		var chats = this.props.data.chats.reverse().map( function( chat ) {
 			return (
-				<Chat comments={chat.comments} >
+				<Chat data={chat} >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{chat.name}</h3>
 					{chat.title}
@@ -106,24 +107,9 @@ var Chat = React.createClass( {
 		return (
 			<li className='chat'>
 				{this.props.children}
-				<ChatPanel comments={this.props.comments} />
+
+				<PatchComments data={this.props.data} />
 			</li>
-		);
-	}
-} );
-
-
-var ChatPanel = React.createClass( {
-	render: function() {
-		var comments = this.props.comments.map( function( comment ) {
-			return (
-				<li>{comment.text}</li>
-			);
-		} );
-		return (
-			<ul className="chatpanel">
-				{comments}
-			</ul>
 		);
 	}
 } );

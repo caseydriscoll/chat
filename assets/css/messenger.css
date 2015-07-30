@@ -1,20 +1,20 @@
-/* line 1, ../sass/messenger.scss */
+/* line 8, ../sass/messenger.scss */
 #wpcontent {
   padding-left: 0 !important;
 }
 
-/* line 5, ../sass/messenger.scss */
+/* line 12, ../sass/messenger.scss */
 .patchchat {
   position: relative;
   min-height: 100%;
   height: 100%;
 }
-/* line 10, ../sass/messenger.scss */
+/* line 17, ../sass/messenger.scss */
 .patchchat header {
   padding: 5px 20px;
   background: #cccccc;
 }
-/* line 15, ../sass/messenger.scss */
+/* line 22, ../sass/messenger.scss */
 .patchchat ul.chats {
   display: inline-block;
   position: relative;
@@ -23,7 +23,7 @@
   margin: 0;
   border-right: 1px solid #333333;
 }
-/* line 21, ../sass/messenger.scss */
+/* line 28, ../sass/messenger.scss */
 .patchchat ul.chats li.chat {
   display: block;
   width: 300px;
@@ -33,32 +33,34 @@
   border-bottom: 1px solid #333333;
   cursor: pointer;
 }
-/* line 28, ../sass/messenger.scss */
+/* line 35, ../sass/messenger.scss */
 .patchchat ul.chats li.chat:hover {
   background: #cccccc;
 }
-/* line 32, ../sass/messenger.scss */
+/* line 39, ../sass/messenger.scss */
 .patchchat ul.chats li.chat:after {
   content: "";
   display: table;
   clear: both;
 }
-/* line 38, ../sass/messenger.scss */
+/* line 45, ../sass/messenger.scss */
 .patchchat ul.chats li.chat img {
   float: left;
   margin: 0 10px 0 0;
 }
-/* line 43, ../sass/messenger.scss */
+/* line 50, ../sass/messenger.scss */
 .patchchat ul.chats li.chat h3 {
   margin: 0;
 }
-/* line 47, ../sass/messenger.scss */
-.patchchat ul.chats li.chat .chatpanel {
+/* line 54, ../sass/messenger.scss */
+.patchchat ul.chats li.chat ul.patchcomments {
+  display: block !important;
   position: absolute;
   left: 320px;
   top: 0;
   width: 400px;
   height: 800px;
-  border: 1px solid red;
-  background: #ffffff;
+  border-right: 1px solid #000000;
+  border-left: 1px solid #000000;
+  background: #fafafa;
 }

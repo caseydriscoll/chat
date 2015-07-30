@@ -1,3 +1,10 @@
+$black:    #000000;
+$dark:     #333333;
+$grey:     #777777;
+$light:    #bbbbbb;
+$offwhite: #fafafa;
+$white:    #ffffff;
+
 #wpcontent {
 	padding-left: 0 !important;
 }
@@ -44,12 +51,14 @@
 				margin: 0;
 			}
 
-			.chatpanel {
+			ul.patchcomments {
+				display: block !important;
 				position: absolute;
 				left: 320px; top: 0;
 				width: 400px; height: 800px;
-				border: 1px solid red;
-				background: #ffffff;
+				border-right: 1px solid $black;
+				border-left: 1px solid $black;
+				background: $offwhite;
 
 			}
 		}

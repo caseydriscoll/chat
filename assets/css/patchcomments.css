@@ -1,0 +1,53 @@
+/* line 8, ../sass/patchcomments.scss */
+ul.patchcomments {
+  display: none;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 10px 0 50px;
+}
+/* line 15, ../sass/patchcomments.scss */
+ul.patchcomments li {
+  display: block;
+  list-style: none;
+  clear: both;
+}
+/* line 21, ../sass/patchcomments.scss */
+ul.patchcomments li span {
+  display: inline-block;
+  max-width: 80%;
+  padding: 3px 5px;
+  margin: 3px 8px;
+  font-size: 14px;
+  line-height: 18px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+/* line 31, ../sass/patchcomments.scss */
+ul.patchcomments li span:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* line 38, ../sass/patchcomments.scss */
+ul.patchcomments li.user span {
+  float: left;
+}
+/* line 41, ../sass/patchcomments.scss */
+ul.patchcomments li.agent span {
+  float: right;
+  border-color: #333333;
+}
+/* line 46, ../sass/patchcomments.scss */
+ul.patchcomments li.subscriber span {
+  float: left;
+}
+/* line 49, ../sass/patchcomments.scss */
+ul.patchcomments li.administrator span {
+  float: right;
+  border-color: #333333;
+}
+/* line 54, ../sass/patchcomments.scss */
+ul.patchcomments li img {
+  display: none;
+}

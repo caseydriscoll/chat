@@ -1,0 +1,60 @@
+$black:    #000000;
+$dark:     #333333;
+$grey:     #777777;
+$light:    #bbbbbb;
+$offwhite: #fafafa;
+$white:    #ffffff;
+
+ul.patchcomments {
+
+	display: none;
+	height: 100%;
+	overflow-y: scroll;
+	padding: 10px 0 50px;
+
+	li {
+
+		display: block;
+		list-style: none;
+		clear: both;
+
+		span {
+			display: inline-block;
+			max-width: 80%;
+			padding: 3px 5px; margin: 3px 8px;
+			font-size: 14px;
+			line-height: 18px;
+			border: 1px solid $light;
+			border-radius: 5px;
+			background-color: $offwhite;
+
+			&:after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
+
+		&.user span {
+			float: left;
+		}
+		&.agent span {
+			float: right;
+			border-color: $dark;
+		}
+
+		&.subscriber span {
+			float: left;
+		}
+		&.administrator span {
+			float: right;
+			border-color: $dark;
+		}
+
+		img {
+			display: none;
+		}
+
+	}
+
+}
