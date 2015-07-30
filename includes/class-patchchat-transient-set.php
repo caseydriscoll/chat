@@ -22,52 +22,60 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class PatchChat_Transient_Set {
 
+	public static function get( $set_name ) {
 
-	public static function build( $type = 'new' ) {
+		$transient = get_transient( $set_name );
 
-		$transient = array();
+		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( $set_name );
+
+		return $transient;
+
+	}
+
+
+	/**
+	 * This builds a Transient Set by getting all the transients of that type.
+	 *
+	 * It needs to know which transients to grab, which it can't do on name only
+	 *
+	 * We need a record of which transients are 'new' chats, which chats an agent belongs to, etc
+	 *
+	 * But absolutely, this function does not build single transients from WP_Querys
+	 *
+	 * @param $set_name
+	 *
+	 * @return array
+	 */
+	public static function build( $set_name ) {
+
+		$transient_set = array();
 
 		$args = array(
-			'post_type'   => 'patchchat',
-			'post_status' => $type,
-			'nopaging'    => true
+			'post_type' => 'patchchat',
+			'nopaging'  => true,
+			'fields'    => 'ids',
 		);
 
-		$chats = new WP_Query( $args );
+		if ( $set_name == 'new' ) {
+			$args['post_status'] = 'new';
+		}
 
-		foreach ( $chats->posts as $chat ) {
+		$query = new WP_Query( $args );
 
-			// TODO: Get the actual user's name, not display name
+		$list = $query->get_posts();
 
-			// Get the user and the comments
-			$user  = get_userdata( $chat->post_author );
-			$email = $user->user_email;
-			$name  = $user->display_name;
+		foreach ( $list as $id ) {
+			$transient = get_transient( 'patchchat_' . $id );
 
-			$patchchat = array(
-				'id'     => $chat->ID,
-				'img'    => md5( strtolower( trim ( $email ) ) ),
-				'name'   => $name,
-				'title'  => $chat->post_title,
-				'email'  => $email,
-				'status' => $type
-			);
-
-
-			$comments = get_comments( array( 'post_id' => $chat->ID ) );
-
-			foreach ( $comments as $comment ) {
-				$patchchat['text'] = $comment->comment_content;
-			}
-
-			array_unshift( $transient, $patchchat );
+			array_push( $transient_set, $transient );
 		}
 
 
-		set_transient( 'patchchat_new', $transient );
+
+		set_transient( 'patchchat_set_' . $set_name, $transient_set );
 
 
-		return $transient;
+		return $transient_set;
 	}
 
 

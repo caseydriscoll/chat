@@ -1,6 +1,7 @@
 PWDEBUG = 1;
 
 var ajaxURL = '/wp-admin/admin-ajax.php';
+var patchchat = { users: [] };
 
 // TODO: Localize
 // TODO: Convert to new ajax controller
@@ -17,54 +18,51 @@ var ajaxURL = '/wp-admin/admin-ajax.php';
 
 jQuery( document ).ready( function() {
 
-	signedIn = true;
-
-	if ( signedIn ) {
-		pingPatchChat();
-	}
-} );
-
-
-function pingPatchChat() {
-
-	data = {
-		'action' : 'ping_patchchat'
-	};
-
-	jQuery.post(
-		ajaxURL,
-		data,
-		function( response ) {
-
-			if ( response.success ) {
-				setTimeout( pingPatchChat, 3000 );
-
-				renderPatchChat( response.data );
-			}
-
-			if ( PWDEBUG ) console.log( response );
-		}
-	)
-}
-
-function renderPatchChat( chats ) {
-
-	console.log( chats );
-
 	React.render(
-		<PatchChat data={chats} />,
+		<PatchChat />,
 		document.getElementById( 'wpbody-content' )
 	);
 
-}
+} );
 
 
 var PatchChat = React.createClass( {
+	loadCommentsFromServer: function() {
+
+		ajaxdata = {
+			'action'  : 'patchchat_get',
+			'method'  : 'get_agent',
+			'user_id' : 1
+		};
+
+		jQuery.ajax({
+			method  : 'POST',
+			url     : ajaxURL,
+			data    : ajaxdata,
+			success : function ( response ) {
+				this.setState({ data : { chats: response.data } });
+
+				if ( PWDEBUG ) console.log( 'response 2: ', response );
+
+				setTimeout( this.loadCommentsFromServer, 3000 );
+
+			}.bind(this),
+			error   : function ( response ) {
+				if ( PWDEBUG ) console.log( 'error response: ', response );
+			}.bind(this)
+		});
+	},
+	getInitialState: function() {
+		return { data: { chats: [] }  }
+	},
+	componentDidMount: function() {
+		this.loadCommentsFromServer();
+	},
 	render: function() {
 		return (
 			<div className="patchchat">
-				<Header count={this.props.data.length} />
-				<Chats data={this.props.data} />
+				<Header count={this.state.data.chats.length} />
+				<Chats data={this.state.data} />
 			</div>
 		);
 	}
@@ -86,9 +84,9 @@ var Header = React.createClass( {
 // TODO: Make gravatar img size variable
 var Chats = React.createClass( {
 	render: function() {
-		var chats = this.props.data.map( function( chat ) {
+		var chats = this.props.data.chats.reverse().map( function( chat ) {
 			return (
-				<Chat>
+				<Chat comments={chat.comments} >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{chat.name}</h3>
 					{chat.title}
@@ -108,7 +106,24 @@ var Chat = React.createClass( {
 		return (
 			<li className='chat'>
 				{this.props.children}
+				<ChatPanel comments={this.props.comments} />
 			</li>
+		);
+	}
+} );
+
+
+var ChatPanel = React.createClass( {
+	render: function() {
+		var comments = this.props.comments.map( function( comment ) {
+			return (
+				<li>{comment.text}</li>
+			);
+		} );
+		return (
+			<ul className="chatpanel">
+				{comments}
+			</ul>
 		);
 	}
 } );

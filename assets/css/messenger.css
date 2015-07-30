@@ -26,7 +26,6 @@
 /* line 21, ../sass/messenger.scss */
 .patchchat ul.chats li.chat {
   display: block;
-  position: relative;
   width: 300px;
   height: auto;
   padding: 10px;
@@ -52,4 +51,14 @@
 /* line 43, ../sass/messenger.scss */
 .patchchat ul.chats li.chat h3 {
   margin: 0;
+}
+/* line 47, ../sass/messenger.scss */
+.patchchat ul.chats li.chat .chatpanel {
+  position: absolute;
+  left: 320px;
+  top: 0;
+  width: 400px;
+  height: 800px;
+  border: 1px solid red;
+  background: #ffffff;
 }

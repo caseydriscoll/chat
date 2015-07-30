@@ -66,8 +66,8 @@ class PatchChat_AJAX {
 				$data = PatchChat_Controller::get_single( $_POST['chat_id'] );
 				break;
 
-			case 'get_all' : // Return 'new' chats and chats for given user
-				$data = PatchChat_Controller::get_all( $_POST['user_id'] );
+			case 'get_agent' : // Return 'new' chats and chats for given user
+				$data = PatchChat_Controller::get_agent( $_POST['user_id'] );
 				break;
 
 			default:

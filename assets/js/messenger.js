@@ -1,6 +1,7 @@
 PWDEBUG = 1;
 
 var ajaxURL = '/wp-admin/admin-ajax.php';
+var patchchat = { users: [] };
 
 // TODO: Localize
 // TODO: Convert to new ajax controller
@@ -17,54 +18,51 @@ var ajaxURL = '/wp-admin/admin-ajax.php';
 
 jQuery( document ).ready( function() {
 
-	signedIn = true;
-
-	if ( signedIn ) {
-		pingPatchChat();
-	}
-} );
-
-
-function pingPatchChat() {
-
-	data = {
-		'action' : 'ping_patchchat'
-	};
-
-	jQuery.post(
-		ajaxURL,
-		data,
-		function( response ) {
-
-			if ( response.success ) {
-				setTimeout( pingPatchChat, 3000 );
-
-				renderPatchChat( response.data );
-			}
-
-			if ( PWDEBUG ) console.log( response );
-		}
-	)
-}
-
-function renderPatchChat( chats ) {
-
-	console.log( chats );
-
 	React.render(
-		React.createElement(PatchChat, {data: chats}),
+		React.createElement(PatchChat, null),
 		document.getElementById( 'wpbody-content' )
 	);
 
-}
+} );
 
 
 var PatchChat = React.createClass( {displayName: "PatchChat",
+	loadCommentsFromServer: function() {
+
+		ajaxdata = {
+			'action'  : 'patchchat_get',
+			'method'  : 'get_agent',
+			'user_id' : 1
+		};
+
+		jQuery.ajax({
+			method  : 'POST',
+			url     : ajaxURL,
+			data    : ajaxdata,
+			success : function ( response ) {
+				this.setState({ data : { chats: response.data } });
+
+				if ( PWDEBUG ) console.log( 'response 2: ', response );
+
+				setTimeout( this.loadCommentsFromServer, 3000 );
+
+			}.bind(this),
+			error   : function ( response ) {
+				if ( PWDEBUG ) console.log( 'error response: ', response );
+			}.bind(this)
+		});
+	},
+	getInitialState: function() {
+		return { data: { chats: [] }  }
+	},
+	componentDidMount: function() {
+		this.loadCommentsFromServer();
+	},
 	render: function() {
 		return (
 			React.createElement("div", {className: "patchchat"}, 
-				React.createElement(Header, {count: this.props.data.length}), 
-				React.createElement(Chats, {data: this.props.data})
+				React.createElement(Header, {count: this.state.data.chats.length}), 
+				React.createElement(Chats, {data: this.state.data})
 			)
 		);
 	}
@@ -86,9 +84,9 @@ var Header = React.createClass( {displayName: "Header",
 // TODO: Make gravatar img size variable
 var Chats = React.createClass( {displayName: "Chats",
 	render: function() {
-		var chats = this.props.data.map( function( chat ) {
+		var chats = this.props.data.chats.reverse().map( function( chat ) {
 			return (
-				React.createElement(Chat, null, 
+				React.createElement(Chat, {comments: chat.comments}, 
 					React.createElement("img", {src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'}), 
 					React.createElement("h3", null, chat.name), 
 					chat.title
@@ -107,7 +105,24 @@ var Chat = React.createClass( {displayName: "Chat",
 	render: function() {
 		return (
 			React.createElement("li", {className: "chat"}, 
-				this.props.children
+				this.props.children, 
+				React.createElement(ChatPanel, {comments: this.props.comments})
+			)
+		);
+	}
+} );
+
+
+var ChatPanel = React.createClass( {displayName: "ChatPanel",
+	render: function() {
+		var comments = this.props.comments.map( function( comment ) {
+			return (
+				React.createElement("li", null, comment.text)
+			);
+		} );
+		return (
+			React.createElement("ul", {className: "chatpanel"}, 
+				comments
 			)
 		);
 	}
