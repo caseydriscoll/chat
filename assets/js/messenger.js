@@ -85,31 +85,54 @@ var Header = React.createClass( {displayName: "Header",
 // TODO: Make gravatar img size variable
 var Chats = React.createClass( {displayName: "Chats",
 	render: function() {
-		var chats = this.props.data.chats.reverse().map( function( chat ) {
+		var chats = this.props.data.chats.reverse().map( function( chat, i ) {
 			return (
-				React.createElement(Chat, {data: chat}, 
+				React.createElement(Chat, {data: chat, idx: i}, 
 					React.createElement("img", {src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'}), 
 					React.createElement("h3", null, chat.name), 
 					chat.title
 				)
 			);
 		} );
+
+		var comments = this.props.data.chats.map( function( chat, i ) {
+			var chat_id = 'chat_' + chat.id;
+			var classes = 'patchchat-body';
+			if ( i == 0 ) classes += ' active';
+			return (
+				React.createElement("div", {className: classes, id: chat_id, role: "tabpanel"}, 
+					React.createElement(PatchComments, {data: chat}), 
+					React.createElement(PatchChatForm, {submit: this.submit})
+				)
+			);
+		} );
+
 		return (
-			React.createElement("ul", {className: "chats"}, 
-				chats
+			React.createElement("section", null, 
+				React.createElement("ul", {className: "chats", role: "tablist"}, 
+					chats
+				), 
+				React.createElement("div", {className: "tab-content"}, 
+					comments
+				)
 			)
 		);
 	}
 } );
 
 var Chat = React.createClass( {displayName: "Chat",
+	click: function (e) {
+		e.preventDefault();
+		jQuery( e.nativeEvent.target ).tab('show');
+	},
 	render: function() {
+		var chat_id = 'chat_' + this.props.data.id;
+		var classes = 'chat';
+		if ( this.props.idx == 0 ) classes += ' active';
 		return (
-			React.createElement("li", {className: "chat"}, 
-				this.props.children, 
-				React.createElement("div", {className: "patchchat-body"}, 
-					React.createElement(PatchComments, {data: this.props.data}), 
-					React.createElement(PatchChatForm, {submit: this.submit})
+			React.createElement("li", {className: classes, role: "presentation"}, 
+				React.createElement("a", {href: '#' + chat_id, "aria-controls": chat_id, role: "tab", "data-toggle": "tab", onClick: this.click}, 
+					this.props.children
 				)
 			)
 		);

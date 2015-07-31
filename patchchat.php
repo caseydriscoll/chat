@@ -212,7 +212,8 @@ class PatchChat {
 			wp_enqueue_style( 'patchchat-comments', plugins_url( '/assets/css/patchcomments.css', __FILE__ ) );
 
 			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
-			wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchcomments.js', __FILE__ ), '', true );
+			wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchcomments.js', __FILE__ ) );
+			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
 
 		}
 	}

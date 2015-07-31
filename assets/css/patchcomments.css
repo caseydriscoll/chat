@@ -1,17 +1,21 @@
-/* line 9, ../sass/patchcomments.scss */
+/* line 8, ../sass/patchcomments.scss */
+.patchchat-body {
+  position: relative;
+}
+/* line 12, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments {
   display: none;
   height: 100%;
   overflow-y: scroll;
   padding: 10px 0 50px;
 }
-/* line 16, ../sass/patchcomments.scss */
+/* line 19, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li {
   display: block;
   list-style: none;
   clear: both;
 }
-/* line 22, ../sass/patchcomments.scss */
+/* line 25, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li span {
   display: inline-block;
   max-width: 80%;
@@ -23,51 +27,51 @@
   border-radius: 5px;
   background-color: #fafafa;
 }
-/* line 33, ../sass/patchcomments.scss */
+/* line 36, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li span:after {
   content: "";
   display: table;
   clear: both;
 }
-/* line 40, ../sass/patchcomments.scss */
+/* line 43, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li.user span {
   float: left;
 }
-/* line 43, ../sass/patchcomments.scss */
+/* line 46, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li.agent span {
   float: right;
   border-color: #333333;
 }
-/* line 48, ../sass/patchcomments.scss */
+/* line 51, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li.subscriber span {
   float: left;
 }
-/* line 51, ../sass/patchcomments.scss */
+/* line 54, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li.administrator span {
   float: right;
   border-color: #333333;
 }
-/* line 56, ../sass/patchcomments.scss */
+/* line 59, ../sass/patchcomments.scss */
 .patchchat-body ul.patchcomments li img {
   display: none;
 }
-/* line 66, ../sass/patchcomments.scss */
+/* line 69, ../sass/patchcomments.scss */
 .patchchat-body form fieldset {
   width: auto;
   padding-top: 10px;
 }
-/* line 71, ../sass/patchcomments.scss */
+/* line 74, ../sass/patchcomments.scss */
 .patchchat-body form fieldset label {
   padding: 20px 10px 0 10px;
 }
-/* line 75, ../sass/patchcomments.scss */
+/* line 78, ../sass/patchcomments.scss */
 .patchchat-body form fieldset input {
   display: block;
   width: 230px;
   padding: 5px;
   margin: 0 10px 10px;
 }
-/* line 83, ../sass/patchcomments.scss */
+/* line 86, ../sass/patchcomments.scss */
 .patchchat-body form textarea {
   position: absolute;
   bottom: 0;
@@ -83,7 +87,7 @@
   overflow-y: hidden;
   /* fixes scrollbar flash - kudos to @brettjonesdev */
 }
-/* line 99, ../sass/patchcomments.scss */
+/* line 102, ../sass/patchcomments.scss */
 .patchchat-body form #patchchat-honeypot {
   display: none;
 }

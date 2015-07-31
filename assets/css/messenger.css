@@ -1,67 +1,90 @@
-/* line 8, ../sass/messenger.scss */
+/* line 10, ../sass/messenger.scss */
 #wpcontent {
   padding-left: 0 !important;
 }
 
-/* line 12, ../sass/messenger.scss */
+/* line 14, ../sass/messenger.scss */
 .patchchat {
   position: relative;
   min-height: 100%;
   height: 100%;
 }
-/* line 17, ../sass/messenger.scss */
+/* line 19, ../sass/messenger.scss */
 .patchchat header {
   padding: 5px 20px;
   background: #cccccc;
 }
-/* line 22, ../sass/messenger.scss */
-.patchchat ul.chats {
+/* line 26, ../sass/messenger.scss */
+.patchchat section ul.chats {
   display: inline-block;
+  float: left;
   position: relative;
   min-height: 100%;
   height: 100%;
   margin: 0;
-  border-right: 1px solid #333333;
 }
-/* line 28, ../sass/messenger.scss */
-.patchchat ul.chats li.chat {
+/* line 34, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat {
   display: block;
   width: 300px;
   height: auto;
-  padding: 10px;
   margin: 0;
   border-bottom: 1px solid #333333;
   cursor: pointer;
 }
-/* line 35, ../sass/messenger.scss */
-.patchchat ul.chats li.chat:hover {
+/* line 42, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat:hover {
   background: #cccccc;
 }
-/* line 39, ../sass/messenger.scss */
-.patchchat ul.chats li.chat:after {
+/* line 48, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat.active a {
+  background: #55acee;
+  color: #ffffff;
+}
+/* line 54, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat a {
+  display: block;
+  clear: both;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  text-decoration: none;
+}
+/* line 60, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat a:after {
   content: "";
   display: table;
   clear: both;
 }
-/* line 45, ../sass/messenger.scss */
-.patchchat ul.chats li.chat img {
+/* line 66, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat a img {
   float: left;
   margin: 0 10px 0 0;
 }
-/* line 50, ../sass/messenger.scss */
-.patchchat ul.chats li.chat h3 {
+/* line 71, ../sass/messenger.scss */
+.patchchat section ul.chats li.chat a h3 {
   margin: 0;
 }
-/* line 54, ../sass/messenger.scss */
-.patchchat ul.chats li.chat .patchchat-body {
-  display: block !important;
-  position: absolute;
-  left: 320px;
-  top: 0;
+/* line 80, ../sass/messenger.scss */
+.patchchat section .tab-content {
+  float: left;
+}
+/* line 83, ../sass/messenger.scss */
+.patchchat section .tab-content .patchchat-body {
+  display: none !important;
   width: 400px;
   height: 800px;
   border-right: 1px solid #000000;
   border-bottom: 1px solid #000000;
   border-left: 1px solid #000000;
   background: #fafafa;
+}
+/* line 93, ../sass/messenger.scss */
+.patchchat section .tab-content .patchchat-body.active {
+  display: block !important;
+}
+/* line 95, ../sass/messenger.scss */
+.patchchat section .tab-content .patchchat-body .patchcomments {
+  display: block !important;
+  margin: 0;
 }
