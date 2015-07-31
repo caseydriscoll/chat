@@ -7,7 +7,7 @@ $white:    #ffffff;
 
 
 // The main chat box
-.patchchat {
+#patchchatbox {
 	position: fixed;
 	right: 100px; bottom: 0px;
 	width: 250px; height: auto;
@@ -20,35 +20,29 @@ $white:    #ffffff;
 		font-family: sans-serif;
 	}
 
-	&.active fieldset  { display: none; }
-	&.active ul.patchcomments { display: block !important; }
 
+	header {
+		display: block !important;
+		height: 40px;
+		padding: 5px 10px;
+		cursor: pointer;
+		border-bottom: 1px $grey solid;
+		background: $light;
 
-	section {
-
-		header { 
-			display: block !important;
-			height: 40px;
-			padding: 5px 10px;
-			cursor: pointer;
-			border-bottom: 1px $grey solid;
-			background: $light;
-
-			.spinner {
-				display: none; float: right;
-				margin: 6px;
-			}
+		.spinner {
+			display: none; float: right;
+			margin: 6px;
 		}
+	}
 
-		.patchchat-body {
+	.patchchatbody {
 
-			display: block;
-			height: 300px;
+		display: block;
+		height: 300px;
 
 
-
-		}
 
 	}
+
 
 }

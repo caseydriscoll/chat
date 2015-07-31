@@ -70,7 +70,7 @@ class PatchChat_Transient {
 
 		// 1. Build main array
 		$transient = array(
-			'id'         => $chat_id,
+			'chat_id'    => $chat_id,
 			'title'      => $patchchat->post_title,
 			'status'     => $patchchat->post_status,
 			'first_time' => $patchchat->post_date,

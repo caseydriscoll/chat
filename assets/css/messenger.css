@@ -1,48 +1,68 @@
 /* line 10, ../sass/messenger.scss */
-#wpcontent {
-  padding-left: 0 !important;
+#wpwrap {
+  box-sizing: border-box;
 }
 
 /* line 14, ../sass/messenger.scss */
-.patchchat {
+#wpcontent {
+  display: block;
   position: relative;
-  min-height: 100%;
-  height: 100%;
+  clear: both;
+  padding-left: 0 !important;
 }
-/* line 19, ../sass/messenger.scss */
-.patchchat header {
+/* line 18, ../sass/messenger.scss */
+#wpcontent #wpbody {
+  clear: both;
+}
+/* line 22, ../sass/messenger.scss */
+#wpcontent:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* line 29, ../sass/messenger.scss */
+#wpfooter {
+  display: none;
+}
+
+/* line 33, ../sass/messenger.scss */
+#patchchatmessenger {
+  display: block;
+  position: relative;
+}
+/* line 36, ../sass/messenger.scss */
+#patchchatmessenger header {
+  display: none;
   padding: 5px 20px;
   background: #cccccc;
 }
-/* line 26, ../sass/messenger.scss */
-.patchchat section ul.chats {
+/* line 42, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist {
   display: inline-block;
   float: left;
   position: relative;
-  min-height: 100%;
-  height: 100%;
   margin: 0;
 }
-/* line 34, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat {
+/* line 48, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat {
   display: block;
   width: 300px;
-  height: auto;
   margin: 0;
   border-bottom: 1px solid #333333;
   cursor: pointer;
 }
-/* line 42, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat:hover {
+/* line 55, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat:hover {
   background: #cccccc;
 }
-/* line 48, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat.active a {
+/* line 61, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat.active a {
   background: #55acee;
   color: #ffffff;
 }
-/* line 54, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat a {
+/* line 67, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat a {
   display: block;
   clear: both;
   width: auto;
@@ -50,41 +70,48 @@
   padding: 10px;
   text-decoration: none;
 }
-/* line 60, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat a:after {
+/* line 73, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat a:after {
   content: "";
   display: table;
   clear: both;
 }
-/* line 66, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat a img {
+/* line 79, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat a img {
   float: left;
   margin: 0 10px 0 0;
 }
-/* line 71, ../sass/messenger.scss */
-.patchchat section ul.chats li.chat a h3 {
+/* line 84, ../sass/messenger.scss */
+#patchchatmessenger ul.patchchatlist li.chat a h3 {
   margin: 0;
 }
-/* line 80, ../sass/messenger.scss */
-.patchchat section .tab-content {
+/* line 93, ../sass/messenger.scss */
+#patchchatmessenger .tab-content {
+  display: block;
+  position: relative;
   float: left;
 }
-/* line 83, ../sass/messenger.scss */
-.patchchat section .tab-content .patchchat-body {
+/* line 96, ../sass/messenger.scss */
+#patchchatmessenger .tab-content .tabpanel {
   display: none !important;
   width: 400px;
-  height: 800px;
   border-right: 1px solid #000000;
   border-bottom: 1px solid #000000;
   border-left: 1px solid #000000;
   background: #fafafa;
 }
-/* line 93, ../sass/messenger.scss */
-.patchchat section .tab-content .patchchat-body.active {
+/* line 105, ../sass/messenger.scss */
+#patchchatmessenger .tab-content .tabpanel.active {
   display: block !important;
 }
-/* line 95, ../sass/messenger.scss */
-.patchchat section .tab-content .patchchat-body .patchcomments {
-  display: block !important;
+/* line 109, ../sass/messenger.scss */
+#patchchatmessenger .tab-content .tabpanel .patchchatbody {
   margin: 0;
+}
+/* line 112, ../sass/messenger.scss */
+#patchchatmessenger .tab-content .tabpanel .patchchatbody .patchchatcomments {
+  display: block;
+  height: 90vh;
+  padding: 10px 0;
+  margin: 0 !important;
 }

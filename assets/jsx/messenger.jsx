@@ -11,22 +11,24 @@ var patchchat = { users: [] };
 
 
 /**
- * - PatchChat
+ * - PatchChatMessenger
  *   - Header
- *   - Chats
+ *   - PatchChatList
  */
 
 jQuery( document ).ready( function() {
 
 	React.render(
-		<PatchChat />,
-		document.getElementById( 'wpbody-content' )
+		<PatchChatMessenger />,
+		document.getElementById( 'wpbody' )
 	);
+
+	patchchat.spinner = jQuery( '.patchchatmessenger .spinner' );
 
 } );
 
 
-var PatchChat = React.createClass( {
+var PatchChatMessenger = React.createClass( {
 	loadCommentsFromServer: function() {
 
 		ajaxdata = {
@@ -34,6 +36,8 @@ var PatchChat = React.createClass( {
 			'method'  : 'get_agent',
 			'user_id' : 1
 		};
+
+		if ( PWDEBUG ) console.log( 'Pre-' + ajaxdata.method, ajaxdata );
 
 		jQuery.ajax({
 			method  : 'POST',
@@ -61,9 +65,10 @@ var PatchChat = React.createClass( {
 	},
 	render: function() {
 		return (
-			<div className="patchchat">
+			<div id="patchchatmessenger">
 				<Header count={this.state.data.chats.length} />
-				<Chats data={this.state.data} />
+				<PatchChatList data={this.state.data} />
+				<PatchChatBodies data={this.state.data} />
 			</div>
 		);
 	}
@@ -75,6 +80,7 @@ var Header = React.createClass( {
 		return (
 			<header>
 				<h1>PatchChat ({this.props.count})</h1>
+				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
 			</header>
 		);
 	}
@@ -83,11 +89,11 @@ var Header = React.createClass( {
 
 
 // TODO: Make gravatar img size variable
-var Chats = React.createClass( {
+var PatchChatList = React.createClass( {
 	render: function() {
 		var chats = this.props.data.chats.reverse().map( function( chat, i ) {
 			return (
-				<Chat data={chat} idx={i}  >
+				<Chat data={chat} idx={i} key={chat.chat_id}  >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{chat.name}</h3>
 					{chat.title}
@@ -95,27 +101,10 @@ var Chats = React.createClass( {
 			);
 		} );
 
-		var comments = this.props.data.chats.map( function( chat, i ) {
-			var chat_id = 'chat_' + chat.id;
-			var classes = 'patchchat-body';
-			if ( i == 0 ) classes += ' active';
-			return (
-				<div className={classes} id={chat_id} role="tabpanel" >
-					<PatchComments data={chat} />
-					<PatchChatForm submit={this.submit} />
-				</div>
-			);
-		} );
-
 		return (
-			<section>
-				<ul className="chats" role="tablist">
-					{chats}
-				</ul>
-				<div className="tab-content">
-					{comments}
-				</div>
-			</section>
+			<ul className="patchchatlist" role="tablist">
+				{chats}
+			</ul>
 		);
 	}
 } );
@@ -126,7 +115,7 @@ var Chat = React.createClass( {
 		jQuery( e.nativeEvent.target ).tab('show');
 	},
 	render: function() {
-		var chat_id = 'chat_' + this.props.data.id;
+		var chat_id = 'chat_' + this.props.data.chat_id;
 		var classes = 'chat';
 		if ( this.props.idx == 0 ) classes += ' active';
 		return (
@@ -136,5 +125,28 @@ var Chat = React.createClass( {
 				</a>
 			</li>
 		);
+	}
+} );
+
+var PatchChatBodies = React.createClass( {
+	render: function() {
+
+		var comments = this.props.data.chats.map( function( chat, i ) {
+
+			var chat_id = 'chat_' + chat.chat_id;
+			var classes = 'tabpanel';
+			if ( i == 0 ) classes += ' active';
+			return (
+				<div className={classes} id={chat_id} role="tabpanel" key={chat_id} >
+					<PatchChatBody data={chat} />
+				</div>
+			);
+		}, this );
+
+		return(
+			<div className="tab-content">
+				{comments}
+			</div>
+		)
 	}
 } );

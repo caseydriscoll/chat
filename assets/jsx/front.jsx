@@ -20,27 +20,26 @@ jQuery( document ).ready( function() {
 } );
 
 /*
- * - PatchChat
- *   - section
- *     - header
- *     - .patchchat-body
- *       - PatchComments
- *         - li.comment
- *       - PatchForm
+ * - PatchChatBox
+ *   - header
+ *   - PatchChatBody
+ *     - PatchComments
+ *       - li.comment
+ *     - PatchForm
  */
 
 function renderPatchChat() {
 
-	jQuery( 'body' ).append( '<div class="patchchat"></div>' );
+	jQuery( 'body' ).append( '<div id="patchchatbox"></div>' );
 
 	React.render(
-		<PatchChat />,
-		document.getElementsByClassName( 'patchchat' )[0]
+		<PatchChatBox />,
+		document.getElementById( 'patchchatbox' )
 	);
 }
 
 
-var PatchChat = React.createClass( {
+var PatchChatBox = React.createClass( {
 	loadCommentsFromServer: function() {
 
 		if ( this.state.data.id === undefined ) return;
@@ -120,8 +119,8 @@ var PatchChat = React.createClass( {
 		});
 	},
 	toggle: function() {
-		jQuery( '.patchchat-body' ).toggle();
-		jQuery( '.patchchat input' )[0].focus();
+		jQuery( '.patchchatbody' ).toggle();
+		jQuery( '.patchchatbody input' )[0].focus();
 	},
 	getInitialState: function() {
 		return { data: { comments: [] }  }
@@ -131,60 +130,13 @@ var PatchChat = React.createClass( {
 	},
 	render: function() {
 		return (
-			<section>
+			<div>
 				<header onClick={this.toggle}>
 					PatchChat
 					<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
 				</header>
-				<div className="patchchat-body">
-					<PatchComments data={this.state.data} />
-					<PatchChatForm submit={this.submit} />
-				</div>
-			</section>
+				<PatchChatBody data={this.state.data} />
+			</div>
 		);
 	}
 } );
-
-
-
-function validPatchChat() {
-
-	if ( patchchat.id !== undefined ) {
-		return true;
-	}
-
-	name  = jQuery( 'input[name=patchchat-name]' ).val();
-	email = jQuery( 'input[name=patchchat-email]' ).val();
-	text  = jQuery( 'textarea[name=patchchat-text]' ).val();
-
-	honey = jQuery( 'input[name=patchchat-honeypot]' ).val();
-
-	re    = /\S+@\S+/;
-	valid = false;
-	error = false;
-
-	if ( name == '' )
-		error = 'Name is blank';
-	else if ( email == '' )
-		error = 'Email is blank';
-	else if ( ! re.test( email ) )
-		error = 'Not a valid email';
-	else if ( text == '' )
-		error = 'Text is blank';
-
-	if ( honey != '' )
-		error = 'Caught the honeypot';
-
-
-	if ( error == false ) {
-		valid = true;
-
-		patchchat.name = name;
-		patchchat.email = email;
-		patchchat.text = text;
-	}
-
-	if ( PWDEBUG ) console.log( 'name: ' + name, 'email: ' + email, 'text: ' + text, 'error: ' + error );
-
-	return valid;
-}

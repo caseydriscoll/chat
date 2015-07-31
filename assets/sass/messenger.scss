@@ -7,97 +7,115 @@ $white:    #ffffff;
 
 $blue:     #55acee;
 
-#wpcontent {
-	padding-left: 0 !important;
+#wpwrap {
+	box-sizing: border-box;
 }
 
-.patchchat {
+#wpcontent {
+	display: block; position: relative; clear: both;
+	padding-left: 0 !important;
+	
+	#wpbody {
+		clear: both;
+	}
 
-	position: relative;
-	min-height: 100%; height: 100%;
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+#wpfooter {
+	display: none;
+}
+
+#patchchatmessenger {
+	display: block; position: relative;
 
 	header {
+		display: none;
 		padding: 5px 20px;
 		background: #cccccc;
 	}
 
-	section {
+	ul.patchchatlist {
+		display: inline-block;
+		float: left;
+		position: relative;
+		margin: 0;
 
-		ul.chats {
-			display: inline-block;
-			float: left;
-			position: relative;
-			min-height: 100%;
-			height: 100%;
+		li.chat {
+			display: block;
+			width: 300px;
 			margin: 0;
+			border-bottom: 1px solid #333333;
+			cursor: pointer;
 
-			li.chat {
-				display: block;
-				width: 300px;
-				height: auto;
-				margin: 0;
-				border-bottom: 1px solid #333333;
-				cursor: pointer;
+			&:hover {
+				background: #cccccc;
+			}
 
-				&:hover {
-					background: #cccccc;
-				}
-
-				&.active {
-
-					a {
-						background: $blue;
-						color: $white;
-					}
-				}
+			&.active {
 
 				a {
-					display: block; clear: both;
-					width: auto; height: auto;
-					padding: 10px;
-					text-decoration: none;
+					background: $blue;
+					color: $white;
+				}
+			}
 
-					&:after {
-						content: "";
-						display: table;
-						clear: both;
-					}
+			a {
+				display: block; clear: both;
+				width: auto; height: auto;
+				padding: 10px;
+				text-decoration: none;
 
-					img {
-						float: left;
-						margin: 0 10px 0 0;
-					}
-
-					h3 {
-						margin: 0;
-					}
+				&:after {
+					content: "";
+					display: table;
+					clear: both;
 				}
 
+				img {
+					float: left;
+					margin: 0 10px 0 0;
+				}
+
+				h3 {
+					margin: 0;
+				}
 			}
 
 		}
-		
-		.tab-content {
-			float: left;
 
-			.patchchat-body {
-				display: none !important;
+	}
 
-				width: 400px;
-				height: 800px;
-				border-right: 1px solid $black;
-				border-bottom: 1px solid $black;
-				border-left: 1px solid $black;
-				background: $offwhite;
+	.tab-content {
+		display: block; position: relative; float: left;
 
-				&.active { display: block !important; }
+		.tabpanel {
+			display: none !important;
 
-				.patchcomments {
-					display: block !important;
-					margin: 0;
-				}
+			width: 400px;
+			border-right: 1px solid $black;
+			border-bottom: 1px solid $black;
+			border-left: 1px solid $black;
+			background: $offwhite;
 
+			&.active {
+				display: block !important;
 			}
+
+			.patchchatbody {
+				margin: 0;
+
+				.patchchatcomments {
+					display: block;
+					height: 90vh;
+					padding: 10px 0; margin: 0 !important;
+				}
+			}
+
 		}
 	}
 }

@@ -172,7 +172,7 @@ class PatchChat {
 	static function load_assets() {
 
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/front.css', __FILE__ ) );
-		wp_enqueue_style( 'patchchat-comments', plugins_url( '/assets/css/patchcomments.css', __FILE__ ) );
+		wp_enqueue_style( 'patchchat-body', plugins_url( '/assets/css/patchchatbody.css', __FILE__ ) );
 
 
 		wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
@@ -181,7 +181,7 @@ class PatchChat {
 			'jquery',
 			'react'
 		), '', true );
-		wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchcomments.js', __FILE__ ), '', true );
+		wp_enqueue_script( 'patchchat-body', plugins_url( '/assets/js/patchchatbody.js', __FILE__ ), '', true );
 
 	}
 
@@ -209,10 +209,10 @@ class PatchChat {
 			wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
 
 			wp_enqueue_style( 'patchchat-messenger', plugins_url( '/assets/css/messenger.css', __FILE__ ) );
-			wp_enqueue_style( 'patchchat-comments', plugins_url( '/assets/css/patchcomments.css', __FILE__ ) );
+			wp_enqueue_style( 'patchchat-comments', plugins_url( '/assets/css/patchchatbody.css', __FILE__ ) );
 
 			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
-			wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchcomments.js', __FILE__ ) );
+			wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchchatbody.js', __FILE__ ) );
 			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
 
 		}

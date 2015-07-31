@@ -1,5 +1,5 @@
 /* line 10, ../sass/front.scss */
-.patchchat {
+#patchchatbox {
   position: fixed;
   right: 100px;
   bottom: 0px;
@@ -10,19 +10,11 @@
   background: #ffffff;
 }
 /* line 19, ../sass/front.scss */
-.patchchat * {
+#patchchatbox * {
   font-family: sans-serif;
 }
-/* line 23, ../sass/front.scss */
-.patchchat.active fieldset {
-  display: none;
-}
 /* line 24, ../sass/front.scss */
-.patchchat.active ul.patchcomments {
-  display: block !important;
-}
-/* line 29, ../sass/front.scss */
-.patchchat section header {
+#patchchatbox header {
   display: block !important;
   height: 40px;
   padding: 5px 10px;
@@ -30,14 +22,14 @@
   border-bottom: 1px #777777 solid;
   background: #bbbbbb;
 }
-/* line 37, ../sass/front.scss */
-.patchchat section header .spinner {
+/* line 32, ../sass/front.scss */
+#patchchatbox header .spinner {
   display: none;
   float: right;
   margin: 6px;
 }
-/* line 43, ../sass/front.scss */
-.patchchat section .patchchat-body {
+/* line 38, ../sass/front.scss */
+#patchchatbox .patchchatbody {
   display: block;
   height: 300px;
 }

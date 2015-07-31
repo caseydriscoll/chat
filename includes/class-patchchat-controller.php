@@ -87,7 +87,7 @@ class PatchChat_Controller {
 	 */
 	public static function update( $patchchat ) {
 
-		$chat_id = $patchchat['id'];
+		$chat_id = $patchchat['chat_id'];
 		$email   = $patchchat['email'];
 		$text    = $patchchat['text'];
 
