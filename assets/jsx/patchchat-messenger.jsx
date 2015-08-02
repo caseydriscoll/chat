@@ -1,12 +1,13 @@
 /** Structure
  *
- * - PatchChatMessenger
- *   - PatchChatList
- *   - PatchChatBoxes
- *     - PatchChatBox
- *       - PatchChatHeader
- *       - PatchChatComments
- *       - PatchChatForm
+ * - #PatchChatMessenger
+ *   - #PatchChatList
+ *     - .PatchChatListItem
+ *   - #PatchChatBoxes
+ *     - .PatchChatBox
+ *       - .PatchChatHeader
+ *       - .PatchChatComments
+ *       - .PatchChatForm
  *
  */
 

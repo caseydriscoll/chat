@@ -3,30 +3,30 @@ var PatchChatList = React.createClass( {
 	render: function() {
 		var chats = this.props.data.chats.reverse().map( function( chat, i ) {
 			return (
-				<Chat data={chat} idx={i} key={chat.chat_id}  >
+				<PatchChatListItem data={chat} idx={i} key={chat.chat_id}  >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{chat.name}</h3>
 					{chat.title}
-				</Chat>
+				</PatchChatListItem>
 			);
 		} );
 
 		return (
-			<ul className="patchchatlist" role="tablist">
+			<ul id="patchchatlist" role="tablist">
 				{chats}
 			</ul>
 		);
 	}
 } );
 
-var Chat = React.createClass( {
+var PatchChatListItem = React.createClass( {
 	click: function (e) {
 		e.preventDefault();
 		jQuery( e.nativeEvent.target ).tab('show');
 	},
 	render: function() {
 		var chat_id = 'chat_' + this.props.data.chat_id;
-		var classes = 'chat';
+		var classes = 'patchchatlistitem';
 		if ( this.props.idx == 0 ) classes += ' active';
 		return (
 			<li className={classes} role="presentation">

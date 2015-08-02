@@ -1,22 +1,28 @@
 var PatchChatBoxes = React.createClass( {
 	render: function() {
 
-		var comments = this.props.data.chats.map( function( chat, i ) {
+		var patchchat_boxes = this.props.data.chats.map( function( chat, i ) {
 
 			var chat_id = 'chat_' + chat.chat_id;
-			var classes = 'tabpanel';
+			var classes = 'patchchatbox';
 			if ( i == 0 ) classes += ' active';
+
 			return (
-				<div className={classes} id={chat_id} role="tabpanel" key={chat_id} >
-					<PatchChatBox submit={this.props.submit} data={chat} />
-				</div>
+				<PatchChatBox
+					id={chat_id}
+					key={chat_id}
+					data={chat}
+					role="tabpanel"
+					submit={this.props.submit}
+					classes={classes}
+					/>
 			);
 		}, this );
 
 		return(
-			<div className="tab-content">
-				{comments}
-			</div>
+			<ul id="patchchatboxes">
+				{patchchat_boxes}
+			</ul>
 		)
 	}
 } );
@@ -27,10 +33,10 @@ var PatchChatBox = React.createClass( {
 	render: function() {
 		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : <PatchChatComments data={this.props.data} />;
 		return(
-			<div className="patchchatbox">
+			<li className={this.props.classes} id={this.props.id}>
 				{patchchat_comments}
 				<PatchChatForm submit={this.props.submit} chatid={this.props.data.chat_id} />
-			</div>
+			</li>
 		);
 	}
 } );

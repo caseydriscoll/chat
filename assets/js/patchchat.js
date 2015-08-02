@@ -1,12 +1,13 @@
 /** Structure
  *
- * - PatchChatMessenger
- *   - PatchChatList
- *   - PatchChatBoxes
- *     - PatchChatBox
- *       - PatchChatHeader
- *       - PatchChatComments
- *       - PatchChatForm
+ * - #PatchChatMessenger
+ *   - #PatchChatList
+ *     - .PatchChatListItem
+ *   - #PatchChatBoxes
+ *     - .PatchChatBox
+ *       - .PatchChatHeader
+ *       - .PatchChatComments
+ *       - .PatchChatForm
  *
  */
 
@@ -110,22 +111,26 @@ var PatchChatBoxes = React.createClass({
 
 	render: function render() {
 
-		var comments = this.props.data.chats.map(function (chat, i) {
+		var patchchat_boxes = this.props.data.chats.map(function (chat, i) {
 
 			var chat_id = 'chat_' + chat.chat_id;
-			var classes = 'tabpanel';
+			var classes = 'patchchatbox';
 			if (i == 0) classes += ' active';
-			return React.createElement(
-				'div',
-				{ className: classes, id: chat_id, role: 'tabpanel', key: chat_id },
-				React.createElement(PatchChatBox, { submit: this.props.submit, data: chat })
-			);
+
+			return React.createElement(PatchChatBox, {
+				id: chat_id,
+				key: chat_id,
+				data: chat,
+				role: 'tabpanel',
+				submit: this.props.submit,
+				classes: classes
+			});
 		}, this);
 
 		return React.createElement(
-			'div',
-			{ className: 'tab-content' },
-			comments
+			'ul',
+			{ id: 'patchchatboxes' },
+			patchchat_boxes
 		);
 	}
 });
@@ -136,8 +141,8 @@ var PatchChatBox = React.createClass({
 	render: function render() {
 		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { data: this.props.data });
 		return React.createElement(
-			'div',
-			{ className: 'patchchatbox' },
+			'li',
+			{ className: this.props.classes, id: this.props.id },
 			patchchat_comments,
 			React.createElement(PatchChatForm, { submit: this.props.submit, chatid: this.props.data.chat_id })
 		);
@@ -254,7 +259,7 @@ var PatchChatList = React.createClass({
 	render: function render() {
 		var chats = this.props.data.chats.reverse().map(function (chat, i) {
 			return React.createElement(
-				Chat,
+				PatchChatListItem,
 				{ data: chat, idx: i, key: chat.chat_id },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40' }),
 				React.createElement(
@@ -268,14 +273,14 @@ var PatchChatList = React.createClass({
 
 		return React.createElement(
 			'ul',
-			{ className: 'patchchatlist', role: 'tablist' },
+			{ id: 'patchchatlist', role: 'tablist' },
 			chats
 		);
 	}
 });
 
-var Chat = React.createClass({
-	displayName: 'Chat',
+var PatchChatListItem = React.createClass({
+	displayName: 'PatchChatListItem',
 
 	click: function click(e) {
 		e.preventDefault();
@@ -283,7 +288,7 @@ var Chat = React.createClass({
 	},
 	render: function render() {
 		var chat_id = 'chat_' + this.props.data.chat_id;
-		var classes = 'chat';
+		var classes = 'patchchatlistitem';
 		if (this.props.idx == 0) classes += ' active';
 		return React.createElement(
 			'li',

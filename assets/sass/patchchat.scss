@@ -17,13 +17,13 @@ $blue:     #55acee;
 		background: #cccccc;
 	}
 
-	ul.patchchatlist {
+	ul#patchchatlist {
 		display: inline-block;
 		float: left;
 		position: relative;
 		margin: 0;
 
-		li.chat {
+		li.patchchatlistitem {
 			display: block;
 			width: 300px;
 			margin: 0;
@@ -68,12 +68,15 @@ $blue:     #55acee;
 
 	}
 
-
-	
-	.tab-content {
+	#patchchatboxes {
 		display: block; position: relative; float: left;
+		margin: 0;
 
-		.tabpanel {
+		.patchchatbox {
+
+			position: relative;
+			margin: 0;
+
 			display: none !important;
 
 			width: 400px;
@@ -86,111 +89,100 @@ $blue:     #55acee;
 				display: block !important;
 			}
 
-			.patchchatbox {
-				margin: 0;
-
-				.patchchatcomments {
-					display: block;
-					height: 90vh;
-					padding: 10px 0; margin: 0 !important;
-				}
+			.patchchatcomments {
+				display: block;
+				height: 90vh;
+				padding: 10px 0; margin: 0 !important;
+				overflow-y: scroll;
 			}
 
-			.patchchatbox {
+			ul.patchchatcomments {
 
-				position: relative;
+				li {
 
-				ul.patchchatcomments {
+					display: block;
+					list-style: none;
+					clear: both;
 
-					padding-top: 10px;
-					overflow-y: scroll;
+					span {
+						display: inline-block;
+						max-width: 80%;
+						padding: 3px 5px;
+						margin: 3px 8px;
+						font-size: 14px;
+						line-height: 18px;
+						border: 1px solid $light;
+						border-radius: 5px;
+						background-color: $offwhite;
 
-					li {
-
-						display: block;
-						list-style: none;
-						clear: both;
-
-						span {
-							display: inline-block;
-							max-width: 80%;
-							padding: 3px 5px;
-							margin: 3px 8px;
-							font-size: 14px;
-							line-height: 18px;
-							border: 1px solid $light;
-							border-radius: 5px;
-							background-color: $offwhite;
-
-							&:after {
-								content: "";
-								display: table;
-								clear: both;
-							}
+						&:after {
+							content: "";
+							display: table;
+							clear: both;
 						}
+					}
 
-						&.user span {
-							float: left;
-						}
-						&.agent span {
-							float: right;
-							border-color: $dark;
-						}
+					&.user span {
+						float: left;
+					}
+					&.agent span {
+						float: right;
+						border-color: $dark;
+					}
 
-						&.subscriber span {
-							float: left;
-						}
-						&.administrator span {
-							float: right;
-							border-color: $dark;
-						}
+					&.subscriber span {
+						float: left;
+					}
+					&.administrator span {
+						float: right;
+						border-color: $dark;
+					}
 
-						img {
-							display: none;
-						}
-
+					img {
+						display: none;
 					}
 
 				}
 
-				form {
+			}
 
-					fieldset {
+			form {
 
-						width: auto;
-						padding-top: 10px;
+				fieldset {
 
-						label {
-							padding: 20px 10px 0 10px;
-						}
+					width: auto;
+					padding-top: 10px;
 
-						input {
-							display: block;
-							width: 230px;
-							padding: 5px;
-							margin: 0 10px 10px;
-						}
+					label {
+						padding: 20px 10px 0 10px;
 					}
 
-					textarea {
-						position: absolute;
-						bottom: 0;
-						width: 100%;
-						min-height: 30px;
-						padding: 5px 5px 0 5px;
-						border: 0px $grey solid;
-						border-top-width: 1px;
-						font-family: sans-serif;
-						resize: none;
-
-						font-size: 14px;
-						line-height: 18px;
-						overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+					input {
+						display: block;
+						width: 230px;
+						padding: 5px;
+						margin: 0 10px 10px;
 					}
+				}
 
-					#patchchat-honeypot {
-						display: none;
-					}
+				textarea {
+					position: absolute;
+					bottom: 0;
+					width: 100%;
+					min-height: 30px;
+					padding: 5px 5px 0 5px;
+					border: 0px $grey solid;
+					border-top-width: 1px;
+					font-family: sans-serif;
+					resize: none;
+
+					font-size: 14px;
+					line-height: 18px;
+					overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+				}
+
+				#patchchat-honeypot {
+					display: none;
 				}
 			}
 
