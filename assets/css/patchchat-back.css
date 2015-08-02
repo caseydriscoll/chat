@@ -1,0 +1,17 @@
+#wpwrap {
+  box-sizing: border-box; }
+
+#wpcontent {
+  display: block;
+  position: relative;
+  clear: both;
+  padding-left: 0 !important; }
+  #wpcontent #wpbody {
+    clear: both; }
+  #wpcontent:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+#wpfooter {
+  display: none; }

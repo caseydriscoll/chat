@@ -1,0 +1,199 @@
+$black:    #000000;
+$dark:     #333333;
+$grey:     #777777;
+$light:    #bbbbbb;
+$offwhite: #fafafa;
+$white:    #ffffff;
+
+$blue:     #55acee;
+
+
+#patchchatmessenger {
+	display: block; position: relative;
+
+	header {
+		display: none;
+		padding: 5px 20px;
+		background: #cccccc;
+	}
+
+	ul.patchchatlist {
+		display: inline-block;
+		float: left;
+		position: relative;
+		margin: 0;
+
+		li.chat {
+			display: block;
+			width: 300px;
+			margin: 0;
+			border-bottom: 1px solid #333333;
+			cursor: pointer;
+
+			&:hover {
+				background: #cccccc;
+			}
+
+			&.active {
+
+				a {
+					background: $blue;
+					color: $white;
+				}
+			}
+
+			a {
+				display: block; clear: both;
+				width: auto; height: auto;
+				padding: 10px;
+				text-decoration: none;
+
+				&:after {
+					content: "";
+					display: table;
+					clear: both;
+				}
+
+				img {
+					float: left;
+					margin: 0 10px 0 0;
+				}
+
+				h3 {
+					margin: 0;
+				}
+			}
+
+		}
+
+	}
+
+
+	
+	.tab-content {
+		display: block; position: relative; float: left;
+
+		.tabpanel {
+			display: none !important;
+
+			width: 400px;
+			border-right: 1px solid $black;
+			border-bottom: 1px solid $black;
+			border-left: 1px solid $black;
+			background: $offwhite;
+
+			&.active {
+				display: block !important;
+			}
+
+			.patchchatbox {
+				margin: 0;
+
+				.patchchatcomments {
+					display: block;
+					height: 90vh;
+					padding: 10px 0; margin: 0 !important;
+				}
+			}
+
+			.patchchatbox {
+
+				position: relative;
+
+				ul.patchchatcomments {
+
+					padding-top: 10px;
+					overflow-y: scroll;
+
+					li {
+
+						display: block;
+						list-style: none;
+						clear: both;
+
+						span {
+							display: inline-block;
+							max-width: 80%;
+							padding: 3px 5px;
+							margin: 3px 8px;
+							font-size: 14px;
+							line-height: 18px;
+							border: 1px solid $light;
+							border-radius: 5px;
+							background-color: $offwhite;
+
+							&:after {
+								content: "";
+								display: table;
+								clear: both;
+							}
+						}
+
+						&.user span {
+							float: left;
+						}
+						&.agent span {
+							float: right;
+							border-color: $dark;
+						}
+
+						&.subscriber span {
+							float: left;
+						}
+						&.administrator span {
+							float: right;
+							border-color: $dark;
+						}
+
+						img {
+							display: none;
+						}
+
+					}
+
+				}
+
+				form {
+
+					fieldset {
+
+						width: auto;
+						padding-top: 10px;
+
+						label {
+							padding: 20px 10px 0 10px;
+						}
+
+						input {
+							display: block;
+							width: 230px;
+							padding: 5px;
+							margin: 0 10px 10px;
+						}
+					}
+
+					textarea {
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						min-height: 30px;
+						padding: 5px 5px 0 5px;
+						border: 0px $grey solid;
+						border-top-width: 1px;
+						font-family: sans-serif;
+						resize: none;
+
+						font-size: 14px;
+						line-height: 18px;
+						overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+					}
+
+					#patchchat-honeypot {
+						display: none;
+					}
+				}
+			}
+
+		}
+	}
+}

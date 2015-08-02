@@ -1,0 +1,22 @@
+#wpwrap {
+	box-sizing: border-box;
+}
+
+#wpcontent {
+	display: block; position: relative; clear: both;
+	padding-left: 0 !important;
+
+	#wpbody {
+		clear: both;
+	}
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+#wpfooter {
+	display: none;
+}

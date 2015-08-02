@@ -39,10 +39,11 @@ module.exports = function( grunt ) {
 					sourcemap: 'none'
 				},
 				files: {
-					'assets/css/admintable.css'    : 'assets/sass/admintable.scss',
-					'assets/css/front.css'         : 'assets/sass/front.scss',
-					'assets/css/messenger.css'     : 'assets/sass/messenger.scss',
-					'assets/css/patchchatbody.css' : 'assets/sass/patchchatbody.scss'
+					'assets/css/patchchat.css'       : 'assets/sass/patchchat.scss',
+					'assets/css/patchchat-front.css' : 'assets/sass/patchchat-front.scss',
+					'assets/css/patchchat-back.css'  : 'assets/sass/patchchat-back.scss',
+
+					'assets/css/admintable.css'      : 'assets/sass/admintable.scss'
 				}
 			}
 		},

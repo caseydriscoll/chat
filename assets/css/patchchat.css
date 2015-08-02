@@ -1,0 +1,120 @@
+#patchchatmessenger {
+  display: block;
+  position: relative; }
+  #patchchatmessenger header {
+    display: none;
+    padding: 5px 20px;
+    background: #cccccc; }
+  #patchchatmessenger ul.patchchatlist {
+    display: inline-block;
+    float: left;
+    position: relative;
+    margin: 0; }
+    #patchchatmessenger ul.patchchatlist li.chat {
+      display: block;
+      width: 300px;
+      margin: 0;
+      border-bottom: 1px solid #333333;
+      cursor: pointer; }
+      #patchchatmessenger ul.patchchatlist li.chat:hover {
+        background: #cccccc; }
+      #patchchatmessenger ul.patchchatlist li.chat.active a {
+        background: #55acee;
+        color: #ffffff; }
+      #patchchatmessenger ul.patchchatlist li.chat a {
+        display: block;
+        clear: both;
+        width: auto;
+        height: auto;
+        padding: 10px;
+        text-decoration: none; }
+        #patchchatmessenger ul.patchchatlist li.chat a:after {
+          content: "";
+          display: table;
+          clear: both; }
+        #patchchatmessenger ul.patchchatlist li.chat a img {
+          float: left;
+          margin: 0 10px 0 0; }
+        #patchchatmessenger ul.patchchatlist li.chat a h3 {
+          margin: 0; }
+  #patchchatmessenger .tab-content {
+    display: block;
+    position: relative;
+    float: left; }
+    #patchchatmessenger .tab-content .tabpanel {
+      display: none !important;
+      width: 400px;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      border-left: 1px solid #000000;
+      background: #fafafa; }
+      #patchchatmessenger .tab-content .tabpanel.active {
+        display: block !important; }
+      #patchchatmessenger .tab-content .tabpanel .patchchatbox {
+        margin: 0; }
+        #patchchatmessenger .tab-content .tabpanel .patchchatbox .patchchatcomments {
+          display: block;
+          height: 90vh;
+          padding: 10px 0;
+          margin: 0 !important; }
+      #patchchatmessenger .tab-content .tabpanel .patchchatbox {
+        position: relative; }
+        #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments {
+          padding-top: 10px;
+          overflow-y: scroll; }
+          #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li {
+            display: block;
+            list-style: none;
+            clear: both; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li span {
+              display: inline-block;
+              max-width: 80%;
+              padding: 3px 5px;
+              margin: 3px 8px;
+              font-size: 14px;
+              line-height: 18px;
+              border: 1px solid #bbbbbb;
+              border-radius: 5px;
+              background-color: #fafafa; }
+              #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li span:after {
+                content: "";
+                display: table;
+                clear: both; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li.user span {
+              float: left; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li.agent span {
+              float: right;
+              border-color: #333333; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li.subscriber span {
+              float: left; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li.administrator span {
+              float: right;
+              border-color: #333333; }
+            #patchchatmessenger .tab-content .tabpanel .patchchatbox ul.patchchatcomments li img {
+              display: none; }
+        #patchchatmessenger .tab-content .tabpanel .patchchatbox form fieldset {
+          width: auto;
+          padding-top: 10px; }
+          #patchchatmessenger .tab-content .tabpanel .patchchatbox form fieldset label {
+            padding: 20px 10px 0 10px; }
+          #patchchatmessenger .tab-content .tabpanel .patchchatbox form fieldset input {
+            display: block;
+            width: 230px;
+            padding: 5px;
+            margin: 0 10px 10px; }
+        #patchchatmessenger .tab-content .tabpanel .patchchatbox form textarea {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          min-height: 30px;
+          padding: 5px 5px 0 5px;
+          border: 0px #777777 solid;
+          border-top-width: 1px;
+          font-family: sans-serif;
+          resize: none;
+          font-size: 14px;
+          line-height: 18px;
+          overflow-y: hidden;
+          /* fixes scrollbar flash - kudos to @brettjonesdev */ }
+        #patchchatmessenger .tab-content .tabpanel .patchchatbox form #patchchat-honeypot {
+          display: none; }
