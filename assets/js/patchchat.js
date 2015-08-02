@@ -12,6 +12,8 @@
 
 'use strict';
 
+alert('butt wut');
+
 var PatchChatMessenger = React.createClass({
 	displayName: 'PatchChatMessenger',
 
@@ -49,7 +51,9 @@ var PatchChatMessenger = React.createClass({
 		var ajaxdata = {
 			'action': 'patchchat_post',
 			'patchchat': {
-				'text': jQuery('textarea[name=patchchat-text]').val()
+				'text': jQuery('textarea[name=patchchat-text]').val(),
+				'name': jQuery('input[name=patchchat-name]').val(),
+				'email': jQuery('input[name=patchchat-email]').val()
 			}
 		};
 

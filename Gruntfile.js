@@ -56,14 +56,22 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		/* These are extra files that should be removed after concatenated into patchchat.js */
+		clean: [
+			'assets/js/patchchat-messenger.js',
+			'assets/js/patchchat-boxes.js',
+			'assets/js/patchchat-list.js'
+		],
+
 		watch: {
-			compile: {
-				files: ['assets/jsx/*.jsx'],
-				task:  'babel'
-			},
-			concat: {
-				files: ['assets/js/*.js'],
-				task:  'concat'
+			files: ['assets/jsx/*.jsx'],
+			tasks: ['babel', 'concat', 'clean']
+		},
+
+		configFiles: {
+			files: [ 'Gruntfile.js' ],
+			options: {
+				reload: true
 			}
 		},
 
@@ -94,6 +102,7 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
 	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );

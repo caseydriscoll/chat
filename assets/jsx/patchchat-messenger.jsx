@@ -10,6 +10,8 @@
  *
  */
 
+alert( 'butt wut' );
+
 var PatchChatMessenger = React.createClass( {
 	loadCommentsFromServer: function() {
 
