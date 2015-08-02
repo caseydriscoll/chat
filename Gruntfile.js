@@ -33,6 +33,20 @@ module.exports = function( grunt ) {
 			},
 		},
 
+		sass: {
+			dist: {
+				options: {
+					sourcemap: 'none'
+				},
+				files: {
+					'assets/css/admintable.css'    : 'assets/sass/admintable.scss',
+					'assets/css/front.css'         : 'assets/sass/front.scss',
+					'assets/css/messenger.css'     : 'assets/sass/messenger.scss',
+					'assets/css/patchchatbody.css' : 'assets/sass/patchchatbody.scss'
+				}
+			}
+		},
+
 		babel: {
 			dist: {
 				files: {
@@ -64,8 +78,14 @@ module.exports = function( grunt ) {
 		],
 
 		watch: {
-			files: ['assets/jsx/*.jsx'],
-			tasks: ['babel', 'concat', 'clean']
+			jsx : {
+				files : ['assets/jsx/*.jsx'],
+				tasks : ['babel', 'concat', 'clean']
+			},
+			sass: {
+				files : ['assets/sass/*.scss'],
+				tasks : ['sass']
+			}
 		},
 
 		configFiles: {
@@ -115,6 +135,7 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-notify' );
 
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
