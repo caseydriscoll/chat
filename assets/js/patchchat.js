@@ -12,8 +12,6 @@
 
 'use strict';
 
-alert('butt wut');
-
 var PatchChatMessenger = React.createClass({
 	displayName: 'PatchChatMessenger',
 
