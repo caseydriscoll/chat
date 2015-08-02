@@ -53,11 +53,11 @@ class PatchChat {
 			PatchChat_Settings::init();
 
 
-			add_action( 'admin_enqueue_scripts', 'PatchChat::load_admin_assets' );
+			add_action( 'admin_enqueue_scripts', 'PatchChat::load_back_assets' );
 
 		} else {
 
-			add_action( 'wp_enqueue_scripts', 'PatchChat::load_assets' );
+			add_action( 'wp_enqueue_scripts', 'PatchChat::load_front_assets' );
 
 		}
 	}
@@ -131,6 +131,15 @@ class PatchChat {
 
 
 	/**
+	 *
+	 */
+	public static function register_assets() {
+		wp_register_script( 'react-with-addons', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
+		wp_register_script( 'patchchat', plugins_url( '/assets/js/patchchat.js', __FILE__ ) );
+	}
+
+
+	/**
 	 * Adds the 'PatchChat' link to the admin tool bar
 	 *
 	 * @author caseypatrickdriscoll
@@ -164,24 +173,23 @@ class PatchChat {
 	public static function render() {}
 
 
+
+
 	/**
 	 * Loads the scripts and styles for the user facing chatbox
 	 *
 	 * @author caseypatrickdriscoll
 	 */
-	static function load_assets() {
+	static function load_front_assets() {
+
+		PatchChat::register_assets();
 
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/front.css', __FILE__ ) );
 		wp_enqueue_style( 'patchchat-body', plugins_url( '/assets/css/patchchatbody.css', __FILE__ ) );
 
 
-		wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
-
-		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/front.js', __FILE__ ), array(
-			'jquery',
-			'react'
-		), '', true );
-		wp_enqueue_script( 'patchchat-body', plugins_url( '/assets/js/patchchatbody.js', __FILE__ ), '', true );
+		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/patchchat-front.js', __FILE__ ),
+			array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );
 
 	}
 
@@ -193,7 +201,7 @@ class PatchChat {
 	 *
 	 * @created 2015-07-18 17:51:00
 	 */
-	static function load_admin_assets() {
+	static function load_back_assets() {
 
 		// TODO: Not sure I like 'patchchat_messenger' but the patchchat cpt took over the menu.
 		//       The original 'patchchat' admin menu is not linked
@@ -206,13 +214,16 @@ class PatchChat {
 
 		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat' ) {
 
-			wp_register_script( 'react', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
+			PatchChat::register_assets();
+
+			wp_register_script( 'react-with-addons', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
 
 			wp_enqueue_style( 'patchchat-messenger', plugins_url( '/assets/css/messenger.css', __FILE__ ) );
 			wp_enqueue_style( 'patchchat-comments', plugins_url( '/assets/css/patchchatbody.css', __FILE__ ) );
 
-			wp_enqueue_script( 'patchchat-messenger', plugins_url( '/assets/js/messenger.js', __FILE__ ), array( 'jquery', 'react' ), '', true );
-			wp_enqueue_script( 'patchchat-comments', plugins_url( '/assets/js/patchchatbody.js', __FILE__ ) );
+			wp_enqueue_script( 'patchchat-back', plugins_url( '/assets/js/patchchat-back.js', __FILE__ ),
+				array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );
+
 			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
 
 		}

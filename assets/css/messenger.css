@@ -105,11 +105,11 @@
   display: block !important;
 }
 /* line 109, ../sass/messenger.scss */
-#patchchatmessenger .tab-content .tabpanel .patchchatbody {
+#patchchatmessenger .tab-content .tabpanel .patchchatbox {
   margin: 0;
 }
 /* line 112, ../sass/messenger.scss */
-#patchchatmessenger .tab-content .tabpanel .patchchatbody .patchchatcomments {
+#patchchatmessenger .tab-content .tabpanel .patchchatbox .patchchatcomments {
   display: block;
   height: 90vh;
   padding: 10px 0;

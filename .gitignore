@@ -1,3 +1,4 @@
 *.module-cache
+node_modules/
 assets/.sass-cache
 .idea
