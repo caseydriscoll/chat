@@ -10,7 +10,6 @@
  *
  */
 
-
 var PatchChatMessenger = React.createClass( {
 	loadCommentsFromServer: function() {
 

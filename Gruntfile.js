@@ -91,11 +91,23 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
+
+		notify_hooks: {
+			options: {
+				enabled: true,
+				max_jshint_notifications: 5,
+				success: true,
+				duration: 5
+			},
+			watch: {
+				options: {
+					// TODO: Make this cute message appear
+					// TODO: Make a sound appear too
+					message: "And now his watch is ended."
+				}
+			}
+		}
 	} );
-
-
-
-
 
 
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
@@ -103,11 +115,14 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-notify' );
 
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
 	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
 
 	grunt.registerTask( 'default', ['babel', 'concat'] );
+
+	grunt.task.run( 'notify_hooks' );
 
 	grunt.util.linefeed = '\n';
 
