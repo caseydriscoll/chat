@@ -53,8 +53,17 @@ class PatchChat_AJAX {
 	 *
 	 * 'get_single' => User requests single chat identified by patchchat->ID
 	 * 'get_all'    => Agent requests all new chats and their involved chats
+	 *
+	 * @author caseypatrickdriscoll
+	 * @edited 2015-08-03 14:47:59 - Adds logged in validation
+	 * 
 	 */
 	public static function get() {
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'not logged in' );
+		}
+
 
 		$data = '';
 
