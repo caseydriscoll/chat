@@ -21,6 +21,7 @@ var PatchChatBoxes = React.createClass( {
 
 		return(
 			<ul id="patchchatboxes">
+				<PatchChatInitBox />
 				{patchchat_boxes}
 			</ul>
 		)
@@ -28,41 +29,7 @@ var PatchChatBoxes = React.createClass( {
 } );
 
 
-var PatchChatBox = React.createClass( {
-
-	render: function() {
-		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : <PatchChatComments data={this.props.data} />;
-		return(
-			<li className={this.props.classes} id={this.props.id}>
-				{patchchat_comments}
-				<PatchChatForm submit={this.props.submit} chatid={this.props.data.chat_id} />
-			</li>
-		);
-	}
-} );
-
-var PatchChatComments = React.createClass( {
-	render: function() {
-		var comments = this.props.data.comments.map( function( comment ) {
-			var classes = 'comment ' ;//+ patchchat.users[comment.user].role;
-			return (
-				<li className={classes} key={'comment' + comment.id}>
-					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
-					{comment.text}
-				</li>
-			);
-		} );
-		return (
-			<ul className="patchchatcomments">
-				{comments}
-			</ul>
-		);
-	}
-} );
-
-
-var PatchChatForm = React.createClass( {
-
+var PatchChatInitBox = React.createClass( {
 	validate: function(e) {
 
 		if ( e.which == 13 || e.keyCode == 13 ) {
@@ -111,30 +78,118 @@ var PatchChatForm = React.createClass( {
 		}
 
 	},
+	render: function() {
+		return(
+			<li id="patchchatinitbox" className="patchchatbox open">
+				<PatchChatBoxHeader />
+				<PatchChatForm>
+					<fieldset>
+						<label>Name</label><input name="patchchat-name" type="name" required />
+						<label>Email</label><input name="patchchat-email" type="email" required />
+						<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
+					</fieldset>
+				</PatchChatForm>
+			</li>
+		);
+	}
+} );
+
+
+var PatchChatBox = React.createClass( {
+
+	render: function() {
+		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : <PatchChatComments data={this.props.data} />;
+		return(
+			<li className={this.props.classes} id={this.props.id}>
+				<PatchChatBoxHeader />
+				{patchchat_comments}
+				<PatchChatForm submit={this.props.submit} chatid={this.props.data.chat_id} />
+			</li>
+		);
+	}
+} );
+
+
+var PatchChatBoxHeader = React.createClass( {
+	handleClick : function(e) {
+		jQuery( e.nativeEvent.target ).closest( '.patchchatbox' ).toggleClass( 'open' );
+	},
+	render : function () {
+		return (
+			<header onClick={this.handleClick}>
+				PatchChat
+				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
+			</header>
+		);
+	}
+} );
+
+
+var PatchChatComments = React.createClass( {
+	render: function() {
+		var comments = this.props.data.comments.map( function( comment ) {
+			var classes = 'comment ' ;//+ patchchat.users[comment.user].role;
+			return (
+				<li className={classes} key={'comment' + comment.id}>
+					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
+					{comment.text}
+				</li>
+			);
+		} );
+		return (
+			<ul className="patchchatcomments">
+				{comments}
+			</ul>
+		);
+	}
+} );
+
+
+/**
+ * This is a normal form, with just the text box for creating commments.
+ *
+ * Previously, it also had the name and email fields.
+ *
+ * Name and email are moved to PatchChatInitBox - caseypatrickdriscoll 2015-08-02 18:53:59
+ */
+var PatchChatForm = React.createClass( {
+
+	validate: function(e) {
+
+		if ( e.which == 13 || e.keyCode == 13 ) {
+			e.preventDefault();
+
+			var text  = jQuery( 'textarea[name=patchchat-text]' ).val();
+
+			var valid = false;
+			var error = false;
+
+			if ( text == '' )
+				error = 'Text is blank';
+
+			if ( error == false ) {
+				valid = true;
+
+				patchchat.text = text;
+			}
+
+			if ( PWDEBUG ) console.log( 'PatchChatForm', 'text: ' + text, 'error: ' + error );
+
+			if ( valid ) this.props.submit();
+
+		}
+
+	},
 	adjust: function(e) {
 		jQuery( e.target ).height( 0 );
 		jQuery( e.target ).height( e.target.scrollHeight );
 	},
 	render: function() {
-		var fieldset = typeof this.props.chatid === 'undefined' ? <PatchChatFieldset /> : null;
 		return(
 			<form>
-				{fieldset}
+				{this.props.children}
 				<textarea name="patchchat-text" onKeyUp={this.adjust} onKeyDown={this.validate} required></textarea>
 			</form>
 		);
 	}
 });
-
-var PatchChatFieldset = React.createClass( {
-	render: function() {
-		return(
-			<fieldset>
-				<label>Name</label><input name="patchchat-name" type="name" required />
-				<label>Email</label><input name="patchchat-email" type="email" required />
-				<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
-			</fieldset>
-		);
-	}
-
-} );

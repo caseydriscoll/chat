@@ -11,17 +11,11 @@ $blue:     #55acee;
 #patchchatmessenger {
 	display: block; position: relative;
 
-	header {
-		display: none;
-		padding: 5px 20px;
-		background: #cccccc;
-	}
-
 	ul#patchchatlist {
 		display: inline-block;
-		float: left;
 		position: relative;
 		margin: 0;
+		list-style: none;
 
 		li.patchchatlistitem {
 			display: block;
@@ -71,15 +65,35 @@ $blue:     #55acee;
 	#patchchatboxes {
 		display: block; position: relative; float: left;
 		margin: 0;
+		list-style: none;
+
+		#patchchatinitbox {
+
+			fieldset {
+
+				width: auto;
+				padding: 10px;
+
+				label {
+					padding: 20px 10px 0 0;
+				}
+
+				input {
+					display: block;
+					width: 100%;
+					padding: 5px; margin-bottom: 10px;
+				}
+
+				#patchchat-honeypot { display: none; }
+			}
+
+		}
 
 		.patchchatbox {
 
 			position: relative;
 			margin: 0;
 
-			display: none !important;
-
-			width: 400px;
 			border-right: 1px solid $black;
 			border-bottom: 1px solid $black;
 			border-left: 1px solid $black;
@@ -89,14 +103,16 @@ $blue:     #55acee;
 				display: block !important;
 			}
 
-			.patchchatcomments {
-				display: block;
-				height: 90vh;
-				padding: 10px 0; margin: 0 !important;
-				overflow-y: scroll;
+			&.open {
+				ul.patchchatcomments, form { display: block !important; }
 			}
 
 			ul.patchchatcomments {
+
+				display: none;
+				height: 90vh;
+				padding: 10px 0; margin: 0 !important;
+				overflow-y: scroll;
 
 				li {
 
@@ -148,23 +164,6 @@ $blue:     #55acee;
 
 			form {
 
-				fieldset {
-
-					width: auto;
-					padding-top: 10px;
-
-					label {
-						padding: 20px 10px 0 10px;
-					}
-
-					input {
-						display: block;
-						width: 230px;
-						padding: 5px;
-						margin: 0 10px 10px;
-					}
-				}
-
 				textarea {
 					position: absolute;
 					bottom: 0;
@@ -181,9 +180,6 @@ $blue:     #55acee;
 					overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
 				}
 
-				#patchchat-honeypot {
-					display: none;
-				}
 			}
 
 		}

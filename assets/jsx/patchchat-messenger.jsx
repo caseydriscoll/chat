@@ -2,8 +2,10 @@
  *
  * - #PatchChatMessenger
  *   - #PatchChatList
+ *     - #PatchChatInit
  *     - .PatchChatListItem
  *   - #PatchChatBoxes
+ *     - #PatchChatInitBox
  *     - .PatchChatBox
  *       - .PatchChatHeader
  *       - .PatchChatComments
@@ -27,7 +29,6 @@ var PatchChatMessenger = React.createClass( {
 			url     : ajaxURL,
 			data    : ajaxdata,
 			success : function ( response ) {
-
 
 				this.setState({ data : { chats: response.data } });
 
@@ -91,7 +92,7 @@ var PatchChatMessenger = React.createClass( {
 		return { data: { chats: [] }  }
 	},
 	componentDidMount: function() {
-		this.loadCommentsFromServer();
+//		this.loadCommentsFromServer();
 	},
 	render: function() {
 		return (

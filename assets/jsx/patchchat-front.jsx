@@ -2,7 +2,6 @@
 // TODO: Document all the things
 // TODO: Localize script
 // TODO: Move validation to React
-// TODO: Drop jquery, completely if possible (except ajax)
 // TODO: Generally clean up
 
 var PWDEBUG = 1;
@@ -11,13 +10,8 @@ var patchchat = {};
 var ajaxURL = '/wp-admin/admin-ajax.php';
 
 
-jQuery( document ).ready( function() {
+renderPatchChat();
 
-	renderPatchChat();
-
-	patchchat.spinner = jQuery( '.patchchat .spinner' );
-
-} );
 
 function renderPatchChat() {
 

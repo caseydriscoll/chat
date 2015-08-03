@@ -2,8 +2,10 @@
  *
  * - #PatchChatMessenger
  *   - #PatchChatList
+ *     - #PatchChatInit
  *     - .PatchChatListItem
  *   - #PatchChatBoxes
+ *     - #PatchChatInitBox
  *     - .PatchChatBox
  *       - .PatchChatHeader
  *       - .PatchChatComments
@@ -92,7 +94,7 @@ var PatchChatMessenger = React.createClass({
 		return { data: { chats: [] } };
 	},
 	componentDidMount: function componentDidMount() {
-		this.loadCommentsFromServer();
+		//		this.loadCommentsFromServer();
 	},
 	render: function render() {
 		return React.createElement(
@@ -130,48 +132,14 @@ var PatchChatBoxes = React.createClass({
 		return React.createElement(
 			'ul',
 			{ id: 'patchchatboxes' },
+			React.createElement(PatchChatInitBox, null),
 			patchchat_boxes
 		);
 	}
 });
 
-var PatchChatBox = React.createClass({
-	displayName: 'PatchChatBox',
-
-	render: function render() {
-		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { data: this.props.data });
-		return React.createElement(
-			'li',
-			{ className: this.props.classes, id: this.props.id },
-			patchchat_comments,
-			React.createElement(PatchChatForm, { submit: this.props.submit, chatid: this.props.data.chat_id })
-		);
-	}
-});
-
-var PatchChatComments = React.createClass({
-	displayName: 'PatchChatComments',
-
-	render: function render() {
-		var comments = this.props.data.comments.map(function (comment) {
-			var classes = 'comment '; //+ patchchat.users[comment.user].role;
-			return React.createElement(
-				'li',
-				{ className: classes, key: 'comment' + comment.id },
-				React.createElement('img', { src: 'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30' }),
-				comment.text
-			);
-		});
-		return React.createElement(
-			'ul',
-			{ className: 'patchchatcomments' },
-			comments
-		);
-	}
-});
-
-var PatchChatForm = React.createClass({
-	displayName: 'PatchChatForm',
+var PatchChatInitBox = React.createClass({
+	displayName: 'PatchChatInitBox',
 
 	validate: function validate(e) {
 
@@ -210,44 +178,133 @@ var PatchChatForm = React.createClass({
 			if (valid) this.props.submit();
 		}
 	},
+	render: function render() {
+		return React.createElement(
+			'li',
+			{ id: 'patchchatinitbox', className: 'patchchatbox open' },
+			React.createElement(PatchChatBoxHeader, null),
+			React.createElement(
+				PatchChatForm,
+				null,
+				React.createElement(
+					'fieldset',
+					null,
+					React.createElement(
+						'label',
+						null,
+						'Name'
+					),
+					React.createElement('input', { name: 'patchchat-name', type: 'name', required: true }),
+					React.createElement(
+						'label',
+						null,
+						'Email'
+					),
+					React.createElement('input', { name: 'patchchat-email', type: 'email', required: true }),
+					React.createElement('input', { id: 'patchchat-honeypot', name: 'patchchat-honeypot', type: 'text' })
+				)
+			)
+		);
+	}
+});
+
+var PatchChatBox = React.createClass({
+	displayName: 'PatchChatBox',
+
+	render: function render() {
+		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { data: this.props.data });
+		return React.createElement(
+			'li',
+			{ className: this.props.classes, id: this.props.id },
+			React.createElement(PatchChatBoxHeader, null),
+			patchchat_comments,
+			React.createElement(PatchChatForm, { submit: this.props.submit, chatid: this.props.data.chat_id })
+		);
+	}
+});
+
+var PatchChatBoxHeader = React.createClass({
+	displayName: 'PatchChatBoxHeader',
+
+	handleClick: function handleClick(e) {
+		jQuery(e.nativeEvent.target).closest('.patchchatbox').toggleClass('open');
+	},
+	render: function render() {
+		return React.createElement(
+			'header',
+			{ onClick: this.handleClick },
+			'PatchChat',
+			React.createElement('img', { className: 'spinner', src: '/wp-admin/images/wpspin_light.gif' })
+		);
+	}
+});
+
+var PatchChatComments = React.createClass({
+	displayName: 'PatchChatComments',
+
+	render: function render() {
+		var comments = this.props.data.comments.map(function (comment) {
+			var classes = 'comment '; //+ patchchat.users[comment.user].role;
+			return React.createElement(
+				'li',
+				{ className: classes, key: 'comment' + comment.id },
+				React.createElement('img', { src: 'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30' }),
+				comment.text
+			);
+		});
+		return React.createElement(
+			'ul',
+			{ className: 'patchchatcomments' },
+			comments
+		);
+	}
+});
+
+/**
+ * This is a normal form, with just the text box for creating commments.
+ *
+ * Previously, it also had the name and email fields.
+ *
+ * Name and email are moved to PatchChatInitBox - caseypatrickdriscoll 2015-08-02 18:53:59
+ */
+var PatchChatForm = React.createClass({
+	displayName: 'PatchChatForm',
+
+	validate: function validate(e) {
+
+		if (e.which == 13 || e.keyCode == 13) {
+			e.preventDefault();
+
+			var text = jQuery('textarea[name=patchchat-text]').val();
+
+			var valid = false;
+			var error = false;
+
+			if (text == '') error = 'Text is blank';
+
+			if (error == false) {
+				valid = true;
+
+				patchchat.text = text;
+			}
+
+			if (PWDEBUG) console.log('PatchChatForm', 'text: ' + text, 'error: ' + error);
+
+			if (valid) this.props.submit();
+		}
+	},
 	adjust: function adjust(e) {
 		jQuery(e.target).height(0);
 		jQuery(e.target).height(e.target.scrollHeight);
 	},
 	render: function render() {
-		var fieldset = typeof this.props.chatid === 'undefined' ? React.createElement(PatchChatFieldset, null) : null;
 		return React.createElement(
 			'form',
 			null,
-			fieldset,
+			this.props.children,
 			React.createElement('textarea', { name: 'patchchat-text', onKeyUp: this.adjust, onKeyDown: this.validate, required: true })
 		);
 	}
-});
-
-var PatchChatFieldset = React.createClass({
-	displayName: 'PatchChatFieldset',
-
-	render: function render() {
-		return React.createElement(
-			'fieldset',
-			null,
-			React.createElement(
-				'label',
-				null,
-				'Name'
-			),
-			React.createElement('input', { name: 'patchchat-name', type: 'name', required: true }),
-			React.createElement(
-				'label',
-				null,
-				'Email'
-			),
-			React.createElement('input', { name: 'patchchat-email', type: 'email', required: true }),
-			React.createElement('input', { id: 'patchchat-honeypot', name: 'patchchat-honeypot', type: 'text' })
-		);
-	}
-
 });
 
 // TODO: Make gravatar img size variable
@@ -260,7 +317,7 @@ var PatchChatList = React.createClass({
 		var chats = this.props.data.chats.reverse().map(function (chat, i) {
 			return React.createElement(
 				PatchChatListItem,
-				{ data: chat, idx: i, key: chat.chat_id },
+				{ data: chat, idx: i + 1, key: chat.chat_id },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40' }),
 				React.createElement(
 					'h3',
@@ -274,8 +331,25 @@ var PatchChatList = React.createClass({
 		return React.createElement(
 			'ul',
 			{ id: 'patchchatlist', role: 'tablist' },
+			React.createElement(PatchChatInit, null),
 			chats
 		);
+	}
+});
+
+/**
+ * There is one PatchChatInit, coupled to a PatchChatInitBox in the PatchChatBoxes group
+ *
+ * PatchChatInit is used to initialize a chat from front to back or from back to front.
+ *
+ * PatchChatInit is not represented in the state.
+ *   It only initializes a new chat, which is then represented in the normal state components.
+ */
+var PatchChatInit = React.createClass({
+	displayName: 'PatchChatInit',
+
+	render: function render() {
+		return React.createElement('li', { id: 'patchchatinit' });
 	}
 });
 

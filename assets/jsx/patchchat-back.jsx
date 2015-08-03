@@ -14,6 +14,4 @@ jQuery( document ).ready( function() {
 		document.getElementById( 'wpbody' )
 	);
 
-	patchchat.spinner = jQuery( '.patchchatmessenger .spinner' );
-
 } );

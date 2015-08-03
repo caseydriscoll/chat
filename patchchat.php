@@ -186,7 +186,8 @@ class PatchChat {
 
 		PatchChat::register_assets();
 
-		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/patchchat-front.css', __FILE__ ) );
+		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/patchchat-front.css', __FILE__ ),
+			array( 'patchchat' ) );
 
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/patchchat-front.js', __FILE__ ),
 			array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );

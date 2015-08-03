@@ -1,25 +1,52 @@
-#patchchatbox {
+#patchchatcontainer {
+  display: block;
   position: fixed;
-  right: 100px;
-  bottom: 0px;
-  width: 250px;
-  height: auto;
-  border: 1px #777777 solid;
-  border-width: 1px 1px 0 1px;
-  background: #ffffff; }
-  #patchchatbox * {
-    font-family: sans-serif; }
-  #patchchatbox header {
-    display: block !important;
-    height: 40px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-bottom: 1px #777777 solid;
-    background: #bbbbbb; }
-    #patchchatbox header .spinner {
-      display: none;
-      float: right;
-      margin: 6px; }
-  #patchchatbox .patchchatbody {
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0; }
+  #patchchatcontainer #patchchatmessenger {
     display: block;
-    height: 300px; }
+    position: fixed; }
+    #patchchatcontainer #patchchatmessenger ul#patchchatlist {
+      display: inline-block;
+      position: relative;
+      margin: 0; }
+    #patchchatcontainer #patchchatmessenger ul#patchchatboxes {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 0;
+      overflow: visible; }
+      #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox {
+        display: block;
+        position: absolute;
+        right: 100px;
+        bottom: 0;
+        width: 200px;
+        height: auto;
+        background: #ffffff;
+        border: 1px #777777 solid;
+        border-width: 1px 1px 0 1px; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox * {
+          font-family: sans-serif; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox.open {
+          width: 300px; }
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox.open header {
+            padding: 5px 10px;
+            background: #333333;
+            color: #ffffff;
+            border-bottom: 1px solid #777777; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox header {
+          padding: 3px 6px;
+          cursor: pointer;
+          background: #bbbbbb;
+          font-size: 16px; }
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox header .spinner {
+            display: none;
+            float: right;
+            margin: 6px; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form {
+          display: none;
+          padding-bottom: 100px; }

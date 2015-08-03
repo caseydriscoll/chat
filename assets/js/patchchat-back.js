@@ -11,6 +11,4 @@ var patchchat = { users: [] };
 jQuery(document).ready(function () {
 
 	React.render(React.createElement(PatchChatMessenger, null), document.getElementById('wpbody'));
-
-	patchchat.spinner = jQuery('.patchchatmessenger .spinner');
 });
