@@ -12,6 +12,8 @@ class PatchChat_Controller {
 	 *   adding an 'instant reply' comment from admin,
 	 *   building a new transient,
 	 *   return new transient to new user
+	 *
+	 * @edited 2015-08-03 16:32:16 - Adds user signon after creation
 	 */
 	public static function create( $patchchat ) {
 
@@ -31,6 +33,16 @@ class PatchChat_Controller {
 		// TODO: Check to see if user logged in, no need to create again
 
 		wp_new_user_notification( $user_id, $password );
+
+		$user = get_user_by( 'id', $user_id );
+
+		$creds = array(
+			'user_login'    => $user->user_login,
+			'user_password' => $password,
+			'remember'      => true,
+		);
+
+		$user_signon = wp_signon( $creds, false );
 
 
 		/* Create PatchChat Post */
