@@ -48,35 +48,18 @@ var PatchChatMessenger = React.createClass({
 			}).bind(this)
 		});
 	},
-	submit: function submit() {
+	submit: function submit(chat) {
 
 		patchchat.spinner.show();
 
-		var ajaxdata = {
-			'action': 'patchchat_post',
-			'patchchat': {
-				'text': jQuery('textarea[name=patchchat-text]').val(),
-				'name': jQuery('input[name=patchchat-name]').val(),
-				'email': jQuery('input[name=patchchat-email]').val()
-			}
-		};
+		chat.action = 'patchchat_post';
 
-		if (this.state.data.chat_id === undefined) {
-			ajaxdata.method = 'create';
-		} else {
-			ajaxdata.method = 'update';
-			ajaxdata.patchchat.chat_id = this.state.data.chat_id;
-			ajaxdata.patchchat.email = patchchat.email;
-		}
-
-		jQuery('.patchchatbody textarea').val('').focus();
-
-		if (PWDEBUG) console.log('Pre-' + ajaxdata.method, ajaxdata);
+		if (PWDEBUG) console.log('Pre-' + chat.method, chat);
 
 		jQuery.ajax({
 			method: 'POST',
 			url: ajaxURL,
-			data: ajaxdata,
+			data: chat,
 			success: (function (response) {
 
 				if (PWDEBUG) console.log('response create/update: ', response);
@@ -97,6 +80,7 @@ var PatchChatMessenger = React.createClass({
 		return { data: { chats: [] } };
 	},
 	componentDidMount: function componentDidMount() {
+		patchchat.spinner = jQuery('.spinner');
 		this.loadCommentsFromServer();
 	},
 	render: function render() {
@@ -135,7 +119,7 @@ var PatchChatBoxes = React.createClass({
 		return React.createElement(
 			'ul',
 			{ id: 'patchchatboxes' },
-			React.createElement(PatchChatInitBox, null),
+			React.createElement(PatchChatInitBox, { submit: this.props.submit }),
 			patchchat_boxes
 		);
 	}
@@ -144,42 +128,30 @@ var PatchChatBoxes = React.createClass({
 var PatchChatInitBox = React.createClass({
 	displayName: 'PatchChatInitBox',
 
-	validate: function validate(e) {
+	validate: function validate(chat) {
 
-		if (e.which == 13 || e.keyCode == 13) {
-			e.preventDefault();
+		chat.method = 'create';
 
-			if (typeof this.props.chatid !== 'undefined') {
-				this.props.submit();
-				return;
-			}
+		chat.name = jQuery('input[name=patchchat-name]').val();
+		chat.email = jQuery('input[name=patchchat-email]').val();
 
-			var name = jQuery('input[name=patchchat-name]').val();
-			var email = jQuery('input[name=patchchat-email]').val();
-			var text = jQuery('textarea[name=patchchat-text]').val();
+		chat.honey = jQuery('input[name=patchchat-honeypot]').val();
 
-			var honey = jQuery('input[name=patchchat-honeypot]').val();
+		var re = /\S+@\S+/;
+		var valid = false;
+		var error = false;
 
-			var re = /\S+@\S+/;
-			var valid = false;
-			var error = false;
+		if (chat.name == '') error = 'Name is blank';else if (chat.email == '') error = 'Email is blank';else if (!re.test(chat.email)) error = 'Not a valid email';
 
-			if (name == '') error = 'Name is blank';else if (email == '') error = 'Email is blank';else if (!re.test(email)) error = 'Not a valid email';else if (text == '') error = 'Text is blank';
+		if (chat.honey != '') error = 'Caught the honeypot';
 
-			if (honey != '') error = 'Caught the honeypot';
-
-			if (error == false) {
-				valid = true;
-
-				patchchat.name = name;
-				patchchat.email = email;
-				patchchat.text = text;
-			}
-
-			if (PWDEBUG) console.log('name: ' + name, 'email: ' + email, 'text: ' + text, 'error: ' + error);
-
-			if (valid) this.props.submit();
+		if (error == false) {
+			valid = true;
 		}
+
+		if (PWDEBUG) console.log('PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error);
+
+		if (valid) this.props.submit(chat);
 	},
 	render: function render() {
 		return React.createElement(
@@ -188,7 +160,7 @@ var PatchChatInitBox = React.createClass({
 			React.createElement(PatchChatBoxHeader, null),
 			React.createElement(
 				PatchChatForm,
-				null,
+				{ submit: this.validate },
 				React.createElement(
 					'fieldset',
 					null,
@@ -278,22 +250,22 @@ var PatchChatForm = React.createClass({
 		if (e.which == 13 || e.keyCode == 13) {
 			e.preventDefault();
 
-			var text = jQuery('textarea[name=patchchat-text]').val();
+			var chat = {};
+
+			chat.text = e.target.value;
 
 			var valid = false;
 			var error = false;
 
-			if (text == '') error = 'Text is blank';
+			if (chat.text == '') error = 'Text is blank';
 
 			if (error == false) {
 				valid = true;
-
-				patchchat.text = text;
 			}
 
-			if (PWDEBUG) console.log('PatchChatForm', 'text: ' + text, 'error: ' + error);
+			if (PWDEBUG) console.log('PatchChatForm', 'text: ' + chat.text, 'error: ' + error);
 
-			if (valid) this.props.submit();
+			if (valid) this.props.submit(chat);
 		}
 	},
 	adjust: function adjust(e) {

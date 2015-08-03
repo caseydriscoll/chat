@@ -110,12 +110,12 @@ class PatchChat_AJAX {
 		// Sanitize request
 
 
-		$chat = $_POST['patchchat'];
+		$chat = $_POST;
 
 		// Switch based on request
-		switch ( $_POST['method'] ) {
+		switch ( $chat['method'] ) {
 			case 'create' : // Create a chat
-				$data = PatchChat_Controller::create( $chat );
+				$data = array( 'chats' => array( PatchChat_Controller::create( $chat ) ) );
 				break;
 
 			case 'update' : // Update a chat
@@ -123,7 +123,7 @@ class PatchChat_AJAX {
 				break;
 
 			default:
-				$data = array( 'error' => 'No method with name ' . $_POST['method'] );
+				$data = array( 'error' => 'No method with name ' . $chat['method'] );
 		}
 
 

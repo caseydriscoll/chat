@@ -21,7 +21,7 @@ var PatchChatBoxes = React.createClass( {
 
 		return(
 			<ul id="patchchatboxes">
-				<PatchChatInitBox />
+				<PatchChatInitBox submit={this.props.submit} />
 				{patchchat_boxes}
 			</ul>
 		)
@@ -30,59 +30,44 @@ var PatchChatBoxes = React.createClass( {
 
 
 var PatchChatInitBox = React.createClass( {
-	validate: function(e) {
+	validate: function(chat) {
 
-		if ( e.which == 13 || e.keyCode == 13 ) {
-			e.preventDefault();
+		chat.method = 'create';
 
-			if ( typeof this.props.chatid !== 'undefined' ) {
-				this.props.submit();
-				return;
-			}
+		chat.name   = jQuery( 'input[name=patchchat-name]' ).val();
+		chat.email  = jQuery( 'input[name=patchchat-email]' ).val();
 
-			var name  = jQuery( 'input[name=patchchat-name]' ).val();
-			var email = jQuery( 'input[name=patchchat-email]' ).val();
-			var text  = jQuery( 'textarea[name=patchchat-text]' ).val();
+		chat.honey  = jQuery( 'input[name=patchchat-honeypot]' ).val();
 
-			var honey = jQuery( 'input[name=patchchat-honeypot]' ).val();
+		var re    = /\S+@\S+/;
+		var valid = false;
+		var error = false;
 
-			var re    = /\S+@\S+/;
-			var valid = false;
-			var error = false;
+		if ( chat.name == '' )
+			error = 'Name is blank';
+		else if ( chat.email == '' )
+			error = 'Email is blank';
+		else if ( ! re.test( chat.email ) )
+			error = 'Not a valid email';
 
-			if ( name == '' )
-				error = 'Name is blank';
-			else if ( email == '' )
-				error = 'Email is blank';
-			else if ( ! re.test( email ) )
-				error = 'Not a valid email';
-			else if ( text == '' )
-				error = 'Text is blank';
-
-			if ( honey != '' )
-				error = 'Caught the honeypot';
+		if ( chat.honey != '' )
+			error = 'Caught the honeypot';
 
 
-			if ( error == false ) {
-				valid = true;
-
-				patchchat.name = name;
-				patchchat.email = email;
-				patchchat.text = text;
-			}
-
-			if ( PWDEBUG ) console.log( 'name: ' + name, 'email: ' + email, 'text: ' + text, 'error: ' + error );
-
-			if ( valid ) this.props.submit();
-
+		if ( error == false ) {
+			valid = true;
 		}
+
+		if ( PWDEBUG ) console.log( 'PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error );
+
+		if ( valid ) this.props.submit( chat );
 
 	},
 	render: function() {
 		return(
 			<li id="patchchatinitbox" className="patchchatbox open">
 				<PatchChatBoxHeader />
-				<PatchChatForm>
+				<PatchChatForm submit={this.validate}>
 					<fieldset>
 						<label>Name</label><input name="patchchat-name" type="name" required />
 						<label>Email</label><input name="patchchat-email" type="email" required />
@@ -159,23 +144,23 @@ var PatchChatForm = React.createClass( {
 		if ( e.which == 13 || e.keyCode == 13 ) {
 			e.preventDefault();
 
-			var text  = jQuery( 'textarea[name=patchchat-text]' ).val();
+			var chat = {};
+
+			chat.text  = e.target.value;
 
 			var valid = false;
 			var error = false;
 
-			if ( text == '' )
+			if ( chat.text == '' )
 				error = 'Text is blank';
 
 			if ( error == false ) {
 				valid = true;
-
-				patchchat.text = text;
 			}
 
-			if ( PWDEBUG ) console.log( 'PatchChatForm', 'text: ' + text, 'error: ' + error );
+			if ( PWDEBUG ) console.log( 'PatchChatForm', 'text: ' + chat.text, 'error: ' + error );
 
-			if ( valid ) this.props.submit();
+			if ( valid ) this.props.submit(chat);
 
 		}
 

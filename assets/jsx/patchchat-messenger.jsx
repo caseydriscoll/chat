@@ -45,35 +45,18 @@ var PatchChatMessenger = React.createClass( {
 			}.bind(this)
 		});
 	},
-	submit: function() {
+	submit: function(chat) {
 
 		patchchat.spinner.show();
 
-		var ajaxdata = {
-			'action'    : 'patchchat_post',
-			'patchchat' : {
-				'text'  : jQuery( 'textarea[name=patchchat-text]' ).val(),
-				'name'  : jQuery( 'input[name=patchchat-name]' ).val(),
-				'email' : jQuery( 'input[name=patchchat-email]' ).val()
-			}
-		};
+		chat.action = 'patchchat_post';
 
-		if ( this.state.data.chat_id === undefined ) {
-			ajaxdata.method  = 'create';
-		} else {
-			ajaxdata.method  = 'update';
-			ajaxdata.patchchat.chat_id = this.state.data.chat_id;
-			ajaxdata.patchchat.email = patchchat.email;
-		}
-
-		jQuery( '.patchchatbody textarea' ).val( '' ).focus();
-
-		if ( PWDEBUG ) console.log( 'Pre-' + ajaxdata.method, ajaxdata );
+		if ( PWDEBUG ) console.log( 'Pre-' + chat.method, chat );
 
 		jQuery.ajax({
 			method  : 'POST',
 			url     : ajaxURL,
-			data    : ajaxdata,
+			data    : chat,
 			success : function ( response ) {
 
 				if ( PWDEBUG ) console.log( 'response create/update: ', response );
@@ -95,6 +78,7 @@ var PatchChatMessenger = React.createClass( {
 		return { data: { chats: [] }  }
 	},
 	componentDidMount: function() {
+		patchchat.spinner = jQuery( '.spinner' );
 		this.loadCommentsFromServer();
 	},
 	render: function() {

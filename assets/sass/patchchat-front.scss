@@ -14,7 +14,7 @@ $blue:     #453AFF;
 	width: 100%; height: 0;
 
 	#patchchatmessenger {
-		display: block; position: fixed;
+		display: block;
 
 		ul#patchchatlist {
 			display: inline-block;
@@ -24,22 +24,25 @@ $blue:     #453AFF;
 
 		ul#patchchatboxes {
 			display: block; position: fixed;
-			bottom: 0;
-			width: 100%; height: 0;
+			bottom: 0; right: 0;
+			width: auto; height: auto;
+			padding-right: 100px;
 			overflow: visible;
+			pointer-events: none;
 
-			#patchchatinitbox {
-				display: block; position: absolute;
-				right: 100px; bottom: 0;
-				width: 200px; height: auto;
+			.patchchatbox {
+				display: inline-block; position: relative;
+
+				min-width: 200px;
+				margin-right: 20px;
+
+				vertical-align: bottom;
 
 				background: $white;
 				border: 1px $grey solid;
 				border-width: 1px 1px 0 1px;
 
-				* {
-					font-family: sans-serif;
-				}
+				pointer-events: auto;
 
 				&.open {
 					width: 300px;
@@ -50,6 +53,10 @@ $blue:     #453AFF;
 						color: $white;
 						border-bottom: 1px solid $grey;
 					}
+				}
+
+				* {
+					font-family: sans-serif;
 				}
 
 				header {
@@ -65,12 +72,22 @@ $blue:     #453AFF;
 
 				}
 
+				ul.patchchatcomments {
+					max-height: 300px;
+				}
 
+				form {
+					display: none;
+					padding-bottom: 20px;
+				}
+
+			}
+
+			#patchchatinitbox {
 				form {
 					display: none;
 					padding-bottom: 100px;
 				}
-
 			}
 
 		}

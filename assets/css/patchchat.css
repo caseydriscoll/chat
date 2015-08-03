@@ -59,7 +59,7 @@
       border-left: 1px solid #000000;
       background: #fafafa; }
       #patchchatmessenger #patchchatboxes .patchchatbox.active {
-        display: block !important; }
+        display: inline-block !important; }
       #patchchatmessenger #patchchatboxes .patchchatbox.open ul.patchchatcomments, #patchchatmessenger #patchchatboxes .patchchatbox.open form {
         display: block !important; }
       #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments {

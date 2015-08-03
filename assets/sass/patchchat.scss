@@ -100,7 +100,7 @@ $blue:     #55acee;
 			background: $offwhite;
 
 			&.active {
-				display: block !important;
+				display: inline-block !important;
 			}
 
 			&.open {
