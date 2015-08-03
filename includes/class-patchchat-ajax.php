@@ -56,14 +56,22 @@ class PatchChat_AJAX {
 	 *
 	 * @author caseypatrickdriscoll
 	 * @edited 2015-08-03 14:47:59 - Adds logged in validation
-	 * 
+	 * @edited 2015-08-03 14:52:01 - Adds current_user validation
+	 *
 	 */
 	public static function get() {
 
 		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( 'not logged in' );
+			wp_send_json_error( 'Not logged in' );
 		}
 
+		$current_user = wp_get_current_user();
+
+		if ( $current_user->ID == 0 ) {
+			wp_send_json_error( 'Not a user' );
+		}
+
+		$user_id = $current_user->ID;
 
 		$data = '';
 
@@ -76,7 +84,7 @@ class PatchChat_AJAX {
 				break;
 
 			case 'get_agent' : // Return 'new' chats and chats for given user
-				$data = PatchChat_Controller::get_agent( $_POST['user_id'] );
+				$data = PatchChat_Controller::get_agent( $user_id );
 				break;
 
 			default:
