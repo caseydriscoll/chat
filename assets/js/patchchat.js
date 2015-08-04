@@ -335,7 +335,7 @@ var PatchChatList = React.createClass({
 		var chats = this.props.chats.reverse().map(function (chat, i) {
 			return React.createElement(
 				PatchChatListItem,
-				{ data: chat, idx: i + 1, key: chat.chat_id },
+				{ chat: chat, idx: i + 1, key: chat.chat_id },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40' }),
 				React.createElement(
 					'h3',
@@ -377,9 +377,13 @@ var PatchChatListItem = React.createClass({
 	click: function click(e) {
 		e.preventDefault();
 		jQuery(e.nativeEvent.target).tab('show');
+
+		var chatbox = jQuery(e.nativeEvent.target).attr('href');
+
+		jQuery(chatbox).find('textarea').focus();
 	},
 	render: function render() {
-		var chat_id = 'chat_' + this.props.data.chat_id;
+		var chat_id = 'chat_' + this.props.chat.chat_id;
 		var classes = 'patchchatlistitem';
 		if (this.props.idx == 0) classes += ' active';
 		return React.createElement(
