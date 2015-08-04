@@ -138,6 +138,7 @@ class PatchChat_Transient {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-04 16:24:30 - Adds updating of 'new' Transient Array
+	 * @edited 2015-08-04 17:48:09 - Adds updating of user Transient State
 	 *
 	 */
 	public static function update( $chat_id, $comment ) {
@@ -163,6 +164,9 @@ class PatchChat_Transient {
 		// TODO: Must then update ALL Transient Arrays this transient is in
 		// For now, just updating if 'new'
 		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
+
+		foreach ( $transient['users'] as $user_id => $user )
+			PatchChat_Transient_State::update( $user_id, $transient );
 
 		return $transient;
 	}
