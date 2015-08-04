@@ -34,7 +34,7 @@ var PatchChatMessenger = React.createClass( {
 				if ( PWDEBUG ) console.log( 'response get_user_chats: ', response );
 
 				if ( response.success ) {
-					this.setState( { data : { chats : response.data } } );
+					this.setState( { chats : response.data } );
 
 					clearTimeout( this.timeOutID );
 					this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );
@@ -67,7 +67,7 @@ var PatchChatMessenger = React.createClass( {
 
 				patchchat.spinner.hide();
 
-				this.setState( { data : response.data } );
+				this.setState( { chats : response.data } );
 
 				clearTimeout( this.timeOutID );
 				this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );
@@ -79,7 +79,7 @@ var PatchChatMessenger = React.createClass( {
 		});
 	},
 	getInitialState: function() {
-		return { data: { chats: [] }  }
+		return { chats: new Array(0) }
 	},
 	componentDidMount: function() {
 		patchchat.spinner = jQuery( '.spinner' );
@@ -88,8 +88,8 @@ var PatchChatMessenger = React.createClass( {
 	render: function() {
 		return (
 			<div id="patchchatmessenger">
-				<PatchChatList  data={this.state.data} />
-				<PatchChatBoxes data={this.state.data} submit={this.submit} />
+				<PatchChatList  chats={this.state.chats} />
+				<PatchChatBoxes chats={this.state.chats} submit={this.submit} />
 			</div>
 		);
 	}

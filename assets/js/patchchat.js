@@ -38,7 +38,7 @@ var PatchChatMessenger = React.createClass({
 				if (PWDEBUG) console.log('response get_user_chats: ', response);
 
 				if (response.success) {
-					this.setState({ data: { chats: response.data } });
+					this.setState({ chats: response.data });
 
 					clearTimeout(this.timeOutID);
 					this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
@@ -70,7 +70,7 @@ var PatchChatMessenger = React.createClass({
 
 				patchchat.spinner.hide();
 
-				this.setState({ data: response.data });
+				this.setState({ chats: response.data });
 
 				clearTimeout(this.timeOutID);
 				this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
@@ -81,7 +81,7 @@ var PatchChatMessenger = React.createClass({
 		});
 	},
 	getInitialState: function getInitialState() {
-		return { data: { chats: [] } };
+		return { chats: new Array(0) };
 	},
 	componentDidMount: function componentDidMount() {
 		patchchat.spinner = jQuery('.spinner');
@@ -91,8 +91,8 @@ var PatchChatMessenger = React.createClass({
 		return React.createElement(
 			'div',
 			{ id: 'patchchatmessenger' },
-			React.createElement(PatchChatList, { data: this.state.data }),
-			React.createElement(PatchChatBoxes, { data: this.state.data, submit: this.submit })
+			React.createElement(PatchChatList, { chats: this.state.chats }),
+			React.createElement(PatchChatBoxes, { chats: this.state.chats, submit: this.submit })
 		);
 	}
 });
@@ -104,7 +104,7 @@ var PatchChatBoxes = React.createClass({
 
 	render: function render() {
 
-		var patchchat_boxes = this.props.data.chats.map(function (chat, i) {
+		var patchchat_boxes = this.props.chats.map(function (chat, i) {
 
 			var chat_id = 'chat_' + chat.chat_id;
 			var classes = 'patchchatbox';
@@ -113,14 +113,14 @@ var PatchChatBoxes = React.createClass({
 			return React.createElement(PatchChatBox, {
 				id: chat_id,
 				key: chat_id,
-				data: chat,
+				chat: chat,
 				role: 'tabpanel',
 				submit: this.props.submit,
 				classes: classes
 			});
 		}, this);
 
-		var initNeeded = this.props.data.chats.length == 0 ? true : false;
+		var initNeeded = this.props.chats.length == 0 ? true : false;
 
 		return React.createElement(
 			'ul',
@@ -202,14 +202,14 @@ var PatchChatBox = React.createClass({
 
 	render: function render() {
 
-		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { data: this.props.data });
+		var patchchat_comments = typeof this.props.chat.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { chat: this.props.chat });
 
 		return React.createElement(
 			'li',
 			{ className: this.props.classes, id: this.props.id },
 			React.createElement(PatchChatBoxHeader, null),
 			patchchat_comments,
-			React.createElement(PatchChatForm, { submit: this.props.submit, chat_id: this.props.data.chat_id })
+			React.createElement(PatchChatForm, { submit: this.props.submit, chat_id: this.props.chat.chat_id })
 		);
 	}
 });
@@ -252,8 +252,8 @@ var PatchChatComments = React.createClass({
 	},
 
 	render: function render() {
-		var comments = this.props.data.comments.map(function (comment) {
-			var classes = 'patchchatcomment ' + this.props.data.users[comment.user].role;
+		var comments = this.props.chat.comments.map(function (comment) {
+			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
 			return React.createElement(
 				'li',
 				{ className: classes, key: 'comment' + comment.id },
@@ -332,7 +332,7 @@ var PatchChatList = React.createClass({
 
 	render: function render() {
 
-		var chats = this.props.data.chats.reverse().map(function (chat, i) {
+		var chats = this.props.chats.reverse().map(function (chat, i) {
 			return React.createElement(
 				PatchChatListItem,
 				{ data: chat, idx: i + 1, key: chat.chat_id },

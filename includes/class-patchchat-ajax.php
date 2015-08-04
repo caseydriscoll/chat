@@ -80,18 +80,18 @@ class PatchChat_AJAX {
 		// Switch based on request
 		switch ( $_POST['method'] ) {
 			case 'get_user_state' : // Return 'new' chats and chats for given user
-				$data = PatchChat_Controller::get_user_state( $user_id );
+				$chats = PatchChat_Controller::get_user_state( $user_id );
 				break;
 
 			default:
-				$data = array( 'error' => 'No method with name ' . $_POST['method'] );
+				$chats = array( 'error' => 'No method with name ' . $_POST['method'] );
 		}
 
 
-		if ( isset( $data['error'] ) )
-			wp_send_json_error( $data );
+		if ( isset( $chats['error'] ) )
+			wp_send_json_error( $chats );
 		else
-			wp_send_json_success( $data );
+			wp_send_json_success( $chats );
 
 	}
 
@@ -111,27 +111,27 @@ class PatchChat_AJAX {
 		// Switch based on request
 		switch ( $chat['method'] ) {
 			case 'create' : // Create a chat
-				$data = array( 'chats' => array( PatchChat_Controller::create( $chat ) ) );
+				$chats = PatchChat_Controller::create( $chat );
 				break;
 
 			case 'update' : // Update a chat
 
 				if ( is_user_logged_in() ) {
-					$data = array( 'chats' => PatchChat_Controller::update( $chat ) );
+					$chats = PatchChat_Controller::update( $chat );
 				} else {
-					$data = array( 'error' => 'User is not logged in' );
+					$chats = array( 'error' => 'User is not logged in' );
 				}
 				break;
 
 			default:
-				$data = array( 'error' => 'No method with name ' . $chat['method'] );
+				$chats = array( 'error' => 'No method with name ' . $chat['method'] );
 		}
 
 
-		if ( isset( $data['error'] ) )
-			wp_send_json_error( $data );
+		if ( isset( $chats['error'] ) )
+			wp_send_json_error( $chats );
 		else
-			wp_send_json_success( $data );
+			wp_send_json_success( $chats );
 	}
 
 

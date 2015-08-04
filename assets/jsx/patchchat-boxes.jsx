@@ -1,7 +1,7 @@
 var PatchChatBoxes = React.createClass( {
 	render: function() {
 
-		var patchchat_boxes = this.props.data.chats.map( function( chat, i ) {
+		var patchchat_boxes = this.props.chats.map( function( chat, i ) {
 
 			var chat_id = 'chat_' + chat.chat_id;
 			var classes = 'patchchatbox';
@@ -11,7 +11,7 @@ var PatchChatBoxes = React.createClass( {
 				<PatchChatBox
 					id={chat_id}
 					key={chat_id}
-					data={chat}
+					chat={chat}
 					role="tabpanel"
 					submit={this.props.submit}
 					classes={classes}
@@ -19,7 +19,7 @@ var PatchChatBoxes = React.createClass( {
 			);
 		}, this );
 
-		var initNeeded = this.props.data.chats.length == 0 ? true : false;
+		var initNeeded = this.props.chats.length == 0 ? true : false;
 
 		return(
 			<ul id="patchchatboxes">
@@ -95,13 +95,13 @@ var PatchChatBox = React.createClass( {
 
 	render: function() {
 
-		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : <PatchChatComments data={this.props.data} />;
+		var patchchat_comments = typeof this.props.chat.chat_id === 'undefined' ? null : <PatchChatComments chat={this.props.chat} />;
 
 		return(
 			<li className={this.props.classes} id={this.props.id}>
 				<PatchChatBoxHeader />
 				{patchchat_comments}
-				<PatchChatForm submit={this.props.submit} chat_id={this.props.data.chat_id} />
+				<PatchChatForm submit={this.props.submit} chat_id={this.props.chat.chat_id} />
 			</li>
 		);
 	}
@@ -144,8 +144,8 @@ var PatchChatComments = React.createClass( {
 	},
 
 	render: function() {
-		var comments = this.props.data.comments.map( function( comment ) {
-			var classes = 'patchchatcomment ' + this.props.data.users[comment.user].role;
+		var comments = this.props.chat.comments.map( function( comment ) {
+			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
 			return (
 				<li className={classes} key={'comment' + comment.id}>
 					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />

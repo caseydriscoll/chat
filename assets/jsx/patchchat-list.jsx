@@ -2,7 +2,7 @@
 var PatchChatList = React.createClass( {
 	render: function() {
 
-		var chats = this.props.data.chats.reverse().map( function( chat, i ) {
+		var chats = this.props.chats.reverse().map( function( chat, i ) {
 			return (
 				<PatchChatListItem data={chat} idx={i+1} key={chat.chat_id}  >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
