@@ -8,6 +8,30 @@
 
 	#wpbody {
 		clear: both;
+
+		#patchchatmessenger {
+			display: block;
+
+			ul#patchchatlist {
+				display: block; float: left;
+				position: relative;
+				margin: 0;
+			}
+
+			#patchchatinitbox {
+
+				display: none;
+
+				&.needed {
+					display: inline-block;
+				}
+
+				form {
+					display: none;
+					padding-bottom: 100px;
+				}
+			}
+		}
 	}
 
 	&:after {
@@ -15,6 +39,8 @@
 		display: table;
 		clear: both;
 	}
+
+
 }
 
 #wpfooter {

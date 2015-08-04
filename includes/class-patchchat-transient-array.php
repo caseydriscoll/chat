@@ -23,6 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class PatchChat_Transient_Array {
 
 	/**
+	 * Returns the transient of the given name, building it if it doesn't exist
 	 *
 	 * @author caseypatrickdriscoll
 	 *

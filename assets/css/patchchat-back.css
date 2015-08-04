@@ -8,6 +8,20 @@
   padding-left: 0 !important; }
   #wpcontent #wpbody {
     clear: both; }
+    #wpcontent #wpbody #patchchatmessenger {
+      display: block; }
+      #wpcontent #wpbody #patchchatmessenger ul#patchchatlist {
+        display: block;
+        float: left;
+        position: relative;
+        margin: 0; }
+      #wpcontent #wpbody #patchchatmessenger #patchchatinitbox {
+        display: none; }
+        #wpcontent #wpbody #patchchatmessenger #patchchatinitbox.needed {
+          display: inline-block; }
+        #wpcontent #wpbody #patchchatmessenger #patchchatinitbox form {
+          display: none;
+          padding-bottom: 100px; }
   #wpcontent:after {
     content: "";
     display: table;

@@ -74,7 +74,7 @@ class PatchChat_Controller {
 		// TODO: Should not be hardcoded! Should be setting for 'default agent'
 		// TODO: $instant_reply should be a setting
 
-		$instant_reply = 'Welcome ' . $user_id . '! We received your chat and will be with you in a moment.';
+		$instant_reply = 'Welcome user ' . $user_id . '! We received your chat and will be with you in a moment.';
 
 		$comment = array(
 			'comment_post_ID'   => $post_id,
@@ -155,24 +155,36 @@ class PatchChat_Controller {
 	/**
 	 * Returns the given agent's transient set along with the new chats
 	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 15:36:31 - Adds role check for getting user chats
+	 *
+	 * TODO: Add 'agent' role/capability instead of 'administrator'
 	 */
 	public static function get_user_chats( $user_id ) {
 
 		$user_chats = PatchChat_Controller::get_array( $user_id );
 
 		// if user is an agent, get new chats too
-		// $new_chats = PatchChat_Transient_Set::get( 'new' );
+		$user = new WP_User( $user_id );
 
-		return array_merge( $user_chats );
+		if ( ! empty( $user->roles ) && is_array( $user->roles ) ) {
+			foreach ( $user->roles as $role )
+				if ( $role == 'administrator' ) {
+					$user_chats = array_merge( $user_chats, PatchChat_Controller::get_array( 'new' ) );
+				}
+		}
+
+		return $user_chats;
 	}
 
 	/**
-	 * Get a PatchChat Transient Set
+	 * Get a PatchChat Transient Array
 	 *
 	 */
-	private static function get_array( $user_id ) {
+	private static function get_array( $array_name ) {
 
-		$set = PatchChat_Transient_Array::get( $user_id );
+		$set = PatchChat_Transient_Array::get( $array_name );
 
 		return $set;
 
