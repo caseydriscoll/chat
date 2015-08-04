@@ -234,6 +234,24 @@ var PatchChatBoxHeader = React.createClass({
 var PatchChatComments = React.createClass({
 	displayName: 'PatchChatComments',
 
+	shouldScrollBottom: true,
+
+	componentWillUpdate: function componentWillUpdate() {
+		var node = this.getDOMNode();
+		this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+	},
+
+	componentDidUpdate: function componentDidUpdate() {
+		if (this.shouldScrollBottom) {
+			var node = this.getDOMNode();
+			node.scrollTop = node.scrollHeight;
+		}
+	},
+
+	componentDidMount: function componentDidMount() {
+		this.componentDidUpdate();
+	},
+
 	render: function render() {
 		var comments = this.props.data.comments.map(function (comment) {
 			var classes = 'comment '; //+ patchchat.users[comment.user].role;
@@ -287,7 +305,10 @@ var PatchChatForm = React.createClass({
 
 			if (PWDEBUG) console.log('PatchChatForm', 'text: ' + chat.text, 'error: ' + error);
 
-			if (valid) this.props.submit(chat);
+			if (valid) {
+				e.target.value = '';
+				this.props.submit(chat);
+			}
 		}
 	},
 	adjust: function adjust(e) {
