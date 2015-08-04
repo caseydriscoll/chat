@@ -15,6 +15,8 @@
         float: left;
         position: relative;
         margin: 0; }
+        #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit {
+          margin-bottom: 0; }
       #wpcontent #wpbody #patchchatmessenger #patchchatinitbox {
         display: none; }
         #wpcontent #wpbody #patchchatmessenger #patchchatinitbox.needed {
@@ -22,6 +24,18 @@
         #wpcontent #wpbody #patchchatmessenger #patchchatinitbox form {
           display: none;
           padding-bottom: 100px; }
+      #wpcontent #wpbody #patchchatmessenger .patchchatbox {
+        display: none; }
+        #wpcontent #wpbody #patchchatmessenger .patchchatbox.active {
+          display: block; }
+        #wpcontent #wpbody #patchchatmessenger .patchchatbox header {
+          padding: 10px;
+          font-size: 24px;
+          border-bottom: 1px solid #000000; }
+          #wpcontent #wpbody #patchchatmessenger .patchchatbox header .spinner {
+            display: none;
+            float: right;
+            margin: 6px; }
   #wpcontent:after {
     content: "";
     display: table;

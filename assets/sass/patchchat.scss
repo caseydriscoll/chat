@@ -99,22 +99,30 @@ $blue:     #55acee;
 			border-left: 1px solid $black;
 			background: $offwhite;
 
-			&.active {
-				display: inline-block !important;
-			}
-
 			&.open {
 				ul.patchchatcomments, form { display: block !important; }
 			}
 
+			header {
+				padding: 3px 6px;
+				cursor: pointer;
+				background: $light;
+				font-size: 16px;
+
+				.spinner {
+					display: none; float: right;
+					margin: 6px;
+				}
+
+			}
+
 			ul.patchchatcomments {
 
-				display: none;
 				height: 90vh;
 				padding: 10px 0; margin: 0 !important;
 				overflow-y: scroll;
 
-				li {
+				li.patchchatcomment {
 
 					display: block;
 					list-style: none;

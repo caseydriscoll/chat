@@ -254,7 +254,7 @@ var PatchChatComments = React.createClass({
 
 	render: function render() {
 		var comments = this.props.data.comments.map(function (comment) {
-			var classes = 'comment '; //+ patchchat.users[comment.user].role;
+			var classes = 'patchchatcomment'; //+ patchchat.users[comment.user].role;
 			return React.createElement(
 				'li',
 				{ className: classes, key: 'comment' + comment.id },

@@ -1,3 +1,12 @@
+$black:    #000000;
+$dark:     #333333;
+$grey:     #777777;
+$light:    #bbbbbb;
+$offwhite: #fafafa;
+$white:    #ffffff;
+
+$blue:     #55acee;
+
 #wpwrap {
 	box-sizing: border-box;
 }
@@ -16,6 +25,10 @@
 				display: block; float: left;
 				position: relative;
 				margin: 0;
+
+				#patchchatinit {
+					margin-bottom: 0;
+				}
 			}
 
 			#patchchatinitbox {
@@ -29,6 +42,24 @@
 				form {
 					display: none;
 					padding-bottom: 100px;
+				}
+			}
+
+			.patchchatbox {
+				display: none;
+
+				&.active { display: block; }
+
+				header {
+					padding: 10px;
+					font-size: 24px;
+					border-bottom: 1px solid $black;
+
+					.spinner {
+						display: none; float: right;
+						margin: 6px;
+					}
+
 				}
 			}
 		}
