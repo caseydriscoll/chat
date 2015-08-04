@@ -1,8 +1,8 @@
 <?php
 /**
- * PatchChat Transient Set
+ * PatchChat Transient Array
  *
- * A Transient set is an array of patchchat transients
+ * A Transient Array is an array of patchchat transients
  *
  *
  * Methods:
@@ -20,13 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // TODO: If patchchat doesn't exist in a transient you have to build
 //       Like adding a chat to 'open' that was previously 'closed'
 
-class PatchChat_Transient_Set {
+class PatchChat_Transient_Array {
 
 	public static function get( $set_name ) {
 
 		$transient = get_transient( $set_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( $set_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $set_name );
 
 		return $transient;
 
@@ -34,7 +34,11 @@ class PatchChat_Transient_Set {
 
 
 	/**
-	 * This builds a Transient Set by getting all the transients of that type.
+	 * This builds a Transient Array by getting all the transients of user or type.
+	 *
+	 * There are two types of Transient Arrays
+	 *   - 'new'     is an array of all current chats with a 'new' status.
+	 *   - 'user_id' is an array of all current chats belonging to a user.
 	 *
 	 * It needs to know which transients to grab, which it can't do on name only
 	 *
@@ -42,13 +46,20 @@ class PatchChat_Transient_Set {
 	 *
 	 * But absolutely, this function does not build single transients from WP_Querys
 	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 13:35:48 - Refactors to query only user_id
+	 *
 	 * @param $set_name
 	 *
 	 * @return array
 	 */
-	public static function build( $set_name ) {
+	public static function build( $array_name ) {
 
-		$transient_set = array();
+		// TODO: Should better design to differentiate between
+		//       array_name == user_id and array_name == 'new'
+		//       Need to generally design to build all sorts of array types
+		$transient_array = array();
 
 		$args = array(
 			'post_type' => 'patchchat',
@@ -56,8 +67,13 @@ class PatchChat_Transient_Set {
 			'fields'    => 'ids',
 		);
 
-		if ( $set_name == 'new' ) {
+		// A 'new' array is indifferent to the author, just needs a new status
+		if ( $array_name == 'new' ) {
 			$args['post_status'] = 'new';
+		} else {
+			// If it's not 'new' it's a user array
+			$args['author'] = $array_name;
+			$args['post_status'] = array( 'new', 'open' );
 		}
 
 		$query = new WP_Query( $args );
@@ -67,15 +83,14 @@ class PatchChat_Transient_Set {
 		foreach ( $list as $id ) {
 			$transient = get_transient( 'patchchat_' . $id );
 
-			array_push( $transient_set, $transient );
+			array_push( $transient_array, $transient );
 		}
 
 
+		set_transient( 'patchchat_array_' . $array_name, $transient_array );
 
-		set_transient( 'patchchat_set_' . $set_name, $transient_set );
 
-
-		return $transient_set;
+		return $transient_array;
 	}
 
 
@@ -103,8 +118,8 @@ class PatchChat_Transient_Set {
 
 				if ( $newchat['id'] == $id ) {
 
-					PatchChat_Transient_Set::trim( 'patchchat_new', $id );
-					PatchChat_Transient_Set::add( 'patchchat_' . $id, $newchat );
+					PatchChat_Transient_Array::trim( 'patchchat_new', $id );
+					PatchChat_Transient_Array::add( 'patchchat_' . $id, $newchat );
 
 					break;
 				}
@@ -161,7 +176,7 @@ class PatchChat_Transient_Set {
 
 		$transient = get_transient( $transient_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( 'new' );
+		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( 'new' );
 
 		array_unshift( $transient, $patchchat );
 

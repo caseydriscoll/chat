@@ -22,10 +22,10 @@ var PatchChatMessenger = React.createClass({
 
 		var ajaxdata = {
 			'action': 'patchchat_get',
-			'method': 'get_agent'
+			'method': 'get_user_chats'
 		};
 
-		if (PWDEBUG) console.log('Pre-' + ajaxdata.method, ajaxdata);
+		if (PWDEBUG) console.log('before ' + ajaxdata.method, ajaxdata);
 
 		jQuery.ajax({
 			method: 'POST',
@@ -33,18 +33,18 @@ var PatchChatMessenger = React.createClass({
 			data: ajaxdata,
 			success: (function (response) {
 
-				if (PWDEBUG) console.log('response get_agent: ', response);
+				if (PWDEBUG) console.log('response get_user_chats: ', response);
 
 				if (response.success) {
 					this.setState({ data: { chats: response.data } });
 
 					setTimeout(this.loadCommentsFromServer, 3000);
 				} else {
-					if (PWDEBUG) console.log('error response get_agent: ', response);
+					if (PWDEBUG) console.log('error response get_user_chats: ', response);
 				}
 			}).bind(this),
 			error: (function (response) {
-				if (PWDEBUG) console.error('error response get_agent: ', response);
+				if (PWDEBUG) console.error('error response get_user_chats: ', response);
 			}).bind(this)
 		});
 	},

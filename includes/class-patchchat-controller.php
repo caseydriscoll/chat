@@ -141,13 +141,14 @@ class PatchChat_Controller {
 	 * Returns the given agent's transient set along with the new chats
 	 *
 	 */
-	public static function get_agent( $user_id ) {
+	public static function get_user_chats( $user_id ) {
 
-		$new_chats = PatchChat_Transient_Set::get( 'new' );
+		$user_chats = PatchChat_Controller::get_set( $user_id );
 
-		//$agent_chats = PatchChat_Controller::get_set( $user_id );
+		// if user is an agent, get new chats too
+		// $new_chats = PatchChat_Transient_Set::get( 'new' );
 
-		return array_merge( $new_chats );
+		return array_merge( $user_chats );
 	}
 
 	/**
@@ -156,7 +157,7 @@ class PatchChat_Controller {
 	 */
 	private static function get_set( $user_id ) {
 
-		$set = PatchChat_Transient_Set::get( $user_id );
+		$set = PatchChat_Transient_Array::get( $user_id );
 
 		return $set;
 

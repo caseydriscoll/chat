@@ -83,8 +83,8 @@ class PatchChat_AJAX {
 				$data = PatchChat_Controller::get_single( $_POST['chat_id'] );
 				break;
 
-			case 'get_agent' : // Return 'new' chats and chats for given user
-				$data = PatchChat_Controller::get_agent( $user_id );
+			case 'get_user_chats' : // Return 'new' chats and chats for given user
+				$data = PatchChat_Controller::get_user_chats( $user_id );
 				break;
 
 			default:
@@ -163,7 +163,7 @@ class PatchChat_AJAX {
 
 		wp_update_post( $post );
 
-		PatchChat_Transient_Set::move( $id, $prevstatus, $status );
+		PatchChat_Transient_Array::move( $id, $prevstatus, $status );
 
 		$response = array(
 			'id'         => $id,
@@ -172,19 +172,6 @@ class PatchChat_AJAX {
 		);
 
 		wp_send_json_success( $response );
-	}
-
-
-	/**
-	 * The POST handler for looking for chat updates
-	 */
-	public static function ping() {
-
-		$transient = get_transient( 'patchchat_new' );
-
-		if ( $transient === false ) $transient = PatchChat_Transient_Set::build( 'new' );
-
-		wp_send_json_success( $transient );
 	}
 
 
