@@ -53,6 +53,8 @@ $blue:     #453AFF;
 						color: $white;
 						border-bottom: 1px solid $grey;
 					}
+
+					ul.patchchatcomments { display: block; }
 				}
 
 				* {
@@ -73,6 +75,7 @@ $blue:     #453AFF;
 				}
 
 				ul.patchchatcomments {
+					display: none;
 					max-height: 300px;
 				}
 

@@ -38,6 +38,8 @@
             background: #333333;
             color: #ffffff;
             border-bottom: 1px solid #777777; }
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open ul.patchchatcomments {
+            display: block; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox * {
           font-family: sans-serif; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header {
@@ -50,6 +52,7 @@
             float: right;
             margin: 6px; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox ul.patchchatcomments {
+          display: none;
           max-height: 300px; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox form {
           display: none;
