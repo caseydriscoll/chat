@@ -18,7 +18,7 @@ function renderPatchChat() {
 	jQuery( 'body' ).append( '<div id="patchchatcontainer"></div>' );
 
 	React.render(
-		<PatchChatMessenger />,
+		<PatchChatMessenger pulse="3000" />,
 		document.getElementById( 'patchchatcontainer' )
 	);
 }

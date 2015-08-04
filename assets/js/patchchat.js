@@ -41,7 +41,7 @@ var PatchChatMessenger = React.createClass({
 					this.setState({ chats: response.data });
 
 					clearTimeout(this.timeOutID);
-					this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
+					this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
 				} else {
 					if (PWDEBUG) console.log('error response get_user_chats: ', response);
 				}
@@ -73,7 +73,7 @@ var PatchChatMessenger = React.createClass({
 				this.setState({ chats: response.data });
 
 				clearTimeout(this.timeOutID);
-				this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
+				this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
 			}).bind(this),
 			error: (function (response) {
 				if (PWDEBUG) console.error('error response create/update: ', response);

@@ -4,13 +4,13 @@
 var PWDEBUG = 1;
 
 var ajaxURL = '/wp-admin/admin-ajax.php';
-var patchchat = { users: [] };
+var patchchat = {};
 
 
 jQuery( document ).ready( function() {
 
 	React.render(
-		<PatchChatMessenger />,
+		<PatchChatMessenger pulse="1000"  />,
 		document.getElementById( 'wpbody' )
 	);
 
