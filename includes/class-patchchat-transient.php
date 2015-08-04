@@ -65,7 +65,7 @@ class PatchChat_Transient {
 
 		$patchchat = get_post( $chat_id );
 
-		$comments = get_comments( array( 'post_id' => $chat_id ) );
+		$comments = get_comments( array( 'post_id' => $chat_id, 'order' => 'ASC' ) );
 
 
 		// 1. Build main array
