@@ -22,11 +22,20 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class PatchChat_Transient_Array {
 
-	public static function get( $set_name ) {
+	/**
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 14:43:09 - Refactors to use array instead of set
+	 * @param $array_name
+	 *
+	 * @return array|mixed
+	 */
+	public static function get( $array_name ) {
 
-		$transient = get_transient( $set_name );
+		$transient = get_transient( 'patchchat_array_' . $array_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $set_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $array_name );
 
 		return $transient;
 
@@ -49,6 +58,7 @@ class PatchChat_Transient_Array {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-04 13:35:48 - Refactors to query only user_id
+	 * @edited 2015-08-04 14:44:06 - Adds building of transient if missing
 	 *
 	 * @param $set_name
 	 *
@@ -82,6 +92,8 @@ class PatchChat_Transient_Array {
 
 		foreach ( $list as $id ) {
 			$transient = get_transient( 'patchchat_' . $id );
+
+			if ( $transient === false ) $transient = PatchChat_Transient::build( $id );
 
 			array_push( $transient_array, $transient );
 		}
