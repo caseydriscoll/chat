@@ -151,7 +151,11 @@ var PatchChatInitBox = React.createClass({
 
 		if (PWDEBUG) console.log('PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error);
 
-		if (valid) this.props.submit(chat);
+		if (valid) {
+			jQuery('#patchchatinitbox').find('input, textarea').val('').empty();
+
+			this.props.submit(chat);
+		}
 	},
 	render: function render() {
 		return React.createElement(
