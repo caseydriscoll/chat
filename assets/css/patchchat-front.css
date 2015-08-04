@@ -54,6 +54,10 @@
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox form {
           display: none;
           padding-bottom: 20px; }
-      #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form {
-        display: none;
-        padding-bottom: 100px; }
+      #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox {
+        display: none; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox.needed {
+          display: inline-block; }
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form {
+          display: none;
+          padding-bottom: 100px; }

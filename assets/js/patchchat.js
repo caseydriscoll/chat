@@ -104,7 +104,7 @@ var PatchChatBoxes = React.createClass({
 
 			var chat_id = 'chat_' + chat.chat_id;
 			var classes = 'patchchatbox';
-			if (i == 0) classes += ' active';
+			if (i == 0) classes += ' active open';
 
 			return React.createElement(PatchChatBox, {
 				id: chat_id,
@@ -116,10 +116,12 @@ var PatchChatBoxes = React.createClass({
 			});
 		}, this);
 
+		var initNeeded = this.props.data.chats.length == 0 ? true : false;
+
 		return React.createElement(
 			'ul',
 			{ id: 'patchchatboxes' },
-			React.createElement(PatchChatInitBox, { submit: this.props.submit }),
+			React.createElement(PatchChatInitBox, { submit: this.props.submit, needed: initNeeded }),
 			patchchat_boxes
 		);
 	}
@@ -158,9 +160,13 @@ var PatchChatInitBox = React.createClass({
 		}
 	},
 	render: function render() {
+
+		var classes = 'patchchatbox open';
+		classes += this.props.needed ? ' needed' : ' huh';
+
 		return React.createElement(
 			'li',
-			{ id: 'patchchatinitbox', className: 'patchchatbox open' },
+			{ id: 'patchchatinitbox', className: classes },
 			React.createElement(PatchChatBoxHeader, null),
 			React.createElement(
 				PatchChatForm,
@@ -191,7 +197,9 @@ var PatchChatBox = React.createClass({
 	displayName: 'PatchChatBox',
 
 	render: function render() {
+
 		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : React.createElement(PatchChatComments, { data: this.props.data });
+
 		return React.createElement(
 			'li',
 			{ className: this.props.classes, id: this.props.id },

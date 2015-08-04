@@ -5,7 +5,7 @@ var PatchChatBoxes = React.createClass( {
 
 			var chat_id = 'chat_' + chat.chat_id;
 			var classes = 'patchchatbox';
-			if ( i == 0 ) classes += ' active';
+			if ( i == 0 ) classes += ' active open';
 
 			return (
 				<PatchChatBox
@@ -19,9 +19,11 @@ var PatchChatBoxes = React.createClass( {
 			);
 		}, this );
 
+		var initNeeded = this.props.data.chats.length == 0 ? true : false;
+
 		return(
 			<ul id="patchchatboxes">
-				<PatchChatInitBox submit={this.props.submit} />
+				<PatchChatInitBox submit={this.props.submit} needed={initNeeded} />
 				{patchchat_boxes}
 			</ul>
 		)
@@ -69,8 +71,12 @@ var PatchChatInitBox = React.createClass( {
 
 	},
 	render: function() {
+
+		var classes = 'patchchatbox open';
+		classes += (this.props.needed ? ' needed' : ' huh');
+
 		return(
-			<li id="patchchatinitbox" className="patchchatbox open">
+			<li id="patchchatinitbox" className={classes}>
 				<PatchChatBoxHeader />
 				<PatchChatForm submit={this.validate}>
 					<fieldset>
@@ -88,7 +94,9 @@ var PatchChatInitBox = React.createClass( {
 var PatchChatBox = React.createClass( {
 
 	render: function() {
+
 		var patchchat_comments = typeof this.props.data.chat_id === 'undefined' ? null : <PatchChatComments data={this.props.data} />;
+
 		return(
 			<li className={this.props.classes} id={this.props.id}>
 				<PatchChatBoxHeader />
