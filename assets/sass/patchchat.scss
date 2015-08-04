@@ -118,13 +118,13 @@ $blue:     #55acee;
 
 			ul.patchchatcomments {
 
-				height: 90vh;
 				padding: 10px 0; margin: 0 !important;
 				overflow-y: scroll;
 
 				li.patchchatcomment {
 
 					display: block;
+
 					list-style: none;
 					clear: both;
 
@@ -174,8 +174,6 @@ $blue:     #55acee;
 			form {
 
 				textarea {
-					position: absolute;
-					bottom: 0;
 					width: 100%;
 					min-height: 30px;
 					padding: 5px 5px 0 5px;

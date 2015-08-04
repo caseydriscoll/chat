@@ -55,8 +55,7 @@
           display: none;
           max-height: 300px; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox form {
-          display: none;
-          padding-bottom: 35px; }
+          display: none; }
       #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox {
         display: none; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox.needed {
