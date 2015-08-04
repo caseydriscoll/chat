@@ -126,11 +126,18 @@ class PatchChat_Transient {
 
 
 	/**
+	 * Updates a PatchChat_Transient, building it if it doesn't exist
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 16:24:30 - Adds updating of 'new' Transient Array
 	 *
 	 */
 	public static function update( $chat_id, $comment ) {
 
 		$transient = get_transient( 'patchchat_' . $chat_id );
+
+		if ( $transient === false ) $transient = PatchChat_Transient::build( $chat_id );
 
 		array_push(
 			$transient['comments'],
@@ -145,6 +152,10 @@ class PatchChat_Transient {
 
 
 		set_transient( 'patchchat_' . $chat_id, $transient );
+
+		// TODO: Must then update ALL Transient Arrays this transient is in
+		// For now, just updating if 'new'
+		if ( $transient['status'] == 'new' ) PatchChat_Transient_Array::update( 'new', $transient );
 
 		return $transient;
 	}
