@@ -163,7 +163,7 @@ class PatchChat_AJAX {
 
 		wp_update_post( $post );
 
-		PatchChat_Transient_Array::move( $id, $prevstatus, $status );
+		PatchChat_Transient_State::move( $id, $prevstatus, $status );
 
 		$response = array(
 			'id'         => $id,

@@ -162,7 +162,7 @@ class PatchChat_Transient {
 
 		// TODO: Must then update ALL Transient Arrays this transient is in
 		// For now, just updating if 'new'
-		if ( $transient['status'] == 'new' ) PatchChat_Transient_Array::update( 'new', $transient );
+		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
 
 		return $transient;
 	}

@@ -67,7 +67,7 @@ var PatchChatMessenger = React.createClass( {
 
 				patchchat.spinner.hide();
 
-				this.setState( { data : { chats : response.data } } );
+				this.setState( { data : response.data } );
 
 				clearTimeout( this.timeOutID );
 				this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );
