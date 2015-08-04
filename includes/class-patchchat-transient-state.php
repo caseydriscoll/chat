@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // TODO: If patchchat doesn't exist in a transient you have to build
 //       Like adding a chat to 'open' that was previously 'closed'
 
-class PatchChat_Transient_Array {
+class PatchChat_Transient_State {
 
 	/**
 	 * Returns the transient of the given name, building it if it doesn't exist
@@ -34,9 +34,9 @@ class PatchChat_Transient_Array {
 	 */
 	public static function get( $array_name ) {
 
-		$transient = get_transient( 'patchchat_array_' . $array_name );
+		$transient = get_transient( 'patchchat_state_' . $array_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $array_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $array_name );
 
 		return $transient;
 
@@ -100,7 +100,7 @@ class PatchChat_Transient_Array {
 		}
 
 
-		set_transient( 'patchchat_array_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $array_name, $transient_array );
 
 
 		return $transient_array;
@@ -118,16 +118,16 @@ class PatchChat_Transient_Array {
 	 */
 	public static function update( $array_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_array_' . $array_name );
+		$transient_array = get_transient( 'patchchat_state_' . $array_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $array_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $array_name );
 
 		foreach ( $transient_array as $i => $old_transient ) {
 			if ( $old_transient['chat_id'] == $transient['chat_id'] )
 				$transient_array[$i] = $transient;
 		}
 
-		set_transient( 'patchchat_array_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $array_name, $transient_array );
 
 		return $transient_array;
 	}
@@ -157,8 +157,8 @@ class PatchChat_Transient_Array {
 
 				if ( $newchat['id'] == $id ) {
 
-					PatchChat_Transient_Array::trim( 'patchchat_new', $id );
-					PatchChat_Transient_Array::add( 'patchchat_' . $id, $newchat );
+					PatchChat_Transient_State::trim( 'patchchat_new', $id );
+					PatchChat_Transient_State::add( 'patchchat_' . $id, $newchat );
 
 					break;
 				}
@@ -214,13 +214,13 @@ class PatchChat_Transient_Array {
 	 */
 	public static function add( $array_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_array_' . $array_name );
+		$transient_array = get_transient( 'patchchat_state_' . $array_name );
 
-		if ( $transient_array === false ) $transient_array = PatchChat_Transient_Array::build( $array_name );
+		if ( $transient_array === false ) $transient_array = PatchChat_Transient_State::build( $array_name );
 
 		array_unshift( $transient_array, $transient );
 
-		set_transient( 'patchchat_array_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $array_name, $transient_array );
 
 		return true;
 	}

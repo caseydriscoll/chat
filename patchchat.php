@@ -75,7 +75,7 @@ class PatchChat {
 		include_once( 'includes/class-patchchat-controller.php' );
 
 		include_once( 'includes/class-patchchat-transient.php' );
-		include_once( 'includes/class-patchchat-transient-array.php' );
+		include_once( 'includes/class-patchchat-transient-state.php' );
 	}
 
 	/**

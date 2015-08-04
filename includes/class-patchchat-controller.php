@@ -89,7 +89,7 @@ class PatchChat_Controller {
 
 		$transient = PatchChat_Transient::build( $post_id );
 
-		PatchChat_Transient_Array::add( 'new', $transient );
+		PatchChat_Transient_State::add( 'new', $transient );
 
 		return $transient;
 
@@ -142,7 +142,7 @@ class PatchChat_Controller {
 
 		$transient = PatchChat_Transient::update( $chat_id, $comment );
 
-		return PatchChat_Transient_Array::update( $user_id, $transient );
+		return PatchChat_Transient_State::update( $user_id, $transient );
 
 	}
 
@@ -188,7 +188,7 @@ class PatchChat_Controller {
 	 */
 	private static function get_array( $array_name ) {
 
-		$set = PatchChat_Transient_Array::get( $array_name );
+		$set = PatchChat_Transient_State::get( $array_name );
 
 		return $set;
 
