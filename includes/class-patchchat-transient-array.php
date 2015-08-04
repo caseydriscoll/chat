@@ -200,26 +200,27 @@ class PatchChat_Transient_Array {
 
 
 	/**
-	 * Adds a patchchat to a transient's array
+	 * Adds a PatchChat_Transient to a transient's array
 	 *
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-07-19 20:18:54
+	 * @edited  2015-08-04 16:13:17 - Refactors to build all given arrays
 	 *
 	 * $transient_name string The name of the transient to add to ('patchchat_new', etc)
 	 *
 	 * $patchchat array The array of information to store in transient (see 'Form' in class comments)
 	 *
 	 */
-	public static function add( $transient_name, $patchchat ) {
+	public static function add( $array_name, $transient ) {
 
-		$transient = get_transient( $transient_name );
+		$transient_array = get_transient( 'patchchat_array_' . $array_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( 'new' );
+		if ( $transient_array === false ) $transient_array = PatchChat_Transient_Array::build( $array_name );
 
-		array_unshift( $transient, $patchchat );
+		array_unshift( $transient_array, $transient );
 
-		set_transient( $transient_name, $transient );
+		set_transient( 'patchchat_array_' . $array_name, $transient_array );
 
 		return true;
 	}

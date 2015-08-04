@@ -87,7 +87,11 @@ class PatchChat_Controller {
 		$comment_id = wp_insert_comment( $comment );
 
 
-		return PatchChat_Transient::build( $post_id );
+		$transient = PatchChat_Transient::build( $post_id );
+
+		PatchChat_Transient_Array::add( 'new', $transient );
+
+		return $transient;
 
 	}
 
