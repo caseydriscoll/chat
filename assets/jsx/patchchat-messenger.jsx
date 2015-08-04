@@ -14,6 +14,8 @@
  */
 
 var PatchChatMessenger = React.createClass( {
+	timeOutID : null,
+
 	loadCommentsFromServer: function() {
 
 		var ajaxdata = {
@@ -34,7 +36,8 @@ var PatchChatMessenger = React.createClass( {
 				if ( response.success ) {
 					this.setState( { data : { chats : response.data } } );
 
-					setTimeout( this.loadCommentsFromServer, 3000 );
+					clearTimeout( this.timeOutID );
+					this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );
 				} else {
 					if ( PWDEBUG ) console.log( 'error response get_user_chats: ', response );
 				}
@@ -45,13 +48,14 @@ var PatchChatMessenger = React.createClass( {
 			}.bind(this)
 		});
 	},
+
 	submit: function(chat) {
 
 		patchchat.spinner.show();
 
 		chat.action = 'patchchat_post';
 
-		if ( PWDEBUG ) console.log( 'Pre-' + chat.method, chat );
+		if ( PWDEBUG ) console.log( 'before ' + chat.method, chat );
 
 		jQuery.ajax({
 			method  : 'POST',
@@ -66,7 +70,8 @@ var PatchChatMessenger = React.createClass( {
 				patchchat.users = response.data.users;
 				this.setState({ data : response.data });
 
-				setTimeout( this.loadCommentsFromServer, 3000 );
+				clearTimeout( this.timeOutID );
+				this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );
 
 			}.bind( this ),
 			error   : function ( response ) {

@@ -99,11 +99,19 @@ class PatchChat_Controller {
 	 */
 	public static function update( $patchchat ) {
 
-		$chat_id = $patchchat['chat_id'];
-		$email   = $patchchat['email'];
-		$text    = $patchchat['text'];
+		// This is checked in PatchChat_AJAX too (never hurts to double check)
+		if ( ! is_user_logged_in() ) return array( 'error' => 'User is not logged in' );
 
-		$user    = get_user_by( 'email', $email );
+		$current_user = wp_get_current_user();
+
+		if ( $current_user->ID == 0 ) {
+			return array( 'error' => 'User is not logged in' );
+		}
+
+		$user_id = $current_user->ID;
+
+		$chat_id = $patchchat['chat_id'];
+		$text    = $patchchat['text'];
 
 		$time    = current_time( 'mysql' );
 		$text    = wp_strip_all_tags( $text );
@@ -111,7 +119,7 @@ class PatchChat_Controller {
 
 		$comment = array(
 			'comment_post_ID'   => $chat_id,
-			'user_id'           => $user->ID,
+			'user_id'           => $user_id,
 			'comment_content'   => $text,
 			'comment_date'      => $time,
 			'comment_type'      => '',
@@ -124,7 +132,9 @@ class PatchChat_Controller {
 		$comment['comment_id'] = $comment_id;
 
 
-		return PatchChat_Transient::update( $chat_id, $comment );
+		PatchChat_Transient::update( $chat_id, $comment );
+
+		return PatchChat_Controller::get_user_chats( $user_id );
 	}
 
 
@@ -143,7 +153,7 @@ class PatchChat_Controller {
 	 */
 	public static function get_user_chats( $user_id ) {
 
-		$user_chats = PatchChat_Controller::get_set( $user_id );
+		$user_chats = PatchChat_Controller::get_array( $user_id );
 
 		// if user is an agent, get new chats too
 		// $new_chats = PatchChat_Transient_Set::get( 'new' );
@@ -155,7 +165,7 @@ class PatchChat_Controller {
 	 * Get a PatchChat Transient Set
 	 *
 	 */
-	private static function get_set( $user_id ) {
+	private static function get_array( $user_id ) {
 
 		$set = PatchChat_Transient_Array::get( $user_id );
 

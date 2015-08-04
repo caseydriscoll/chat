@@ -18,6 +18,8 @@
 var PatchChatMessenger = React.createClass({
 	displayName: 'PatchChatMessenger',
 
+	timeOutID: null,
+
 	loadCommentsFromServer: function loadCommentsFromServer() {
 
 		var ajaxdata = {
@@ -38,7 +40,8 @@ var PatchChatMessenger = React.createClass({
 				if (response.success) {
 					this.setState({ data: { chats: response.data } });
 
-					setTimeout(this.loadCommentsFromServer, 3000);
+					clearTimeout(this.timeOutID);
+					this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
 				} else {
 					if (PWDEBUG) console.log('error response get_user_chats: ', response);
 				}
@@ -48,13 +51,14 @@ var PatchChatMessenger = React.createClass({
 			}).bind(this)
 		});
 	},
+
 	submit: function submit(chat) {
 
 		patchchat.spinner.show();
 
 		chat.action = 'patchchat_post';
 
-		if (PWDEBUG) console.log('Pre-' + chat.method, chat);
+		if (PWDEBUG) console.log('before ' + chat.method, chat);
 
 		jQuery.ajax({
 			method: 'POST',
@@ -69,7 +73,8 @@ var PatchChatMessenger = React.createClass({
 				patchchat.users = response.data.users;
 				this.setState({ data: response.data });
 
-				setTimeout(this.loadCommentsFromServer, 3000);
+				clearTimeout(this.timeOutID);
+				this.timeOutID = setTimeout(this.loadCommentsFromServer, 3000);
 			}).bind(this),
 			error: (function (response) {
 				if (PWDEBUG) console.error('error response create/update: ', response);
@@ -162,7 +167,7 @@ var PatchChatInitBox = React.createClass({
 	render: function render() {
 
 		var classes = 'patchchatbox open';
-		classes += this.props.needed ? ' needed' : ' huh';
+		classes += this.props.needed ? ' needed' : '';
 
 		return React.createElement(
 			'li',
@@ -205,7 +210,7 @@ var PatchChatBox = React.createClass({
 			{ className: this.props.classes, id: this.props.id },
 			React.createElement(PatchChatBoxHeader, null),
 			patchchat_comments,
-			React.createElement(PatchChatForm, { submit: this.props.submit, chatid: this.props.data.chat_id })
+			React.createElement(PatchChatForm, { submit: this.props.submit, chat_id: this.props.data.chat_id })
 		);
 	}
 });
@@ -264,6 +269,11 @@ var PatchChatForm = React.createClass({
 
 			var chat = {};
 
+			// Initialize the method to update.
+			// If the initBox is tripped, this will be changed to 'create'
+			chat.method = 'update';
+
+			chat.chat_id = this.props.chat_id;
 			chat.text = e.target.value;
 
 			var valid = false;
@@ -301,6 +311,7 @@ var PatchChatList = React.createClass({
 	displayName: 'PatchChatList',
 
 	render: function render() {
+
 		var chats = this.props.data.chats.reverse().map(function (chat, i) {
 			return React.createElement(
 				PatchChatListItem,

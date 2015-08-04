@@ -1,6 +1,7 @@
 // TODO: Make gravatar img size variable
 var PatchChatList = React.createClass( {
 	render: function() {
+
 		var chats = this.props.data.chats.reverse().map( function( chat, i ) {
 			return (
 				<PatchChatListItem data={chat} idx={i+1} key={chat.chat_id}  >
@@ -10,7 +11,6 @@ var PatchChatList = React.createClass( {
 				</PatchChatListItem>
 			);
 		} );
-
 
 		return (
 			<ul id="patchchatlist" role="tablist">

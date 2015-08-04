@@ -79,10 +79,6 @@ class PatchChat_AJAX {
 
 		// Switch based on request
 		switch ( $_POST['method'] ) {
-			case 'get_single' : // Return single chat
-				$data = PatchChat_Controller::get_single( $_POST['chat_id'] );
-				break;
-
 			case 'get_user_chats' : // Return 'new' chats and chats for given user
 				$data = PatchChat_Controller::get_user_chats( $user_id );
 				break;
@@ -119,13 +115,17 @@ class PatchChat_AJAX {
 				break;
 
 			case 'update' : // Update a chat
-				$data = PatchChat_Controller::update( $chat );
+
+				if ( is_user_logged_in() ) {
+					$data = array( 'chats' => PatchChat_Controller::update( $chat ) );
+				} else {
+					$data = array( 'error' => 'User is not logged in' );
+				}
 				break;
 
 			default:
 				$data = array( 'error' => 'No method with name ' . $chat['method'] );
 		}
-
 
 
 		if ( isset( $data['error'] ) )

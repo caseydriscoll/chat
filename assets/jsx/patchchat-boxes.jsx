@@ -73,7 +73,7 @@ var PatchChatInitBox = React.createClass( {
 	render: function() {
 
 		var classes = 'patchchatbox open';
-		classes += (this.props.needed ? ' needed' : ' huh');
+		classes += (this.props.needed ? ' needed' : '');
 
 		return(
 			<li id="patchchatinitbox" className={classes}>
@@ -101,7 +101,7 @@ var PatchChatBox = React.createClass( {
 			<li className={this.props.classes} id={this.props.id}>
 				<PatchChatBoxHeader />
 				{patchchat_comments}
-				<PatchChatForm submit={this.props.submit} chatid={this.props.data.chat_id} />
+				<PatchChatForm submit={this.props.submit} chat_id={this.props.data.chat_id} />
 			</li>
 		);
 	}
@@ -159,7 +159,12 @@ var PatchChatForm = React.createClass( {
 
 			var chat = {};
 
-			chat.text  = e.target.value;
+			// Initialize the method to update.
+			// If the initBox is tripped, this will be changed to 'create'
+			chat.method  = 'update';
+
+			chat.chat_id = this.props.chat_id;
+			chat.text    = e.target.value;
 
 			var valid = false;
 			var error = false;
