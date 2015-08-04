@@ -107,6 +107,32 @@ class PatchChat_Transient_Array {
 
 
 	/**
+	 * Updates a transient array with a given transient
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-04 14:54:51
+	 *
+	 * TODO: Handle bad transient setting
+	 */
+	public static function update( $array_name, $transient ) {
+
+		$transient_array = get_transient( 'patchchat_array_' . $array_name );
+
+		if ( $transient === false ) $transient = PatchChat_Transient_Array::build( $array_name );
+
+		foreach ( $transient_array as $i => $old_transient ) {
+			if ( $old_transient['chat_id'] == $transient['chat_id'] )
+				$transient_array[$i] = $transient;
+		}
+
+		set_transient( 'patchchat_array_' . $array_name, $transient_array );
+
+		return $transient_array;
+	}
+
+
+	/**
 	 * Moves a chat from one transient to another
 	 * Used in the PatchChatAJAX::change_chat_status function
 	 *

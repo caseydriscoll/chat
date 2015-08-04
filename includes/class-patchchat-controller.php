@@ -95,6 +95,10 @@ class PatchChat_Controller {
 	/**
 	 * Updates a patchchat by adding a comment
 	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 15:02:36 - Adds updating of transient array
+	 *
 	 * @param string $chat_id
 	 */
 	public static function update( $patchchat ) {
@@ -132,9 +136,10 @@ class PatchChat_Controller {
 		$comment['comment_id'] = $comment_id;
 
 
-		PatchChat_Transient::update( $chat_id, $comment );
+		$transient = PatchChat_Transient::update( $chat_id, $comment );
 
-		return PatchChat_Controller::get_user_chats( $user_id );
+		return PatchChat_Transient_Array::update( $user_id, $transient );
+
 	}
 
 
