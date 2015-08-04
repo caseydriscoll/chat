@@ -145,14 +145,14 @@ var PatchChatComments = React.createClass( {
 
 	render: function() {
 		var comments = this.props.data.comments.map( function( comment ) {
-			var classes = 'patchchatcomment' ;//+ patchchat.users[comment.user].role;
+			var classes = 'patchchatcomment ' + this.props.data.users[comment.user].role;
 			return (
 				<li className={classes} key={'comment' + comment.id}>
 					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
 					{comment.text}
 				</li>
 			);
-		} );
+		}, this );
 		return (
 			<ul className="patchchatcomments">
 				{comments}

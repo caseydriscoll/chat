@@ -101,7 +101,8 @@
             float: left; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span {
             float: right;
-            border-color: #333333; }
+            border-color: #333333;
+            background: lightblue; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment img {
             display: none; }
       #patchchatmessenger #patchchatboxes .patchchatbox form textarea {

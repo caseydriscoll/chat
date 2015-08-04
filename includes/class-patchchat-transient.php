@@ -61,6 +61,13 @@ class PatchChat_Transient {
 	}
 
 
+	/**
+	 * Queries the DB and builds a Transient for a given PatchChat ID
+	 *
+	 * @param $chat_id
+	 *
+	 * @return array
+	 */
 	public static function build( $chat_id ) {
 
 		$patchchat = get_post( $chat_id );
@@ -78,7 +85,7 @@ class PatchChat_Transient {
 		);
 
 
-		// 3. Build users key in commments foreach
+		// 3. Build users key in comments foreach
 		$transient['users'] = array();
 
 

@@ -70,7 +70,6 @@ var PatchChatMessenger = React.createClass({
 
 				patchchat.spinner.hide();
 
-				patchchat.users = response.data.users;
 				this.setState({ data: response.data });
 
 				clearTimeout(this.timeOutID);
@@ -254,14 +253,14 @@ var PatchChatComments = React.createClass({
 
 	render: function render() {
 		var comments = this.props.data.comments.map(function (comment) {
-			var classes = 'patchchatcomment'; //+ patchchat.users[comment.user].role;
+			var classes = 'patchchatcomment ' + this.props.data.users[comment.user].role;
 			return React.createElement(
 				'li',
 				{ className: classes, key: 'comment' + comment.id },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30' }),
 				comment.text
 			);
-		});
+		}, this);
 		return React.createElement(
 			'ul',
 			{ className: 'patchchatcomments' },
