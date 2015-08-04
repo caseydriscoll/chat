@@ -367,7 +367,7 @@ var PatchChatInit = React.createClass({
 	displayName: 'PatchChatInit',
 
 	render: function render() {
-		return React.createElement('li', { id: 'patchchatinit' });
+		return React.createElement('li', { id: 'patchchatinit', className: 'patchchatlistitem' });
 	}
 });
 

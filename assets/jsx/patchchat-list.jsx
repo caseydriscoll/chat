@@ -32,7 +32,7 @@ var PatchChatList = React.createClass( {
 var PatchChatInit = React.createClass( {
 	render: function() {
 		return(
-			<li id="patchchatinit"></li>
+			<li id="patchchatinit" className="patchchatlistitem"></li>
 		);
 	}
 } );
