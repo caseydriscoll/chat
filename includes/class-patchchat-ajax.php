@@ -97,7 +97,11 @@ class PatchChat_AJAX {
 
 
 	/**
-	 * Post json to the server
+	 * Sanitize the POST and send to the correct controller method
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * TODO: Sanitize and validate
 	 */
 	public static function post() {
 
