@@ -165,7 +165,7 @@ class PatchChat_Controller {
 	 *
 	 * TODO: Add 'agent' role/capability instead of 'administrator'
 	 */
-	public static function get_user_chats( $user_id ) {
+	public static function get_user_state( $user_id ) {
 
 		$user_chats = PatchChat_Controller::get_array( $user_id );
 

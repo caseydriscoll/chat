@@ -20,7 +20,7 @@ var PatchChatMessenger = React.createClass( {
 
 		var ajaxdata = {
 			'action'  : 'patchchat_get',
-			'method'  : 'get_user_chats'
+			'method'  : 'get_user_state'
 		};
 
 		if ( PWDEBUG ) console.log( 'before ' + ajaxdata.method, ajaxdata );
@@ -67,7 +67,7 @@ var PatchChatMessenger = React.createClass( {
 
 				patchchat.spinner.hide();
 
-				this.setState({ data : response.data });
+				this.setState( { data : { chats : response.data } } );
 
 				clearTimeout( this.timeOutID );
 				this.timeOutID = setTimeout( this.loadCommentsFromServer, 3000 );

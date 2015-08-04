@@ -79,8 +79,8 @@ class PatchChat_AJAX {
 
 		// Switch based on request
 		switch ( $_POST['method'] ) {
-			case 'get_user_chats' : // Return 'new' chats and chats for given user
-				$data = PatchChat_Controller::get_user_chats( $user_id );
+			case 'get_user_state' : // Return 'new' chats and chats for given user
+				$data = PatchChat_Controller::get_user_state( $user_id );
 				break;
 
 			default:
