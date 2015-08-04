@@ -95,6 +95,11 @@ $blue:     #453AFF;
 				form {
 					display: none;
 					padding-bottom: 100px;
+
+					textarea {
+						position: absolute;
+						bottom: 0;
+					}
 				}
 			}
 
