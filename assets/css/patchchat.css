@@ -79,6 +79,7 @@
           clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment span {
             display: inline-block;
+            position: relative;
             max-width: 80%;
             padding: 3px 5px;
             margin: 3px 8px;
@@ -87,8 +88,25 @@
             border: 1px solid #bbbbbb;
             border-radius: 5px;
             background-color: #fafafa; }
+            #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment span:after, #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment span:before {
+              content: '';
+              position: absolute;
+              width: 0;
+              height: 0;
+              right: 101%;
+              top: 50%;
+              border: solid transparent;
+              pointer-events: none; }
+            #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment span:before {
+              border-color: rgba(187, 187, 187, 0);
+              border-right-color: #bfbfbf;
+              border-width: 7px;
+              margin-top: -7px; }
             #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment span:after {
-              content: "";
+              border-color: rgba(250, 250, 250, 0);
+              border-right-color: #fafafa;
+              border-width: 6px;
+              margin-top: -6px;
               display: table;
               clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.user span {
@@ -97,11 +115,28 @@
             float: right;
             border-color: #333333; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.subscriber span {
-            float: left; }
+            float: left;
+            margin-left: 15px; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span {
             float: right;
+            margin-right: 15px;
             border-color: #333333;
             background: lightblue; }
+            #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span:after, #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span:before {
+              right: auto;
+              left: 100%; }
+            #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span:before {
+              border-color: rgba(187, 187, 187, 0);
+              border-left-color: #333333;
+              border-width: 7px;
+              margin-top: -7px; }
+            #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.administrator span:after {
+              border-color: rgba(250, 250, 250, 0);
+              border-left-color: lightblue;
+              border-width: 6px;
+              margin-top: -6px;
+              display: table;
+              clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment img {
             display: none; }
       #patchchatmessenger #patchchatboxes .patchchatbox form textarea {

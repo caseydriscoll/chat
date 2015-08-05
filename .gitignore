@@ -3,3 +3,8 @@ node_modules/
 .idea
 
 *.sass-cache
+
+assets/js/patchchat-boxes.js
+assets/js/patchchat-list.js
+assets/js/patchchat-messenger.js
+wp-cli.yml
