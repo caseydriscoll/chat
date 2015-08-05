@@ -146,8 +146,9 @@ var PatchChatComments = React.createClass( {
 	render: function() {
 		var comments = this.props.chat.comments.map( function( comment ) {
 			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
+			var user    = this.props.chat.users[comment.user].name;
 			return (
-				<li className={classes} key={'comment' + comment.id}>
+				<li className={classes} key={'comment' + comment.id} title={user}>
 					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
 					{comment.text}
 				</li>
