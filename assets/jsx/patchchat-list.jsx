@@ -3,10 +3,20 @@ var PatchChatList = React.createClass( {
 	render: function() {
 
 		var chats = this.props.chats.reverse().map( function( chat, i ) {
+
+			var users = [];
+
+			for ( var user in chat.users ) {
+				if ( chat.users[user].role != 'administrator' )
+					users.push( chat.users[user].name );
+			}
+
+			users = users.join( ', ' );
+
 			return (
 				<PatchChatListItem chat={chat} idx={i+1} key={chat.chat_id}  >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
-					<h3>{chat.name}</h3>
+					<h3>{users}</h3>
 					{chat.title}
 				</PatchChatListItem>
 			);

@@ -334,6 +334,15 @@ var PatchChatList = React.createClass({
 	render: function render() {
 
 		var chats = this.props.chats.reverse().map(function (chat, i) {
+
+			var users = [];
+
+			for (var user in chat.users) {
+				if (chat.users[user].role != 'administrator') users.push(chat.users[user].name);
+			}
+
+			users = users.join(', ');
+
 			return React.createElement(
 				PatchChatListItem,
 				{ chat: chat, idx: i + 1, key: chat.chat_id },
@@ -341,7 +350,7 @@ var PatchChatList = React.createClass({
 				React.createElement(
 					'h3',
 					null,
-					chat.name
+					users
 				),
 				chat.title
 			);
