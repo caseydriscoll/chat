@@ -236,6 +236,9 @@ class PatchChat {
 			wp_enqueue_script( 'patchchat-back', plugins_url( '/assets/js/patchchat-back.js', __FILE__ ),
 				array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );
 
+			wp_localize_script( 'patchchat-back', 'patchchat', PatchChat_Settings::localize() );
+
+
 			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
 
 		}
