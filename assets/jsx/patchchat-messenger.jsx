@@ -28,7 +28,7 @@ var PatchChatMessenger = React.createClass( {
 
 		jQuery.ajax({
 			method  : 'POST',
-			url     : ajaxURL,
+			url     : patchchat.ajaxurl,
 			data    : ajaxdata,
 			success : function ( response ) {
 
@@ -60,7 +60,7 @@ var PatchChatMessenger = React.createClass( {
 
 		jQuery.ajax({
 			method  : 'POST',
-			url     : ajaxURL,
+			url     : patchchat.ajaxurl,
 			data    : chat,
 			success : function ( response ) {
 

@@ -149,7 +149,9 @@ class PatchChat_Settings {
 	 */
 	static function localize() {
 
-		$data = array();
+		$data = array(
+			'ajaxurl' => '/wp-admin/admin-ajax.php',
+		);
 
 		$settings = get_option( self::$key );
 
@@ -157,17 +159,13 @@ class PatchChat_Settings {
 		//   set the array with default settings
 		if ( $settings === false ) {
 
-			$data = array(
-				'debug' => false
-			);
+			$data['debug'] = 'false';
 
 		} else {
 
 			$debug = array_key_exists( 'js-debug', $settings ) && $settings['js-debug'] == 'on' ? 'true' : 'false';
 
-			$data = array(
-				'debug' => $debug,
-			);
+			$data['debug'] = $debug;
 
 		}
 
