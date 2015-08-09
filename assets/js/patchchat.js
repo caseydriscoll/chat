@@ -27,7 +27,7 @@ var PatchChatMessenger = React.createClass({
 			'method': 'get_user_state'
 		};
 
-		if (PWDEBUG) console.log('before ' + ajaxdata.method, ajaxdata);
+		if (patchchat.debug == 'true') console.log('before ' + ajaxdata.method, ajaxdata);
 
 		jQuery.ajax({
 			method: 'POST',
@@ -35,7 +35,7 @@ var PatchChatMessenger = React.createClass({
 			data: ajaxdata,
 			success: (function (response) {
 
-				if (PWDEBUG) console.log('response get_user_chats: ', response);
+				if (patchchat.debug == 'true') console.log('response get_user_chats: ', response);
 
 				if (response.success) {
 					this.setState({ chats: response.data });
@@ -43,11 +43,11 @@ var PatchChatMessenger = React.createClass({
 					clearTimeout(this.timeOutID);
 					this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
 				} else {
-					if (PWDEBUG) console.log('error response get_user_chats: ', response);
+					if (patchchat.debug == 'true') console.log('error response get_user_chats: ', response);
 				}
 			}).bind(this),
 			error: (function (response) {
-				if (PWDEBUG) console.error('error response get_user_chats: ', response);
+				if (patchchat.debug == 'true') console.error('error response get_user_chats: ', response);
 			}).bind(this)
 		});
 	},
@@ -58,7 +58,7 @@ var PatchChatMessenger = React.createClass({
 
 		chat.action = 'patchchat_post';
 
-		if (PWDEBUG) console.log('before ' + chat.method, chat);
+		if (patchchat.debug == 'true') console.log('before ' + chat.method, chat);
 
 		jQuery.ajax({
 			method: 'POST',
@@ -66,7 +66,7 @@ var PatchChatMessenger = React.createClass({
 			data: chat,
 			success: (function (response) {
 
-				if (PWDEBUG) console.log('response create/update: ', response);
+				if (patchchat.debug == 'true') console.log('response create/update: ', response);
 
 				patchchat.spinner.hide();
 
@@ -76,7 +76,7 @@ var PatchChatMessenger = React.createClass({
 				this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
 			}).bind(this),
 			error: (function (response) {
-				if (PWDEBUG) console.error('error response create/update: ', response);
+				if (patchchat.debug == 'true') console.error('error response create/update: ', response);
 			}).bind(this)
 		});
 	},

@@ -103,14 +103,21 @@ class PatchChat_Settings {
 		) );
 
 		$cmb->add_field( array(
-			'name' => __( 'Test Text', 'patchchat' ),
-			'desc' => __( 'field description (optional)', 'patchchat' ),
-			'id'   => 'text',
+			'name' => __( 'Welcome Header', 'patchchat' ),
+			'desc' => __( 'The text that appears on the chat box header.', 'patchchat' ),
+			'id'   => 'welcome-text',
 			'type' => 'text',
 			'attributes' => array(
-				'placeholder' => 'Default Text',
+				'placeholder' => 'PatchChat',
 			),
 		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Javascript Debugger', 'patchchat' ),
+			'desc' => __( 'Will output values to js console', 'patchchat' ),
+			'id'   => 'js-debug',
+			'type' => 'checkbox',
+	) );
 	}
 
 
@@ -127,6 +134,46 @@ class PatchChat_Settings {
 			<?php cmb2_metabox_form( self::$key, self::$key ); ?>
 		</div>
 		<?php
+
+	}
+
+
+	/**
+	 * Prepares the 'patchchat' js object variable for wp_localize_script
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-09 18:33:09
+	 * 
+	 * @return array $settings The array of settings
+	 */
+	static function localize() {
+
+		$data = array();
+
+		$settings = get_option( self::$key );
+
+		// If the settings haven't been initialized or are missing
+		//   set the array with default settings
+		if ( $settings === false ) {
+
+			$data = array(
+				'debug' => false
+			);
+
+		} else {
+
+			$debug = array_key_exists( 'js-debug', $settings ) && $settings['js-debug'] == 'on' ? 'true' : 'false';
+
+			$data = array(
+				'debug' => $debug,
+			);
+
+		}
+
+		
+
+		return $data;
 
 	}
 

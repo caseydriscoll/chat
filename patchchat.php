@@ -78,6 +78,8 @@ class PatchChat {
 
 		include_once( 'includes/class-patchchat-transient.php' );
 		include_once( 'includes/class-patchchat-transient-state.php' );
+
+		include_once( 'includes/admin/class-patchchat-settings.php' );
 	}
 
 	/**
@@ -93,8 +95,6 @@ class PatchChat {
 		include_once( 'includes/class-patchchat-post-type.php' );
 
 		include_once( 'includes/cmb2/init.php' );
-
-		include_once( 'includes/admin/class-patchchat-settings.php' );
 	}
 
 
@@ -199,8 +199,11 @@ class PatchChat {
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/patchchat-front.css', __FILE__ ),
 			array( 'patchchat' ) );
 
+
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/patchchat-front.js', __FILE__ ),
 			array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );
+
+		wp_localize_script( 'patchchat-front', 'patchchat', PatchChat_Settings::localize() );
 
 	}
 
