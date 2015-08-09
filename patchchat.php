@@ -35,6 +35,8 @@ class PatchChat {
 
 	/**
 	 * Start initialization sequence, on condition of the view
+	 *
+	 * @author caseypatrickdriscoll
 	 */
 	public static function init() {
 
@@ -88,6 +90,9 @@ class PatchChat {
 	 */
 	public static function admin_includes() {
 		include_once( 'includes/class-patchchat-post-type.php' );
+		include_once( 'includes/class-patchchat-post-type.php' );
+
+		include_once( 'includes/cmb2/init.php' );
 
 		include_once( 'includes/admin/class-patchchat-settings.php' );
 	}
@@ -131,13 +136,18 @@ class PatchChat {
 
 
 	/**
+	 * Register the needed scripts and styles to be localized later
 	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-09 16:38:21 - Adds cmb2
 	 */
 	public static function register_assets() {
 		wp_register_script( 'react-with-addons', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
 		wp_register_script( 'patchchat', plugins_url( '/assets/js/patchchat.js', __FILE__ ) );
 
 		wp_register_style( 'patchchat', plugins_url( '/assets/css/patchchat.css', __FILE__ ) );
+		wp_register_style( 'cmb2', plugins_url( '/includes/cmb2/css/cmb2.css', __FILE__ ) );
 	}
 
 
@@ -204,6 +214,8 @@ class PatchChat {
 	 */
 	static function load_back_assets() {
 
+		PatchChat::register_assets();
+
 		// TODO: Not sure I like 'patchchat_messenger' but the patchchat cpt took over the menu.
 		//       The original 'patchchat' admin menu is not linked
 
@@ -215,8 +227,6 @@ class PatchChat {
 
 		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat' ) {
 
-			PatchChat::register_assets();
-
 			wp_enqueue_style( 'patchchat-back', plugins_url( '/assets/css/patchchat-back.css', __FILE__ ),
 				array( 'patchchat' ) );
 
@@ -226,6 +236,9 @@ class PatchChat {
 			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
 
 		}
+
+		wp_enqueue_style( 'cmb2' );
+
 	}
 
 
