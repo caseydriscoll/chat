@@ -4,4 +4,4 @@
 
 jQuery('body').append('<div id="patchchatcontainer"></div>');
 
-React.render(React.createElement(PatchChatMessenger, { pulse: '3000' }), document.getElementById('patchchatcontainer'));
+React.render(React.createElement(PatchChatMessenger, { pulse: patchchat.userpulsetime }), document.getElementById('patchchatcontainer'));

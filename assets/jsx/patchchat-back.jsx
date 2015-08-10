@@ -1,4 +1,4 @@
 React.render(
-	<PatchChatMessenger pulse="1000"  />,
+	<PatchChatMessenger pulse={patchchat.adminpulsetime}  />,
 	document.getElementById( 'wpbody' )
 );

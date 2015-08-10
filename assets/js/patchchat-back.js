@@ -1,3 +1,3 @@
-"use strict";
+'use strict';
 
-React.render(React.createElement(PatchChatMessenger, { pulse: "1000" }), document.getElementById('wpbody'));
+React.render(React.createElement(PatchChatMessenger, { pulse: patchchat.adminpulsetime }), document.getElementById('wpbody'));

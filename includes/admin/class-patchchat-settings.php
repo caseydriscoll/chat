@@ -43,6 +43,34 @@ class PatchChat_Settings {
 	 */
 	protected $options_page = 'patchchat_settings';
 
+	/**
+	 * Default option for js debugging in localize() function
+	 *
+	 * Must be string, not boolean, as false value is passed to js as empty string
+	 * http://wordpress.stackexchange.com/questions/105426/passing-boolean-values-with-wp-localize-script
+	 * 
+	 * @var string
+	 */
+	static $debug = 'false';
+
+
+	/**
+	 * Default option for js messenger GET pulse on user side
+	 *
+	 * Defaults to 3 seconds, can be set in patchchat_settings admin
+	 * @var string
+	 */
+	static $user_pulse_time = '3000';
+
+
+	/**
+	 * Default option for js messenger GET pulse on admin side
+	 *
+	 * Defaults to 1 second, can be set in patchchat_settings admin
+	 * @var string
+	 */
+	static $admin_pulse_time = '1000';
+
 
 	/**
 	 * Initialize the menu registration
@@ -56,6 +84,7 @@ class PatchChat_Settings {
 
 		add_action( 'cmb2_init', array( __CLASS__, 'register_fields' ) );
 	}
+
 
 	/**
 	 * 
@@ -117,7 +146,29 @@ class PatchChat_Settings {
 			'desc' => __( 'Will output values to js console', 'patchchat' ),
 			'id'   => 'js-debug',
 			'type' => 'checkbox',
-	) );
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Admin Pulse Time', 'patchchat' ),
+			'desc' => __( 'How fast the admin chat updates, in milliseconds.', 'patchchat' ),
+			'id'   => 'admin-pulse-time',
+			'type' => 'text_small',
+			'attributes' => array(
+				'placeholder' => self::$admin_pulse_time,
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'User Pulse Time', 'patchchat' ),
+			'desc' => __( 'How fast the user chat updates, in milliseconds.', 'patchchat' ),
+			'id'   => 'user-pulse-time',
+			'type' => 'text_small',
+			'attributes' => array(
+				'placeholder' => self::$user_pulse_time,
+			),
+		) );
+
+
 	}
 
 
@@ -141,6 +192,8 @@ class PatchChat_Settings {
 	/**
 	 * Prepares the 'patchchat' js object variable for wp_localize_script
 	 *
+	 * Sets defaults if patchchat_settings option array doesn't exist
+	 *
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-08-09 18:33:09
@@ -155,21 +208,41 @@ class PatchChat_Settings {
 
 		$settings = get_option( self::$key );
 
-		// If the settings haven't been initialized or are missing
+		// If the 'patchchat_settings' option hasn't been initialized or is missing
 		//   set the array with default settings
 		if ( $settings === false ) {
 
-			$data['debug'] = 'false';
+			$data['debug']          = self::$debug;
+			$data['userpulsetime']  = self::$user_pulse_time;
+			$data['adminpulsetime'] = self::$admin_pulse_time;
 
 		} else {
 
-			$debug = array_key_exists( 'js-debug', $settings ) && $settings['js-debug'] == 'on' ? 'true' : 'false';
+			// Convert js-debug checkbox value to true/false
+			// true/false must be string, as wp_localize_script() will convert to string anyways
+			// http://wordpress.stackexchange.com/questions/105426/passing-boolean-values-with-wp-localize-script
+			if ( array_key_exists( 'js-debug', $settings ) && $settings['js-debug'] == 'on' ) {
+				$data['debug'] = 'true';
+			} else {
+				$data['debug'] = 'false';
+			}
 
-			$data['debug'] = $debug;
+			// If not set by admin, set admin pulse time from class default
+			if ( array_key_exists( 'admin-pulse-time', $settings ) ) {
+				$data['adminpulsetime'] = $settings['admin-pulse-time'];
+			} else {
+				$data['adminpulsetime'] = self::$admin_pulse_time;
+			}
+
+			// If not set by admin, set user pulse time from class default
+			if ( array_key_exists( 'user-pulse-time', $settings ) ) {
+				$data['userpulsetime'] = $settings['user-pulse-time'];
+			} else {
+				$data['userpulsetime']  = self::$user_pulse_time;
+			}
 
 		}
 
-		
 
 		return $data;
 

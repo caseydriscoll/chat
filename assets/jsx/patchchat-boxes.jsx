@@ -60,7 +60,7 @@ var PatchChatInitBox = React.createClass( {
 			valid = true;
 		}
 
-		if ( PWDEBUG ) console.log( 'PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error );
+		if ( patchchat.debug == 'true' ) console.log( 'PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error );
 
 		if ( valid ) {
 			jQuery( '#patchchatinitbox' )
@@ -196,7 +196,7 @@ var PatchChatForm = React.createClass( {
 				valid = true;
 			}
 
-			if ( PWDEBUG ) console.log( 'PatchChatForm', 'text: ' + chat.text, 'error: ' + error );
+			if ( patchchat.debug == 'true' ) console.log( 'PatchChatForm', 'text: ' + chat.text, 'error: ' + error );
 
 			if ( valid ) {
 				e.target.value = '';
