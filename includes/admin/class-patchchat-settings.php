@@ -119,6 +119,7 @@ class PatchChat_Settings {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-08-09 16:44:44
+	 * @edited  2015-08-11 22:09:06 - Adds audio setting and playback
 	 */
 	public static function register_fields() {
 
@@ -168,6 +169,39 @@ class PatchChat_Settings {
 			),
 		) );
 
+
+
+		$cmb->add_field( array(
+			'name' => __( 'Sounds', 'patchchat' ),
+			'id'   => 'sound-title',
+			'type' => 'title',
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Receive Sound', 'patchchat' ),
+			'desc' => __( 'The receive sound.', 'patchchat' ),
+			'id'   => 'get-sound',
+			'type' => 'select',
+			'show_option_none' => true,
+			'options'          => array(
+				'a-get.mp3' => __( 'A', 'patchchat' ),
+				'b-get.mp3' => __( 'B', 'patchchat' ),
+				'c-get.mp3' => __( 'C', 'patchchat' ),
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Send Sound', 'patchchat' ),
+			'desc' => __( 'The send sound.', 'patchchat' ),
+			'id'   => 'post-sound',
+			'type' => 'select',
+			'show_option_none' => true,
+			'options'          => array(
+				'a-post.mp3' => __( 'A', 'patchchat' ),
+				'b-post.mp3' => __( 'B', 'patchchat' ),
+				'c-post.mp3' => __( 'C', 'patchchat' ),
+			),
+		) );
 
 	}
 
@@ -239,6 +273,14 @@ class PatchChat_Settings {
 				$data['userpulsetime'] = $settings['user-pulse-time'];
 			} else {
 				$data['userpulsetime']  = self::$user_pulse_time;
+			}
+
+			if ( array_key_exists( 'post-sound', $settings ) ) {
+				$data['postsound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['post-sound'];
+			}
+
+			if ( array_key_exists( 'get-sound', $settings ) ) {
+				$data['getsound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['get-sound'];
 			}
 
 		}

@@ -137,6 +137,7 @@ var PatchChatComments = React.createClass( {
 			var node = this.getDOMNode();
 			node.scrollTop = node.scrollHeight
 		}
+
 	},
 
 	componentDidMount: function() {

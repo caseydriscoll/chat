@@ -20,6 +20,26 @@ var PatchChatMessenger = React.createClass({
 
 	timeOutID: null,
 
+	// TODO: Don't play on init or page reload
+	playReceiveSound: function playReceiveSound(newChats) {
+
+		if (this.state.chats.length < newChats.length) {
+			new Audio(patchchat.getsound).play();
+			return;
+		}
+
+		if (this.state.chats.length == newChats.length) {
+
+			for (var i = 0; i < this.state.chats.length; i++) {
+
+				if (this.state.chats[i].comments.length < newChats[i].comments.length) {
+					new Audio(patchchat.getsound).play();
+					return;
+				}
+			}
+		}
+	},
+
 	loadCommentsFromServer: function loadCommentsFromServer() {
 
 		var ajaxdata = {
@@ -38,6 +58,9 @@ var PatchChatMessenger = React.createClass({
 				if (patchchat.debug == 'true') console.log('response get_user_chats: ', response);
 
 				if (response.success) {
+
+					this.playReceiveSound(response.data);
+
 					this.setState({ chats: response.data });
 
 					clearTimeout(this.timeOutID);
@@ -74,6 +97,8 @@ var PatchChatMessenger = React.createClass({
 
 				clearTimeout(this.timeOutID);
 				this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
+
+				var audio = new Audio(patchchat.postsound).play();
 			}).bind(this),
 			error: (function (response) {
 				if (patchchat.debug == 'true') console.error('error response create/update: ', response);

@@ -141,9 +141,11 @@ class PatchChat {
 	 * @author  caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-09 16:38:21 - Adds cmb2
+	 * @edited 2015-08-11 20:12:17 - Adds patchchat-settings
 	 */
 	public static function register_assets() {
 		wp_register_script( 'react-with-addons', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
+		wp_register_script( 'patchchat-settings', plugins_url( '/assets/js/patchchat-settings.js', __FILE__ ) );
 		wp_register_script( 'patchchat', plugins_url( '/assets/js/patchchat.js', __FILE__ ) );
 
 		wp_register_style( 'patchchat', plugins_url( '/assets/css/patchchat.css', __FILE__ ) );
@@ -240,6 +242,11 @@ class PatchChat {
 
 
 			wp_enqueue_script( 'bootstrap-tabs', plugins_url( '/assets/js/bootstrap.tabs.min.js', __FILE__ ) );
+
+		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat_settings' ) {
+
+			wp_enqueue_script( 'patchchat-settings' );
+			wp_localize_script( 'patchchat-settings', 'patchchat', array( 'audiourl' => plugins_url( '/assets/audio/', __FILE__ ) ) );
 
 		}
 
