@@ -31,66 +31,6 @@ var PatchChatBoxes = React.createClass( {
 } );
 
 
-var PatchChatInitBox = React.createClass( {
-	validate: function(chat) {
-
-		chat.method = 'create';
-
-		chat.name   = jQuery( 'input[name=patchchat-name]' ).val();
-		chat.email  = jQuery( 'input[name=patchchat-email]' ).val();
-
-		chat.honey  = jQuery( 'input[name=patchchat-honeypot]' ).val();
-
-		var re    = /\S+@\S+/;
-		var valid = false;
-		var error = false;
-
-		if ( chat.name == '' )
-			error = 'Name is blank';
-		else if ( chat.email == '' )
-			error = 'Email is blank';
-		else if ( ! re.test( chat.email ) )
-			error = 'Not a valid email';
-
-		if ( chat.honey != '' )
-			error = 'Caught the honeypot';
-
-
-		if ( error == false ) {
-			valid = true;
-		}
-
-		if ( patchchat.debug == 'true' ) console.log( 'PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error );
-
-		if ( valid ) {
-			jQuery( '#patchchatinitbox' )
-				.find( 'input, textarea' ).val( '' ).empty();
-
-			this.props.submit( chat );
-		}
-
-	},
-	render: function() {
-
-		var classes = 'patchchatbox open';
-		classes += (this.props.needed ? ' needed' : '');
-
-		return(
-			<li id="patchchatinitbox" className={classes}>
-				<PatchChatBoxHeader />
-				<PatchChatForm submit={this.validate}>
-					<fieldset>
-						<label>Name</label><input name="patchchat-name" type="name" required />
-						<label>Email</label><input name="patchchat-email" type="email" required />
-						<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
-					</fieldset>
-				</PatchChatForm>
-			</li>
-		);
-	}
-} );
-
-
 var PatchChatBox = React.createClass( {
 
 	render: function() {

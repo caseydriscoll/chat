@@ -53,6 +53,7 @@ module.exports = function( grunt ) {
 				files: {
 					'assets/js/patchchat-messenger.js' : 'assets/jsx/patchchat-messenger.jsx',
 					'assets/js/patchchat-boxes.js'     : 'assets/jsx/patchchat-boxes.jsx',
+					'assets/js/patchchat-initbox.js'   : 'assets/jsx/patchchat-initbox.jsx',
 					'assets/js/patchchat-list.js'      : 'assets/jsx/patchchat-list.jsx',
 					'assets/js/patchchat-front.js'     : 'assets/jsx/patchchat-front.jsx',
 					'assets/js/patchchat-back.js'      : 'assets/jsx/patchchat-back.jsx'
@@ -65,6 +66,7 @@ module.exports = function( grunt ) {
 				src: [
 					'assets/js/patchchat-messenger.js',
 					'assets/js/patchchat-boxes.js',
+					'assets/js/patchchat-initbox.js',
 					'assets/js/patchchat-list.js'
 				],
 				dest: 'assets/js/patchchat.js'
@@ -75,6 +77,7 @@ module.exports = function( grunt ) {
 		clean: [
 			'assets/js/patchchat-messenger.js',
 			'assets/js/patchchat-boxes.js',
+			'assets/js/patchchat-initbox.js',
 			'assets/js/patchchat-list.js'
 		],
 
