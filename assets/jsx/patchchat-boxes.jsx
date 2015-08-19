@@ -55,7 +55,7 @@ var PatchChatBoxHeader = React.createClass( {
 	render : function () {
 		return (
 			<header onClick={this.handleClick}>
-				PatchChat
+				{patchchat.headerText}
 				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
 			</header>
 		);

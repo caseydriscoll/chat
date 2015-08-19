@@ -72,6 +72,13 @@ class PatchChat_Settings {
 	static $admin_pulse_time = '1000';
 
 	/**
+	 * Default option for the chatbox header text
+	 *
+	 * @var  string
+	 */
+	static $header_text = 'Welcome!';
+
+	/**
 	 * Default option for js messenger instructions to new user
 	 * 
 	 * @var string
@@ -129,6 +136,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-11 22:09:06 - Adds audio setting and playback
 	 * @edited  2015-08-19 13:55:02 - Refactors send and receive sound fields
 	 * @edited  2015-08-19 16:37:29 - Adds setting for chat-instructions
+	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 */
 	public static function register_fields() {
 
@@ -157,12 +165,12 @@ class PatchChat_Settings {
 		) );
 
 		$cmb->add_field( array(
-			'name' => __( 'Welcome Header', 'patchchat' ),
+			'name' => __( 'Header Text', 'patchchat' ),
 			'desc' => __( 'The text that appears on the chat box header.', 'patchchat' ),
-			'id'   => 'welcome-header',
+			'id'   => 'header-text',
 			'type' => 'text',
 			'attributes' => array(
-				'placeholder' => 'PatchChat',
+				'placeholder' => __( self::$header_text, 'patchchat' ),
 			),
 		) );
 
@@ -259,6 +267,7 @@ class PatchChat_Settings {
 	 *
 	 * @created 2015-08-09 18:33:09
 	 * @edited  2015-08-19 16:36:58 - Adds setting for chat-instructions
+	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * 
 	 * @return array $settings The array of settings
 	 */
@@ -277,6 +286,7 @@ class PatchChat_Settings {
 			$data['debug']          = self::$debug;
 			$data['userpulsetime']  = self::$user_pulse_time;
 			$data['adminpulsetime'] = self::$admin_pulse_time;
+			$data['header-text']    = self::$header_text;
 			$data['instructions']   = self::$instructions;
 
 		} else {
@@ -314,6 +324,12 @@ class PatchChat_Settings {
 				$data['receiveMessageSound'] = $audio_url . $settings['receive-message-sound'];
 			}
 
+			if ( array_key_exists( 'header-text', $settings ) ) {
+				$data['headerText'] = $settings['header-text'];
+			} else {
+				$data['headerText'] = self::$header_text;
+			}
+
 			if ( array_key_exists( 'chat-instructions', $settings ) ) {
 				$data['instructions'] = $settings['chat-instructions'];
 			} else {
@@ -326,7 +342,6 @@ class PatchChat_Settings {
 		return $data;
 
 	}
-
 
 
 	/**

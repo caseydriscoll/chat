@@ -199,7 +199,7 @@ var PatchChatBoxHeader = React.createClass({
 		return React.createElement(
 			'header',
 			{ onClick: this.handleClick },
-			'PatchChat',
+			patchchat.headerText,
 			React.createElement('img', { className: 'spinner', src: '/wp-admin/images/wpspin_light.gif' })
 		);
 	}
