@@ -184,11 +184,7 @@ class PatchChat_Settings {
 			'id'   => 'receive-message-sound',
 			'type' => 'select',
 			'show_option_none' => true,
-			'options'          => array(
-				'a-get.mp3' => __( 'A', 'patchchat' ),
-				'b-get.mp3' => __( 'B', 'patchchat' ),
-				'c-get.mp3' => __( 'C', 'patchchat' ),
-			),
+			'options'          => self::audio_options(),
 		) );
 
 		$cmb->add_field( array(
@@ -197,11 +193,7 @@ class PatchChat_Settings {
 			'id'   => 'send-message-sound',
 			'type' => 'select',
 			'show_option_none' => true,
-			'options'          => array(
-				'a-post.mp3' => __( 'A', 'patchchat' ),
-				'b-post.mp3' => __( 'B', 'patchchat' ),
-				'c-post.mp3' => __( 'C', 'patchchat' ),
-			),
+			'options'          => self::audio_options(),
 		) );
 
 	}
@@ -276,12 +268,14 @@ class PatchChat_Settings {
 				$data['userpulsetime']  = self::$user_pulse_time;
 			}
 
+			$audio_url = plugins_url( '/assets/audio/', dirname( dirname( __FILE__ ) ) );
+
 			if ( array_key_exists( 'send-message-sound', $settings ) ) {
-				$data['sendMessageSound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['post-sound'];
+				$data['sendMessageSound'] = $audio_url . $settings['send-message-sound'];
 			}
 
 			if ( array_key_exists( 'receive-message-sound', $settings ) ) {
-				$data['receiveMessageSound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['get-sound'];
+				$data['receiveMessageSound'] = $audio_url . $settings['receive-message-sound'];
 			}
 
 		}
@@ -289,6 +283,37 @@ class PatchChat_Settings {
 
 		return $data;
 
+	}
+
+
+
+	/**
+	 * Helper method to prep and return all audio filenames
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-19 14:20:31
+	 *
+	 * @return  array $audio_options An array of audio_filename => filename_as_title
+	 */
+	private static function audio_options() {
+		$audio_dir = plugin_dir_path( dirname( dirname( __FILE__ ) ) ) . '/assets/audio/';
+
+		$audio_files = scandir( $audio_dir );
+
+		$audio_options = array();
+
+		foreach ( $audio_files as $key => $audio_file ) {
+
+			if ( substr( $audio_file, -3 ) != 'mp3' ) continue;
+
+			$filename = ucwords( str_replace( '-', ' ', preg_replace('/\\.[^.\\s]{3}$/', '', $audio_file ) ) );
+
+			$audio_options[$audio_file] = __( $filename , 'patchchat' );
+
+		}
+
+		return $audio_options;
 	}
 
 }
