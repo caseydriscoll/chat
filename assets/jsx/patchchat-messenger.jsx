@@ -20,10 +20,10 @@ var PatchChatMessenger = React.createClass( {
 	playNewMessageSound: function( newChats ) {
 
 		// Don't play on the first run (init page loads)
-		if ( patchchat.init )
-			return;
-		else
+		if ( patchchat.init ) {
 			patchchat.init = false;
+			return;
+		}
 
 		if ( this.state.chats.length < newChats.length ) {
 			new Audio( patchchat.receiveMessageSound ).play();
