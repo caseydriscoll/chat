@@ -356,8 +356,12 @@ var PatchChatInitBox = React.createClass({
 				React.createElement(
 					'p',
 					{ className: 'patchchat-instructions' },
-					patchchat.instructions,
-					' Already have an account? ',
+					patchchat.instructions
+				),
+				React.createElement(
+					'p',
+					null,
+					'Already have an account? ',
 					React.createElement(
 						'a',
 						{ href: '/wp-login.php' },
