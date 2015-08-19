@@ -1,6 +1,6 @@
 jQuery( document ).ready( function() {
 
-	jQuery( '#get-sound, #post-sound' ).on( 'change', function(e) {
+	jQuery( '#receive-message-sound, #send-message-sound' ).on( 'change', function(e) {
 
 		if ( e.target.value == '' ) return;
 

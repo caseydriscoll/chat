@@ -18,10 +18,10 @@ var PatchChatMessenger = React.createClass( {
 	timeOutID : null,
 
 	// TODO: Don't play on init or page reload
-	playReceiveSound: function( newChats ) {
+	playNewMessageSound: function( newChats ) {
 
 		if ( this.state.chats.length < newChats.length ) {
-			new Audio( patchchat.getsound ).play();
+			new Audio( patchchat.receiveMessageSound ).play();
 			return;
 		}
 
@@ -29,8 +29,15 @@ var PatchChatMessenger = React.createClass( {
 
 			for ( var i = 0; i < this.state.chats.length; i++ ) {
 
-				if ( this.state.chats[i].comments.length < newChats[i].comments.length ) {
-					new Audio( patchchat.getsound ).play();
+				// TODO: Fix this reverseIndex problem
+				// For some reason the newChats array is reversed. I have to look into it.
+				// Maybe it is what happens when js does a deep copy when passing into function?
+				// So for now, use a 'reverseIndex' to properly compare the two arrays
+
+				var reverseIndex = newChats.length - 1 - i;
+
+				if ( this.state.chats[i].comments.length < newChats[reverseIndex].comments.length ) {
+					new Audio( patchchat.receiveMessageSound ).play();
 					return;
 				}
 
@@ -59,7 +66,7 @@ var PatchChatMessenger = React.createClass( {
 
 				if ( response.success ) {
 
-					this.playReceiveSound( response.data );
+					this.playNewMessageSound( response.data );
 
 					this.setState( { chats : response.data } );
 
@@ -100,7 +107,7 @@ var PatchChatMessenger = React.createClass( {
 				clearTimeout( this.timeOutID );
 				this.timeOutID = setTimeout( this.loadCommentsFromServer, this.props.pulse );
 
-				var audio = new Audio( patchchat.postsound ).play();
+				var audio = new Audio( patchchat.sendMessageSound ).play();
 
 			}.bind( this ),
 			error   : function ( response ) {

@@ -120,6 +120,7 @@ class PatchChat_Settings {
 	 *
 	 * @created 2015-08-09 16:44:44
 	 * @edited  2015-08-11 22:09:06 - Adds audio setting and playback
+	 * @edited  2015-08-19 13:55:02 - Refactors send and receive sound fields
 	 */
 	public static function register_fields() {
 
@@ -180,7 +181,7 @@ class PatchChat_Settings {
 		$cmb->add_field( array(
 			'name' => __( 'Receive Sound', 'patchchat' ),
 			'desc' => __( 'The receive sound.', 'patchchat' ),
-			'id'   => 'get-sound',
+			'id'   => 'receive-message-sound',
 			'type' => 'select',
 			'show_option_none' => true,
 			'options'          => array(
@@ -193,7 +194,7 @@ class PatchChat_Settings {
 		$cmb->add_field( array(
 			'name' => __( 'Send Sound', 'patchchat' ),
 			'desc' => __( 'The send sound.', 'patchchat' ),
-			'id'   => 'post-sound',
+			'id'   => 'send-message-sound',
 			'type' => 'select',
 			'show_option_none' => true,
 			'options'          => array(
@@ -275,12 +276,12 @@ class PatchChat_Settings {
 				$data['userpulsetime']  = self::$user_pulse_time;
 			}
 
-			if ( array_key_exists( 'post-sound', $settings ) ) {
-				$data['postsound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['post-sound'];
+			if ( array_key_exists( 'send-message-sound', $settings ) ) {
+				$data['sendMessageSound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['post-sound'];
 			}
 
-			if ( array_key_exists( 'get-sound', $settings ) ) {
-				$data['getsound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['get-sound'];
+			if ( array_key_exists( 'receive-message-sound', $settings ) ) {
+				$data['receiveMessageSound'] = plugins_url( '/assets/audio/', dirname( dirname(__FILE__) ) ) . $settings['get-sound'];
 			}
 
 		}
