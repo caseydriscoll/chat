@@ -17,8 +17,13 @@ var PatchChatMessenger = React.createClass( {
 
 	timeOutID : null,
 
-	// TODO: Don't play on init or page reload
 	playNewMessageSound: function( newChats ) {
+
+		// Don't play on the first run (init page loads)
+		if ( patchchat.init )
+			return;
+		else
+			patchchat.init = false;
 
 		if ( this.state.chats.length < newChats.length ) {
 			new Audio( patchchat.receiveMessageSound ).play();
@@ -115,13 +120,17 @@ var PatchChatMessenger = React.createClass( {
 			}.bind( this )
 		});
 	},
+
 	getInitialState: function() {
 		return { chats: new Array(0) }
 	},
+
 	componentDidMount: function() {
+		patchchat.init = true;
 		patchchat.spinner = jQuery( '.spinner' );
 		this.loadCommentsFromServer();
 	},
+
 	render: function() {
 		return (
 			<div id="patchchatmessenger">
