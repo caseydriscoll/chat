@@ -313,11 +313,11 @@ var PatchChatInitBox = React.createClass({
 
 		chat.method = 'create';
 
-		chat.name = jQuery('input[name=patchchat-name]').val();
-		chat.email = jQuery('input[name=patchchat-email]').val();
-		chat.text = jQuery('input[name=patchchat-text]').val();
+		chat.name = jQuery(e.target).find('input[name=patchchat-name]').val();
+		chat.email = jQuery(e.target).find('input[name=patchchat-email]').val();
+		chat.text = jQuery(e.target).find('input[name=patchchat-text]').val();
 
-		chat.honey = jQuery('input[name=patchchat-honeypot]').val();
+		chat.honey = jQuery(e.target).find('input[name=patchchat-honeypot]').val();
 
 		var re = /\S+@\S+/;
 		var valid = false;
@@ -345,6 +345,7 @@ var PatchChatInitBox = React.createClass({
 		classes += this.props.needed ? ' needed' : '';
 
 		// TODO: Make 'Comment' field label adjustable (Question, Comment, etc)
+		// TODO: Make 'required' adjustable
 		return React.createElement(
 			'li',
 			{ id: 'patchchatinitbox', className: classes },
@@ -353,29 +354,25 @@ var PatchChatInitBox = React.createClass({
 				'form',
 				{ onSubmit: this.validate },
 				React.createElement(
-					'fieldset',
+					'label',
 					null,
-					React.createElement(
-						'label',
-						null,
-						'Name'
-					),
-					React.createElement('input', { name: 'patchchat-name', type: 'name', required: true }),
-					React.createElement(
-						'label',
-						null,
-						'Email'
-					),
-					React.createElement('input', { name: 'patchchat-email', type: 'email', required: true }),
-					React.createElement(
-						'label',
-						null,
-						'Comment'
-					),
-					React.createElement('input', { name: 'patchchat-text', type: 'text', required: true }),
-					React.createElement('input', { id: 'patchchat-honeypot', name: 'patchchat-honeypot', type: 'text' }),
-					React.createElement('input', { type: 'submit' })
-				)
+					'Name'
+				),
+				React.createElement('input', { name: 'patchchat-name', type: 'name', required: true }),
+				React.createElement(
+					'label',
+					null,
+					'Email'
+				),
+				React.createElement('input', { name: 'patchchat-email', type: 'email', required: true }),
+				React.createElement(
+					'label',
+					null,
+					'Comment'
+				),
+				React.createElement('input', { name: 'patchchat-text', type: 'text', required: true }),
+				React.createElement('input', { id: 'patchchat-honeypot', name: 'patchchat-honeypot', type: 'text' }),
+				React.createElement('input', { type: 'submit' })
 			)
 		);
 	}

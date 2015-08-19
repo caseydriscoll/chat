@@ -39,17 +39,19 @@
     float: left;
     margin: 0;
     list-style: none; }
-    #patchchatmessenger #patchchatboxes #patchchatinitbox fieldset {
+    #patchchatmessenger #patchchatboxes #patchchatinitbox form {
       width: auto;
       padding: 10px; }
-      #patchchatmessenger #patchchatboxes #patchchatinitbox fieldset label {
+      #patchchatmessenger #patchchatboxes #patchchatinitbox form label {
         padding: 20px 10px 0 0; }
-      #patchchatmessenger #patchchatboxes #patchchatinitbox fieldset input {
+      #patchchatmessenger #patchchatboxes #patchchatinitbox form input {
         display: block;
         width: 100%;
         padding: 5px;
         margin-bottom: 10px; }
-      #patchchatmessenger #patchchatboxes #patchchatinitbox fieldset #patchchat-honeypot {
+      #patchchatmessenger #patchchatboxes #patchchatinitbox form input[type=submit] {
+        padding: 10px; }
+      #patchchatmessenger #patchchatboxes #patchchatinitbox form #patchchat-honeypot {
         display: none; }
     #patchchatmessenger #patchchatboxes .patchchatbox {
       position: relative;

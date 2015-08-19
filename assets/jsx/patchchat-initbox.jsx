@@ -7,11 +7,11 @@ var PatchChatInitBox = React.createClass( {
 
 		chat.method = 'create';
 
-		chat.name   = jQuery( 'input[name=patchchat-name]' ).val();
-		chat.email  = jQuery( 'input[name=patchchat-email]' ).val();
-		chat.text   = jQuery( 'input[name=patchchat-text]' ).val();
+		chat.name   = jQuery( e.target ).find( 'input[name=patchchat-name]' ).val();
+		chat.email  = jQuery( e.target ).find( 'input[name=patchchat-email]' ).val();
+		chat.text   = jQuery( e.target ).find( 'input[name=patchchat-text]' ).val();
 
-		chat.honey  = jQuery( 'input[name=patchchat-honeypot]' ).val();
+		chat.honey  = jQuery( e.target ).find( 'input[name=patchchat-honeypot]' ).val();
 
 		var re    = /\S+@\S+/;
 		var valid = false;
@@ -50,17 +50,16 @@ var PatchChatInitBox = React.createClass( {
 		classes += (this.props.needed ? ' needed' : '');
 
 		// TODO: Make 'Comment' field label adjustable (Question, Comment, etc)
+		// TODO: Make 'required' adjustable
 		return(
 			<li id="patchchatinitbox" className={classes}>
 				<PatchChatBoxHeader />
 				<form onSubmit={this.validate}>
-					<fieldset>
-						<label>Name</label><input name="patchchat-name" type="name" required />
-						<label>Email</label><input name="patchchat-email" type="email" required />
-						<label>Comment</label><input name="patchchat-text" type="text" required />
-						<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
-						<input type="submit" />
-					</fieldset>
+					<label>Name</label><input name="patchchat-name" type="name" required />
+					<label>Email</label><input name="patchchat-email" type="email" required />
+					<label>Comment</label><input name="patchchat-text" type="text" required />
+					<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
+					<input type="submit" />
 				</form>
 			</li>
 		);

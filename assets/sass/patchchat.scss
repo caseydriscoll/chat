@@ -69,7 +69,7 @@ $blue:     #55acee;
 
 		#patchchatinitbox {
 
-			fieldset {
+			form {
 
 				width: auto;
 				padding: 10px;
@@ -82,6 +82,10 @@ $blue:     #55acee;
 					display: block;
 					width: 100%;
 					padding: 5px; margin-bottom: 10px;
+				}
+
+				input[type=submit] {
+					padding: 10px;
 				}
 
 				#patchchat-honeypot { display: none; }
