@@ -286,7 +286,7 @@ class PatchChat_Settings {
 			$data['debug']          = self::$debug;
 			$data['userpulsetime']  = self::$user_pulse_time;
 			$data['adminpulsetime'] = self::$admin_pulse_time;
-			$data['header-text']    = self::$header_text;
+			$data['headerText']     = self::$header_text;
 			$data['instructions']   = self::$instructions;
 
 		} else {

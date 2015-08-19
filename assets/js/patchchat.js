@@ -346,6 +346,7 @@ var PatchChatInitBox = React.createClass({
 
 		// TODO: Make 'Comment' field label adjustable (Question, Comment, etc)
 		// TODO: Make 'required' adjustable
+		// TODO: Make 'login' link optional
 		return React.createElement(
 			'li',
 			{ id: 'patchchatinitbox', className: classes },
