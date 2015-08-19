@@ -346,7 +346,6 @@ var PatchChatInitBox = React.createClass({
 
 		// TODO: Make 'Comment' field label adjustable (Question, Comment, etc)
 		// TODO: Make 'required' adjustable
-		// TODO: Make '.patchchat-instructions' adjustable
 		return React.createElement(
 			'li',
 			{ id: 'patchchatinitbox', className: classes },
@@ -357,7 +356,8 @@ var PatchChatInitBox = React.createClass({
 				React.createElement(
 					'p',
 					{ className: 'patchchat-instructions' },
-					'Instructions for starting a new chat. Already have an account? ',
+					patchchat.instructions,
+					' Already have an account? ',
 					React.createElement(
 						'a',
 						{ href: '/wp-login.php' },

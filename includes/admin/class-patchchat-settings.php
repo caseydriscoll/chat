@@ -71,6 +71,13 @@ class PatchChat_Settings {
 	 */
 	static $admin_pulse_time = '1000';
 
+	/**
+	 * Default option for js messenger instructions to new user
+	 * 
+	 * @var string
+	 */
+	static $instructions = 'Welcome! Send us a comment.';
+
 
 	/**
 	 * Initialize the menu registration
@@ -114,13 +121,14 @@ class PatchChat_Settings {
 
 
 	/**
-	 * Registers all the cmb2 fields
+	 * Registers all the setting fields with cmb2
 	 *
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-08-09 16:44:44
 	 * @edited  2015-08-11 22:09:06 - Adds audio setting and playback
 	 * @edited  2015-08-19 13:55:02 - Refactors send and receive sound fields
+	 * @edited  2015-08-19 16:37:29 - Adds setting for chat-instructions
 	 */
 	public static function register_fields() {
 
@@ -134,9 +142,24 @@ class PatchChat_Settings {
 		) );
 
 		$cmb->add_field( array(
+			'name' => __( 'Javascript Debugger', 'patchchat' ),
+			'desc' => __( 'Will output values to js console', 'patchchat' ),
+			'id'   => 'js-debug',
+			'type' => 'checkbox',
+		) );
+
+
+		/* MESSAGES */
+		$cmb->add_field( array(
+			'name' => __( 'Messages', 'patchchat' ),
+			'id'   => 'messages',
+			'type' => 'title',
+		) );
+
+		$cmb->add_field( array(
 			'name' => __( 'Welcome Header', 'patchchat' ),
 			'desc' => __( 'The text that appears on the chat box header.', 'patchchat' ),
-			'id'   => 'welcome-text',
+			'id'   => 'welcome-header',
 			'type' => 'text',
 			'attributes' => array(
 				'placeholder' => 'PatchChat',
@@ -144,10 +167,21 @@ class PatchChat_Settings {
 		) );
 
 		$cmb->add_field( array(
-			'name' => __( 'Javascript Debugger', 'patchchat' ),
-			'desc' => __( 'Will output values to js console', 'patchchat' ),
-			'id'   => 'js-debug',
-			'type' => 'checkbox',
+			'name' => __( 'Chat Instructions', 'patchchat' ),
+			'desc' => __( 'Instructions for starting a new chat.', 'patchchat' ),
+			'id'   => 'chat-instructions',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => __( self::$instructions, 'patchchat' ),
+			),
+		) );
+
+
+		/* PULSE TIMES */
+		$cmb->add_field( array(
+			'name' => __( 'Pulse Times', 'patchchat' ),
+			'id'   => 'pulse-times',
+			'type' => 'title',
 		) );
 
 		$cmb->add_field( array(
@@ -171,7 +205,7 @@ class PatchChat_Settings {
 		) );
 
 
-
+		/* SOUNDS */
 		$cmb->add_field( array(
 			'name' => __( 'Sounds', 'patchchat' ),
 			'id'   => 'sound-title',
@@ -224,6 +258,7 @@ class PatchChat_Settings {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @created 2015-08-09 18:33:09
+	 * @edited  2015-08-19 16:36:58 - Adds setting for chat-instructions
 	 * 
 	 * @return array $settings The array of settings
 	 */
@@ -242,6 +277,7 @@ class PatchChat_Settings {
 			$data['debug']          = self::$debug;
 			$data['userpulsetime']  = self::$user_pulse_time;
 			$data['adminpulsetime'] = self::$admin_pulse_time;
+			$data['instructions']   = self::$instructions;
 
 		} else {
 
@@ -276,6 +312,12 @@ class PatchChat_Settings {
 
 			if ( array_key_exists( 'receive-message-sound', $settings ) ) {
 				$data['receiveMessageSound'] = $audio_url . $settings['receive-message-sound'];
+			}
+
+			if ( array_key_exists( 'chat-instructions', $settings ) ) {
+				$data['instructions'] = $settings['chat-instructions'];
+			} else {
+				$data['instructions'] = self::$instructions;
 			}
 
 		}
