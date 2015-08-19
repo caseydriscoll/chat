@@ -20,7 +20,7 @@ var PatchChatMessenger = React.createClass({
 
 	timeOutID: null,
 
-	playNewMessageSound: function playNewMessageSound(newChats) {
+	playReceiveMessageSound: function playReceiveMessageSound(newChats) {
 
 		// Don't play on the first run (init page loads)
 		if (patchchat.init) {
@@ -71,7 +71,7 @@ var PatchChatMessenger = React.createClass({
 
 				if (response.success) {
 
-					this.playNewMessageSound(response.data);
+					this.playReceiveMessageSound(response.data);
 
 					this.setState({ chats: response.data });
 
