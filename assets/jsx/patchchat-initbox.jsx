@@ -51,10 +51,12 @@ var PatchChatInitBox = React.createClass( {
 
 		// TODO: Make 'Comment' field label adjustable (Question, Comment, etc)
 		// TODO: Make 'required' adjustable
+		// TODO: Make '.patchchat-instructions' adjustable
 		return(
 			<li id="patchchatinitbox" className={classes}>
 				<PatchChatBoxHeader />
 				<form onSubmit={this.validate}>
+					<p className="patchchat-instructions">Instructions for starting a new chat. Already have an account? <a href="/wp-login.php">Login</a></p>
 					<label>Name</label><input name="patchchat-name" type="name" required />
 					<label>Email</label><input name="patchchat-email" type="email" required />
 					<label>Comment</label><input name="patchchat-text" type="text" required />
