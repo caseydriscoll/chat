@@ -49,14 +49,20 @@ class PatchChat_AJAX {
 	/**
 	 * Get json from the server
 	 *
-	 * This is a large switch statement to direct activity based on the requested method
+	 * Previously, there were many types of things to GET
 	 *
-	 * 'get_single' => User requests single chat identified by patchchat->ID
-	 * 'get_all'    => Agent requests all new chats and their involved chats
+	 * Now, the app is built in a way that only needs to 'get' the current state,
+	 *   an array of chats the user belongs to
+	 *
+	 * The controller handles what that is, depending on the user
+	 *
+	 * TODO: Is a nonce needed here? I'm not sure how it will help
 	 *
 	 * @author caseypatrickdriscoll
+	 * 
 	 * @edited 2015-08-03 14:47:59 - Adds logged in validation
 	 * @edited 2015-08-03 14:52:01 - Adds current_user validation
+	 * @edited 2015-08-20 15:34:17 - Refactors to clean up AJAX get
 	 *
 	 */
 	public static function get() {
@@ -73,20 +79,14 @@ class PatchChat_AJAX {
 
 		$user_id = $current_user->ID;
 
-		$data = '';
-
-		// Sanitize request
-
-		// Switch based on request
 		switch ( $_POST['method'] ) {
-			case 'get_user_state' : // Return 'new' chats and chats for given user
+			case 'get_user_state' : // Return current chats for given user
 				$chats = PatchChat_Controller::get_user_state( $user_id );
 				break;
 
 			default:
 				$chats = array( 'error' => 'No method with name ' . $_POST['method'] );
 		}
-
 
 		if ( isset( $chats['error'] ) )
 			wp_send_json_error( $chats );
