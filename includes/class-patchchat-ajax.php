@@ -97,15 +97,44 @@ class PatchChat_AJAX {
 
 
 	/**
-	 * Sanitize the POST and send to the correct controller method
+	 * Sanitize the POST request and send to the correct controller method
+	 *
+	 * Return the user's chat state if successful
+	 * Return an error if unsuccessful
 	 *
 	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-21 11:21:08 - Refactors to move validation to AJAX post, removes submit function
 	 *
 	 * TODO: Sanitize and validate
 	 */
 	public static function post() {
 
-		$data = '';
+		// TODO: Catch the honeypot?
+		// TODO: Create test for each error case
+		// TODO: Send email reminder if email already exists
+		// TODO: Error message handling for every insert (make pretty)
+		// TODO: Handle username duplicates (iterate or validate?)
+		// TODO: Allow title length to be set as option (currently hard coded to 40 char)
+
+		$error = false;
+
+		// Validate POST
+		if ( empty( $_POST['name'] ) ) {
+			$error = __( 'Name is empty', 'patchchat' );
+		} elseif ( empty( $_POST['email'] ) ) {
+			$error = __( 'Email is empty', 'patchchat' );
+		} elseif ( ! is_email( $_POST['email'] ) ) {
+			$error = __( 'Email is not valid', 'patchchat' );
+		} elseif ( email_exists( $_POST['email'] ) ) {
+			$error = __( 'Email exists', 'patchchat' );
+		} elseif ( empty( $_POST['text'] ) ) {
+			$error = __( 'Text is empty', 'patchchat' );
+		}
+
+		if ( $error ) {
+			wp_send_json_error( $error );
+		}
 
 		// Sanitize request
 
@@ -179,56 +208,4 @@ class PatchChat_AJAX {
 	}
 
 
-	/**
-	 * The POST handler for all chat submissions
-	 *
-	 * Validates POST request
-	 *
-	 * Inserts user, post, comment, if valid
-	 *
-	 * @author caseypatrickdriscoll
-	 *
-	 * @created 2015-07-16 20:14:26
-	 * @edited  2015-07-18 15:18:47 - Refactors to strip username of email '@' and domain
-	 * @edited  2015-07-19 20:28:31 - Refactors to use PatchChatTransient::add
-	 *
-	 * @return wp_send_json_error || wp_send_json_success
-	 */
-	public static function submit() {
-
-		// TODO: Catch the honeypot?
-		// TODO: Can bots submit a POST if no 'submit' button?
-		// TODO: Create test for each error case
-		// TODO: Send email reminder if email already exists
-		// TODO: Error handling for every insert (make pretty)
-		// TODO: Handle username duplicates (iterate or validate?)
-		// TODO: Allow title length to be set as option (currently hard coded to 40 char)
-
-
-		/* Simple Validation for all fields */
-		extract( $_POST );
-
-		$error = false;
-
-		if ( empty( $name ) ) {
-			$error = "Name is empty";
-		} elseif ( empty( $email ) ) {
-			$error = "Email is empty";
-		} elseif ( ! is_email( $email ) ) {
-			$error = "Email is not valid";
-		} elseif ( email_exists( $email ) ) {
-			$error = "Email exists";
-		} elseif ( empty( $text ) ) {
-			$error = "Text is empty";
-		}
-
-
-		if ( $error ) {
-			wp_send_json_error( $error );
-		}
-
-
-		wp_send_json_success( $response );
-
-	}
 }
