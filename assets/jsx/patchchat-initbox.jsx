@@ -24,7 +24,7 @@ var PatchChatInitBox = React.createClass( {
 		else if ( ! re.test( chat.email ) )
 			error = 'Not a valid email';
 		else if ( chat.text == '' )
-				error = 'Text is blank';
+			error = 'Text is blank';
 
 		if ( chat.honey != '' )
 			error = 'Caught the honeypot';
@@ -37,10 +37,9 @@ var PatchChatInitBox = React.createClass( {
 		if ( patchchat.debug == 'true' ) console.log( 'PatchChatInitBox', 'name: ' + chat.name, 'email: ' + chat.email, 'text: ' + chat.text, 'error: ' + error );
 
 		if ( valid ) {
-			jQuery( '#patchchatinitbox' )
-				.find( 'input' ).val( '' ).empty();
-
 			this.props.submit( chat );
+		} else {
+			jQuery( '.patchchat-message' ).html( error );
 		}
 
 	},

@@ -112,6 +112,8 @@ var PatchChatMessenger = React.createClass( {
 
 				if ( response.success ) {
 
+					jQuery( '#patchchatinitbox' ).find( 'input' ).val( '' ).empty();
+
 					this.setState( { chats : response.data } );
 
 					var audio = new Audio( patchchat.sendMessageSound ).play();
