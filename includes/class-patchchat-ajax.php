@@ -105,7 +105,8 @@ class PatchChat_AJAX {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-21 11:21:08 - Refactors to move validation to AJAX post, removes submit function
-	 *
+	 * @edited 2015-08-22 09:51:49 - Adds method validation
+	 * 
 	 * TODO: Sanitize and validate
 	 */
 	public static function post() {
@@ -120,7 +121,9 @@ class PatchChat_AJAX {
 		$error = false;
 
 		// Validate POST
-		if ( empty( $_POST['name'] ) ) {
+		if ( empty( $_POST['method'] ) ) {
+			$error = 1; // No need to give info on this
+		} elseif ( empty( $_POST['name'] ) ) {
 			$error = __( 'Name is empty', 'patchchat' );
 		} elseif ( empty( $_POST['email'] ) ) {
 			$error = __( 'Email is empty', 'patchchat' );
