@@ -276,6 +276,7 @@ class PatchChat_Settings {
 	 * @created 2015-08-09 18:33:09
 	 * @edited  2015-08-19 16:36:58 - Adds setting for chat-instructions
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
+	 * @edited  2015-08-22 09:40:02 - Adds 'labels' default settings
 	 * 
 	 * @return array $settings The array of settings
 	 */
