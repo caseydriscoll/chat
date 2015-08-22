@@ -106,15 +106,14 @@ class PatchChat_AJAX {
 	 *
 	 * @edited 2015-08-21 11:21:08 - Refactors to move validation to AJAX post, removes submit function
 	 * @edited 2015-08-22 09:51:49 - Adds method validation
+	 * @edited 2015-08-22 10:04:34 - Adds data sanitization
 	 * 
-	 * TODO: Sanitize and validate
 	 */
 	public static function post() {
 
 		// TODO: Catch the honeypot?
 		// TODO: Create test for each error case
-		// TODO: Send email reminder if email already exists
-		// TODO: Error message handling for every insert (make pretty)
+		// TODO: Send email reminder if email already exists???
 		// TODO: Handle username duplicates (iterate or validate?)
 		// TODO: Allow title length to be set as option (currently hard coded to 40 char)
 
@@ -140,9 +139,26 @@ class PatchChat_AJAX {
 		}
 
 		// Sanitize request
+		if ( $_POST['method'] == 'create' ) {
 
+			$chat = array(
+				'name'   => sanitize_user( $_POST['name'] ),
+				'email'  => sanitize_email( $_POST['email'] ),
+				'text'   => sanitize_text_field( $_POST['text'] ),
+				'method' => 'create',
+			);
 
-		$chat = $_POST;
+		} elseif ( $_POST['method'] == 'update' ) {
+
+			$chat = array(
+				'chat_id' => intval( $_POST['chat_id'] ),
+				'text'    => sanitize_text_field( $_POST['text'] ),
+				'method'  => 'update',
+			);
+
+		} else {
+			wp_send_json_error( 0 );
+		}
 
 		// Switch based on request
 		switch ( $chat['method'] ) {
