@@ -107,11 +107,11 @@ class PatchChat_AJAX {
 	 * @edited 2015-08-21 11:21:08 - Refactors to move validation to AJAX post, removes submit function
 	 * @edited 2015-08-22 09:51:49 - Adds method validation
 	 * @edited 2015-08-22 10:04:34 - Adds data sanitization
+	 * @edited 2015-08-22 10:12:13 - Adds catching the honeypot
 	 * 
 	 */
 	public static function post() {
 
-		// TODO: Catch the honeypot?
 		// TODO: Create test for each error case
 		// TODO: Send email reminder if email already exists???
 		// TODO: Handle username duplicates (iterate or validate?)
@@ -121,6 +121,8 @@ class PatchChat_AJAX {
 
 		// Validate POST
 		if ( empty( $_POST['method'] ) ) {
+			$error = 1; // No need to give info on this
+		} elseif ( ! empty( $_POST['honey'] ) ) {
 			$error = 1; // No need to give info on this
 		} elseif ( empty( $_POST['name'] ) ) {
 			$error = __( 'Name is empty', 'patchchat' );
