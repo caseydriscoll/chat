@@ -24,7 +24,7 @@ var PatchChatInitBox = React.createClass( {
 		else if ( ! re.test( chat.email ) )
 			error = 'Not a valid email';
 		else if ( chat.text == '' )
-			error = 'Text is blank';
+			error = patchchat.labels.comment + ' is blank';
 
 		if ( chat.honey != '' )
 			error = 'Caught the honeypot';
@@ -60,7 +60,7 @@ var PatchChatInitBox = React.createClass( {
 					<p className="patchchat-message"></p>
 					<label>Name</label><input name="patchchat-name" type="name" required />
 					<label>Email</label><input name="patchchat-email" type="email" required />
-					<label>Comment</label><input name="patchchat-text" type="text" required />
+					<label>{patchchat.labels.comment}</label><input name="patchchat-text" type="text" required />
 					<input id="patchchat-honeypot" name="patchchat-honeypot" type="text" />
 					<input type="submit" />
 				</form>

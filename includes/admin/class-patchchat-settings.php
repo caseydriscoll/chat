@@ -87,6 +87,14 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default text for the initbox 'comment' label
+	 *
+	 * @var  string
+	 */
+	static $label_comment = 'Comment';
+
+
+	/**
 	 * Initialize the menu registration
 	 *
 	 * @edited 2015-08-09 16:43:55 - Adds cmb2
@@ -337,6 +345,10 @@ class PatchChat_Settings {
 			}
 
 		}
+
+		$data['labels'] = array(
+			'comment' => self::$label_comment,
+		);
 
 
 		return $data;

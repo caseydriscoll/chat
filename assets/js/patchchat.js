@@ -330,7 +330,7 @@ var PatchChatInitBox = React.createClass({
 		var valid = false;
 		var error = false;
 
-		if (chat.name == '') error = 'Name is blank';else if (chat.email == '') error = 'Email is blank';else if (!re.test(chat.email)) error = 'Not a valid email';else if (chat.text == '') error = 'Text is blank';
+		if (chat.name == '') error = 'Name is blank';else if (chat.email == '') error = 'Email is blank';else if (!re.test(chat.email)) error = 'Not a valid email';else if (chat.text == '') error = patchchat.labels.comment + ' is blank';
 
 		if (chat.honey != '') error = 'Caught the honeypot';
 
@@ -392,7 +392,7 @@ var PatchChatInitBox = React.createClass({
 				React.createElement(
 					'label',
 					null,
-					'Comment'
+					patchchat.labels.comment
 				),
 				React.createElement('input', { name: 'patchchat-text', type: 'text', required: true }),
 				React.createElement('input', { id: 'patchchat-honeypot', name: 'patchchat-honeypot', type: 'text' }),
