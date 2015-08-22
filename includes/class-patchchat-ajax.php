@@ -108,6 +108,7 @@ class PatchChat_AJAX {
 	 * @edited 2015-08-22 09:51:49 - Adds method validation
 	 * @edited 2015-08-22 10:04:34 - Adds data sanitization
 	 * @edited 2015-08-22 10:12:13 - Adds catching the honeypot
+	 * @edited 2015-08-22 10:26:27 - Refactors preliminary validation
 	 * 
 	 */
 	public static function post() {
@@ -120,11 +121,11 @@ class PatchChat_AJAX {
 		$error = false;
 
 		// Validate POST
-		if ( empty( $_POST['method'] ) ) {
-			$error = 1; // No need to give info on this
-		} elseif ( ! empty( $_POST['honey'] ) ) {
-			$error = 1; // No need to give info on this
-		} elseif ( empty( $_POST['name'] ) ) {
+		if ( empty( $_POST['method'] ) || ! empty( $_POST['honey'] ) ) {
+			wp_send_json_error( 0 ); // No need to give info on this
+		} 
+
+		if ( empty( $_POST['name'] ) ) {
 			$error = __( 'Name is empty', 'patchchat' );
 		} elseif ( empty( $_POST['email'] ) ) {
 			$error = __( 'Email is empty', 'patchchat' );
