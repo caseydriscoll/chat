@@ -109,6 +109,7 @@ class PatchChat_AJAX {
 	 * @edited 2015-08-22 10:04:34 - Adds data sanitization
 	 * @edited 2015-08-22 10:12:13 - Adds catching the honeypot
 	 * @edited 2015-08-22 10:26:27 - Refactors preliminary validation
+	 * @edited 2015-08-22 10:28:56 - Refactors to check for email_exists
 	 * 
 	 */
 	public static function post() {
@@ -131,8 +132,6 @@ class PatchChat_AJAX {
 			$error = __( 'Email is empty', 'patchchat' );
 		} elseif ( ! is_email( $_POST['email'] ) ) {
 			$error = __( 'Email is not valid', 'patchchat' );
-		} elseif ( email_exists( $_POST['email'] ) ) {
-			$error = __( 'Email exists', 'patchchat' );
 		} elseif ( empty( $_POST['text'] ) ) {
 			$error = __( 'Text is empty', 'patchchat' );
 		}
@@ -150,6 +149,10 @@ class PatchChat_AJAX {
 				'text'   => sanitize_text_field( $_POST['text'] ),
 				'method' => 'create',
 			);
+
+			if ( email_exists( $chat['email'] ) ) {
+				wp_send_json_error(  __( 'Email exists', 'patchchat' ) );
+			}
 
 		} elseif ( $_POST['method'] == 'update' ) {
 
