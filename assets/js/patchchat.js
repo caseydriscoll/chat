@@ -105,12 +105,17 @@ var PatchChatMessenger = React.createClass({
 
 				patchchat.spinner.hide();
 
-				this.setState({ chats: response.data });
-
 				clearTimeout(this.timeOutID);
 				this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
 
-				var audio = new Audio(patchchat.sendMessageSound).play();
+				if (response.success) {
+
+					this.setState({ chats: response.data });
+
+					var audio = new Audio(patchchat.sendMessageSound).play();
+				} else {
+					jQuery('.patchchat-message').html(response.data);
+				}
 			}).bind(this),
 			error: (function (response) {
 				if (patchchat.debug == 'true') console.error('error response create/update: ', response);
@@ -369,6 +374,7 @@ var PatchChatInitBox = React.createClass({
 						'Login'
 					)
 				),
+				React.createElement('p', { className: 'patchchat-message' }),
 				React.createElement(
 					'label',
 					null,

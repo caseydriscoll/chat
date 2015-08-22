@@ -58,6 +58,7 @@ var PatchChatInitBox = React.createClass( {
 				<form onSubmit={this.validate}>
 					<p className="patchchat-instructions">{patchchat.instructions}</p>
 					<p>Already have an account? <a href="/wp-login.php">Login</a></p>
+					<p className="patchchat-message"></p>
 					<label>Name</label><input name="patchchat-name" type="name" required />
 					<label>Email</label><input name="patchchat-email" type="email" required />
 					<label>Comment</label><input name="patchchat-text" type="text" required />

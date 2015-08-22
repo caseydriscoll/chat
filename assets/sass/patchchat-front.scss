@@ -6,6 +6,7 @@ $lighter:  #cccccc;
 $offwhite: #fafafa;
 $white:    #ffffff;
 
+$red:      #ff0000;
 $blue:     #453AFF;
 
 #patchchatcontainer {
@@ -100,6 +101,10 @@ $blue:     #453AFF;
 
 						a {
 							text-decoration: underline;
+						}
+
+						&.patchchat-message {
+							color: $red;
 						}
 					}
 

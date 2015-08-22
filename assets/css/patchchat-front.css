@@ -67,6 +67,8 @@
             margin: 0; }
             #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form p a {
               text-decoration: underline; }
+            #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form p.patchchat-message {
+              color: #ff0000; }
           #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form label {
             display: block;
             padding-top: 10px; }
