@@ -27,17 +27,19 @@ class PatchChat_Transient_State {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-04 14:43:09 - Refactors to use array instead of set
+	 * @edited 2015-08-27 18:23:09 - Refactors all other methods to use PatchChat_Transient_State::get
+	 * 
 	 * @param $state_name - The 'name' of the state (new or user_id)
 	 *
 	 * @return array|mixed
 	 */
 	public static function get( $state_name ) {
 
-		$transient = get_transient( 'patchchat_state_' . $state_name );
+		$transient_state = get_transient( 'patchchat_state_' . $state_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $state_name );
+		if ( $transient_state === false ) $transient_state = PatchChat_Transient_State::build( $state_name );
 
-		return $transient;
+		return $transient_state;
 
 	}
 
@@ -69,7 +71,7 @@ class PatchChat_Transient_State {
 		// TODO: Should better design to differentiate between
 		//       array_name == user_id and array_name == 'new'
 		//       Need to generally design to build all sorts of array types
-		$transient_array = array();
+		$transient_state = array();
 
 		$args = array(
 			'post_type' => 'patchchat',
@@ -95,14 +97,14 @@ class PatchChat_Transient_State {
 
 			if ( $transient === false ) $transient = PatchChat_Transient::build( $id );
 
-			array_push( $transient_array, $transient );
+			array_push( $transient_state, $transient );
 		}
 
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_state );
 
 
-		return $transient_array;
+		return $transient_state;
 	}
 
 
@@ -117,18 +119,16 @@ class PatchChat_Transient_State {
 	 */
 	public static function update( $state_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_state_' . $state_name );
+		$transient_state = PatchChat_Transient_State::get( $state_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $state_name );
-
-		foreach ( $transient_array as $i => $old_transient ) {
+		foreach ( $transient_state as $i => $old_transient ) {
 			if ( $old_transient['chat_id'] == $transient['chat_id'] )
-				$transient_array[$i] = $transient;
+				$transient_state[$i] = $transient;
 		}
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_state );
 
-		return $transient_array;
+		return $transient_state;
 	}
 
 
@@ -165,9 +165,9 @@ class PatchChat_Transient_State {
 
 			$user_id = $current_user->ID;
 
-			$transient = get_transient( 'patchchat_state_' . $from );
+			$transient_state = PatchChat_Transient_State::get( $from );
 
-			foreach ( $transient as $key => $newchat ) {
+			foreach ( $transient_state as $key => $newchat ) {
 
 				if ( $newchat['chat_id'] == $chat_id ) {
 
@@ -199,18 +199,16 @@ class PatchChat_Transient_State {
 	 */
 	public static function trim( $state_name, $chat_id ) {
 
-		$transient = get_transient( 'patchchat_state_' . $state_name );
+		$transient_state = PatchChat_Transient_State::get( $state_name );
 
-		if ( $transient === false ) return false;
-
-		foreach ( $transient as $index => $chat ) {
+		foreach ( $transient_state as $index => $chat ) {
 
 			if ( $chat['chat_id'] == $chat_id )
-				unset( $transient[ $index ] );
+				unset( $transient_state[ $index ] );
 
 		}
 
-		set_transient( 'patchchat_state_' . $state_name, $transient );
+		set_transient( 'patchchat_state_' . $state_name, $transient_state );
 
 		return true;
 	}
@@ -231,16 +229,11 @@ class PatchChat_Transient_State {
 	 */
 	public static function add( $state_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_state_' . $state_name );
+		$transient_state = PatchChat_Transient_State::get( $state_name );
 
-		if ( $transient_array === false ) {
-			$transient_array = PatchChat_Transient_State::build( $state_name );
-		} else {
-			array_unshift( $transient_array, $transient );
-		}
+		array_unshift( $transient_state, $transient );
 
-
-		set_transient( 'patchchat_state_' . $state_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_state );
 
 		return true;
 	}
