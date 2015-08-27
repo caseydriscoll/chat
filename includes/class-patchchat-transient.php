@@ -162,7 +162,7 @@ class PatchChat_Transient {
 	 * @edited 2015-08-04 17:48:09 - Adds updating of user Transient State
 	 *
 	 */
-	public static function update( $chat_id, $comment ) {
+	public static function add_comment( $chat_id, $comment ) {
 
 		$transient = PatchChat_Transient::get( $chat_id );
 

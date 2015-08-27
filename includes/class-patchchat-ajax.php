@@ -182,7 +182,7 @@ class PatchChat_AJAX {
 			case 'update' : // Update a chat
 
 				if ( is_user_logged_in() ) {
-					$chats = PatchChat_Controller::update( $chat );
+					$chats = PatchChat_Controller::add_comment( $chat );
 				} else {
 					$chats = array( 'error' => 'User is not logged in' );
 				}

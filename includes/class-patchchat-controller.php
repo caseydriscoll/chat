@@ -105,7 +105,7 @@ class PatchChat_Controller {
 	 *
 	 * @param string $chat_id
 	 */
-	public static function update( $patchchat ) {
+	public static function add_comment( $patchchat ) {
 
 		// This is checked in PatchChat_AJAX too (never hurts to double check)
 		if ( ! is_user_logged_in() ) return array( 'error' => 'User is not logged in' );
@@ -140,7 +140,7 @@ class PatchChat_Controller {
 		$comment['comment_id'] = $comment_id;
 
 
-		$transient = PatchChat_Transient::update( $chat_id, $comment );
+		$transient = PatchChat_Transient::add_comment( $chat_id, $comment );
 
 		PatchChat_Transient_State::update( $user_id, $transient );
 
