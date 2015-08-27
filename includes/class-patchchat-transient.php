@@ -41,7 +41,7 @@
  *
  * Methods:
  *
- * - get_by_id:  get a transient from the db or build it
+ * - get:    get a transient from the db by id or build it
  * - build:  build a transient from scratch if not in DB
  * - push:   adds a comment to the comments list
  * - update: update any of the fields
@@ -57,8 +57,8 @@ class PatchChat_Transient {
 	 *
 	 * @created 2015-08-27 18:54:19
 	 * 
-	 * @param  [type] $chat_id [description]
-	 * @return [type]          [description]
+	 * @param  int    $chat_id   The given post_id of the requested patchchat
+	 * @return string $transient The json representation of a chat
 	 */
 	public static function get( $chat_id ) {
 
@@ -68,6 +68,18 @@ class PatchChat_Transient {
 
 		return $transient;
 
+	}
+
+
+	/**
+	 * Sets the transient by chat_id
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-27 18:59:19
+	 */
+	public static function set( $chat_id, $transient ) {
+		set_transient( 'patchchat_' . $chat_id, $transient );
 	}
 
 
@@ -135,8 +147,7 @@ class PatchChat_Transient {
 
 		}
 
-
-		set_transient( 'patchchat_' . $chat_id, $transient );
+		PatchChat_Transient::set( $chat_id, $transient );
 
 		return $transient;
 	}
@@ -166,8 +177,7 @@ class PatchChat_Transient {
 			)
 		);
 
-
-		set_transient( 'patchchat_' . $chat_id, $transient );
+		PatchChat_Transient::set( $chat_id, $transient );
 
 		// TODO: Must then update ALL Transient Arrays this transient is in
 		// For now, just updating if 'new'
