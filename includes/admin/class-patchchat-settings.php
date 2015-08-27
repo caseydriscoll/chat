@@ -238,6 +238,18 @@ class PatchChat_Settings {
 		) );
 
 		$cmb->add_field( array(
+			'name' => __( 'Spinner Icon', 'patchchat' ),
+			'desc' => __( 'The Font Awesome icon used to show ajax action in chat box', 'patchchat' ),
+			'id'   => 'spinner-icon',
+			'type' => 'select',
+			'options'          => array(
+					'fa-spinner'        => 'Spinner',
+					'fa-circle-o-notch' => 'Circle Open Notch',
+					'fa-refresh'        => 'Refresh',
+			),
+		) );
+
+		$cmb->add_field( array(
 			'name' => __( 'Minimize Icon', 'patchchat' ),
 			'desc' => __( 'The Font Awesome icon used to minimize chat box', 'patchchat' ),
 			'id'   => 'minimize-icon',
@@ -319,6 +331,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-22 09:40:02 - Adds 'labels' default settings
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
 	 * @edited  2015-08-27 13:28:10 - Adds default spinner-icon
+	 * @edited  2015-08-27 13:55:54 - Adds spinner-icon option
 	 * 
 	 * @return array $settings The array of settings
 	 */
