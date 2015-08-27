@@ -45,6 +45,20 @@ class PatchChat_Transient_State {
 
 
 	/**
+	 * Sets the transient with the given name
+	 *
+	 * Defined here for consistency
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-27 18:25:43
+	 */
+	public static function set( $state_name, $transient_state ) {
+		return set_transient( 'patchchat_state_' . $state_name, $transient_state );
+	}
+
+
+	/**
 	 * This builds a Transient Array by getting all the transients of user or type.
 	 *
 	 * There are two types of Transient Arrays
@@ -101,7 +115,7 @@ class PatchChat_Transient_State {
 		}
 
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_state );
+		PatchChat_Transient_State::set( $state_name, $transient_state );
 
 
 		return $transient_state;
@@ -126,7 +140,7 @@ class PatchChat_Transient_State {
 				$transient_state[$i] = $transient;
 		}
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_state );
+		PatchChat_Transient_State::set( $state_name, $transient_state );
 
 		return $transient_state;
 	}
@@ -208,7 +222,7 @@ class PatchChat_Transient_State {
 
 		}
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_state );
+		PatchChat_Transient_State::set( $state_name, $transient_state );
 
 		return true;
 	}
@@ -233,7 +247,7 @@ class PatchChat_Transient_State {
 
 		array_unshift( $transient_state, $transient );
 
-		set_transient( 'patchchat_state_' . $state_name, $transient_state );
+		PatchChat_Transient_State::set( $state_name, $transient_state );
 
 		return true;
 	}
