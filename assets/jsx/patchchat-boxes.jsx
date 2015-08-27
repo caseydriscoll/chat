@@ -60,12 +60,18 @@ var PatchChatBoxHeader = React.createClass( {
 		}
 	},
 
+	spinnerIcon : function() {
+		if ( 'spinnerIcon' in patchchat ) {
+			return <i className={'spinner fa ' + patchchat.spinnerIcon + ' fa-spin'}></i>;
+		}
+	},
+
 	render : function () {
 		return (
 			<header onClick={this.handleClick}>
 				{patchchat.headerText}
 				{this.minimizeIcon()}
-				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
+				{this.spinnerIcon()}
 			</header>
 		);
 	}

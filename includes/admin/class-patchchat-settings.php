@@ -95,6 +95,14 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default option for spinner-icon
+	 *
+	 * @var  string
+	 */
+	static $spinner_icon = 'fa-spinner';
+
+
+	/**
 	 * Initialize the menu registration
 	 *
 	 * @edited 2015-08-09 16:43:55 - Adds cmb2
@@ -310,6 +318,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * @edited  2015-08-22 09:40:02 - Adds 'labels' default settings
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
+	 * @edited  2015-08-27 13:28:10 - Adds default spinner-icon
 	 * 
 	 * @return array $settings The array of settings
 	 */
@@ -330,6 +339,7 @@ class PatchChat_Settings {
 			$data['adminpulsetime'] = self::$admin_pulse_time;
 			$data['headerText']     = self::$header_text;
 			$data['instructions']   = self::$instructions;
+			$data['spinnerIcon']    = self::$spinner_icon;
 
 		} else {
 
@@ -374,6 +384,12 @@ class PatchChat_Settings {
 
 			if ( array_key_exists( 'minimize-icon', $settings ) ) {
 				$data['minimizeIcon'] = $settings['minimize-icon'];
+			}
+
+			if ( array_key_exists( 'spinner-icon', $settings ) ) {
+				$data['spinnerIcon'] = $settings['spinner-icon'];
+			} else {
+				$data['spinnerIcon']  = self::$spinner_icon;
 			}
 
 			if ( array_key_exists( 'chat-instructions', $settings ) ) {

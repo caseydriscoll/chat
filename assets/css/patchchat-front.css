@@ -47,10 +47,6 @@
           cursor: pointer;
           background: #bbbbbb;
           font-size: 16px; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header .spinner {
-            display: none;
-            float: right;
-            margin: 6px; }
           #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header .minimize {
             display: none;
             float: right;

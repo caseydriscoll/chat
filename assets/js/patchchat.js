@@ -209,13 +209,19 @@ var PatchChatBoxHeader = React.createClass({
 		}
 	},
 
+	spinnerIcon: function spinnerIcon() {
+		if ('spinnerIcon' in patchchat) {
+			return React.createElement('i', { className: 'spinner fa ' + patchchat.spinnerIcon + ' fa-spin' });
+		}
+	},
+
 	render: function render() {
 		return React.createElement(
 			'header',
 			{ onClick: this.handleClick },
 			patchchat.headerText,
 			this.minimizeIcon(),
-			React.createElement('img', { className: 'spinner', src: '/wp-admin/images/wpspin_light.gif' })
+			this.spinnerIcon()
 		);
 	}
 });
