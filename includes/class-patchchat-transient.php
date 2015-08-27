@@ -50,7 +50,17 @@
 class PatchChat_Transient {
 
 
-	public static function get_by_id( $chat_id ) {
+	/**
+	 * Returns a transient by chat_id, building it if it doesn't exist
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-27 18:54:19
+	 * 
+	 * @param  [type] $chat_id [description]
+	 * @return [type]          [description]
+	 */
+	public static function get( $chat_id ) {
 
 		$transient = get_transient( 'patchchat_' . $chat_id );
 
@@ -85,7 +95,7 @@ class PatchChat_Transient {
 		);
 
 
-		// 3. Build users key in comments foreach
+		// 2. Build users key in comments foreach
 		$transient['users'] = array();
 
 
@@ -143,9 +153,7 @@ class PatchChat_Transient {
 	 */
 	public static function update( $chat_id, $comment ) {
 
-		$transient = get_transient( 'patchchat_' . $chat_id );
-
-		if ( $transient === false ) $transient = PatchChat_Transient::build( $chat_id );
+		$transient = PatchChat_Transient::get( $chat_id );
 
 		array_push(
 			$transient['comments'],

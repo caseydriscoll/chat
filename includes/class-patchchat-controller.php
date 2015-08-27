@@ -177,26 +177,6 @@ class PatchChat_Controller {
 
 
 	/**
-	 * Retrieves a single transient. I think this is deprecated
-	 *
-	 * @author caseypatrickdriscoll
-	 *
-	 * @param $chat_id
-	 *
-	 * @return array|mixed
-	 *
-	 * TODO: Is this deprecated?
-	 */
-	public static function get_single( $chat_id ) {
-
-		$chat = PatchChat_Transient::get_by_id( $chat_id );
-
-		return $chat;
-	}
-
-
-
-	/**
 	 * Returns the given agent's transient set along with the new chats
 	 *
 	 * @author caseypatrickdriscoll

@@ -107,9 +107,7 @@ class PatchChat_Transient_State {
 		$list = $query->get_posts();
 
 		foreach ( $list as $id ) {
-			$transient = get_transient( 'patchchat_' . $id );
-
-			if ( $transient === false ) $transient = PatchChat_Transient::build( $id );
+			$transient = PatchChat_Transient::get( $chat_id );
 
 			array_push( $transient_state, $transient );
 		}
