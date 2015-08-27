@@ -211,32 +211,20 @@ class PatchChat_AJAX {
 	 */
 	public static function change_chat_status() {
 
-		// TODO: Assign agent when becomes 'open'
-		// TODO: Create idea of assigned agents
-		// TODO: Figure out security and sanitized stuff (although low priority as comes from select in admin POST)
-		// TODO: Handle error situations, including missing data and error on update
-		// TODO: Bulk status change in bulk editor
-		// TODO: Style the selector based on status
-		// TODO: Add thumbs up or signal if POST is success
-
-		extract( $_POST );
-
-		$post = array(
-			'ID'          => $id,
-			'post_status' => $status
+		$chat = array(
+			'ID'          => $_POST['chat_id'],
+			'prev_status' => $_POST['prev_status'],
+			'post_status' => $_POST['status'],
 		);
 
-		wp_update_post( $post );
+		$response = PatchChat_Controller::change_status( $chat );
 
-		PatchChat_Transient_State::move( $id, $prevstatus, $status );
+		if ( $response ) {
+			wp_send_json_success( $chat );
+		} else {
+			wp_send_json_error( 0 );
+		}
 
-		$response = array(
-			'id'         => $id,
-			'status'     => $status,
-			'prevstatus' => $prevstatus
-		);
-
-		wp_send_json_success( $response );
 	}
 
 

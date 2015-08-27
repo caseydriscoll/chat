@@ -150,6 +150,33 @@ class PatchChat_Controller {
 
 
 	/**
+	 * Changes the post_status of the given chat
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-27 15:13:52
+	 * 
+	 */
+	public static function change_status( $chat ) {
+
+		// TODO: Assign agent when becomes 'open'
+		// TODO: Create idea of assigned agents
+		// TODO: Figure out security and sanitized stuff (although low priority as comes from select in admin POST)
+		// TODO: Handle error situations, including missing data and error on update
+		// TODO: Bulk status change in bulk editor
+		// TODO: Style the selector based on status
+		// TODO: Add thumbs up or signal if POST is success
+
+		wp_update_post( $chat );
+
+		// TODO: Change the actual individual transient
+
+		return PatchChat_Transient_State::move( $chat );
+
+	}
+
+
+	/**
 	 * Retrieves a single transient. I think this is deprecated
 	 *
 	 * @author caseypatrickdriscoll

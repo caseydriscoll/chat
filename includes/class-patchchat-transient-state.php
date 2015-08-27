@@ -1,8 +1,8 @@
 <?php
 /**
- * PatchChat Transient Array
+ * PatchChat Transient State
  *
- * A Transient Array is an array of patchchat transients
+ * A Transient State is an array of patchchat transients
  *
  *
  * Methods:
@@ -16,7 +16,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
-// TODO: Create 'move' function to move patchchat between two transients
 // TODO: If patchchat doesn't exist in a transient you have to build
 //       Like adding a chat to 'open' that was previously 'closed'
 
@@ -28,15 +27,15 @@ class PatchChat_Transient_State {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-04 14:43:09 - Refactors to use array instead of set
-	 * @param $array_name
+	 * @param $state_name - The 'name' of the state (new or user_id)
 	 *
 	 * @return array|mixed
 	 */
-	public static function get( $array_name ) {
+	public static function get( $state_name ) {
 
-		$transient = get_transient( 'patchchat_state_' . $array_name );
+		$transient = get_transient( 'patchchat_state_' . $state_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $array_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $state_name );
 
 		return $transient;
 
@@ -61,11 +60,11 @@ class PatchChat_Transient_State {
 	 * @edited 2015-08-04 13:35:48 - Refactors to query only user_id
 	 * @edited 2015-08-04 14:44:06 - Adds building of transient if missing
 	 *
-	 * @param $set_name
+	 * @param $state_name - The 'name' of the state (new or user_id)
 	 *
 	 * @return array
 	 */
-	public static function build( $array_name ) {
+	public static function build( $state_name ) {
 
 		// TODO: Should better design to differentiate between
 		//       array_name == user_id and array_name == 'new'
@@ -79,11 +78,11 @@ class PatchChat_Transient_State {
 		);
 
 		// A 'new' array is indifferent to the author, just needs a new status
-		if ( $array_name == 'new' ) {
+		if ( $state_name == 'new' ) {
 			$args['post_status'] = 'new';
 		} else {
 			// If it's not 'new' it's a user array
-			$args['author'] = $array_name;
+			$args['author'] = $state_name;
 			$args['post_status'] = array( 'new', 'open' );
 		}
 
@@ -100,7 +99,7 @@ class PatchChat_Transient_State {
 		}
 
 
-		set_transient( 'patchchat_state_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_array );
 
 
 		return $transient_array;
@@ -116,18 +115,18 @@ class PatchChat_Transient_State {
 	 *
 	 * TODO: Handle bad transient setting
 	 */
-	public static function update( $array_name, $transient ) {
+	public static function update( $state_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_state_' . $array_name );
+		$transient_array = get_transient( 'patchchat_state_' . $state_name );
 
-		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $array_name );
+		if ( $transient === false ) $transient = PatchChat_Transient_State::build( $state_name );
 
 		foreach ( $transient_array as $i => $old_transient ) {
 			if ( $old_transient['chat_id'] == $transient['chat_id'] )
 				$transient_array[$i] = $transient;
 		}
 
-		set_transient( 'patchchat_state_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_array );
 
 		return $transient_array;
 	}
@@ -135,7 +134,7 @@ class PatchChat_Transient_State {
 
 	/**
 	 * Moves a chat from one transient to another
-	 * Used in the PatchChatAJAX::change_chat_status function
+	 * Used in the PatchChat_Controller::change_status function
 	 *
 	 * For example, moves a chat from the 'new' transient to a transient of its own
 	 *
@@ -147,18 +146,34 @@ class PatchChat_Transient_State {
 	 * @param $from
 	 * @param $to The status to move it to
 	 */
-	public static function move( $id, $from, $to ) {
+	public static function move( $chat ) {
+
+		$chat_id = $chat['ID'];
+		$from    = $chat['prev_status'];
+		$to      = $chat['post_status'];
 
 		if ( $from == 'new' && $to == 'open' ) {
 
-			$transient = get_transient( 'patchchat_new' );
+			// This is checked in PatchChat_AJAX too (never hurts to double check)
+			if ( ! is_user_logged_in() ) return array( 'error' => 'User is not logged in' );
+
+			$current_user = wp_get_current_user();
+
+			if ( $current_user->ID == 0 ) {
+				return array( 'error' => 'User is not logged in' );
+			}
+
+			$user_id = $current_user->ID;
+
+			$transient = get_transient( 'patchchat_state_' . $from );
 
 			foreach ( $transient as $key => $newchat ) {
 
-				if ( $newchat['id'] == $id ) {
+				if ( $newchat['chat_id'] == $chat_id ) {
 
-					PatchChat_Transient_State::trim( 'patchchat_new', $id );
-					PatchChat_Transient_State::add( 'patchchat_' . $id, $newchat );
+					PatchChat_Transient_State::trim( $from, $chat_id );
+
+					PatchChat_Transient_State::add( $user_id, $newchat );
 
 					break;
 				}
@@ -166,8 +181,10 @@ class PatchChat_Transient_State {
 
 		}
 
-	}
+		// TODO: Handle error validation
+		return true;
 
+	}
 
 
 	/**
@@ -180,20 +197,20 @@ class PatchChat_Transient_State {
 	 * @created 2015-07-19 20:16:57
 	 *
 	 */
-	public static function trim( $transient_name, $id ) {
+	public static function trim( $state_name, $chat_id ) {
 
-		$transient = get_transient( $transient_name );
+		$transient = get_transient( 'patchchat_state_' . $state_name );
 
 		if ( $transient === false ) return false;
 
 		foreach ( $transient as $index => $chat ) {
 
-			if ( $chat['id'] == $id )
+			if ( $chat['chat_id'] == $chat_id )
 				unset( $transient[ $index ] );
 
 		}
 
-		set_transient( $transient_name, $transient );
+		set_transient( 'patchchat_state_' . $state_name, $transient );
 
 		return true;
 	}
@@ -212,15 +229,18 @@ class PatchChat_Transient_State {
 	 * $patchchat array The array of information to store in transient (see 'Form' in class comments)
 	 *
 	 */
-	public static function add( $array_name, $transient ) {
+	public static function add( $state_name, $transient ) {
 
-		$transient_array = get_transient( 'patchchat_state_' . $array_name );
+		$transient_array = get_transient( 'patchchat_state_' . $state_name );
 
-		if ( $transient_array === false ) $transient_array = PatchChat_Transient_State::build( $array_name );
+		if ( $transient_array === false ) {
+			$transient_array = PatchChat_Transient_State::build( $state_name );
+		} else {
+			array_unshift( $transient_array, $transient );
+		}
 
-		array_unshift( $transient_array, $transient );
 
-		set_transient( 'patchchat_state_' . $array_name, $transient_array );
+		set_transient( 'patchchat_state_' . $state_name, $transient_array );
 
 		return true;
 	}

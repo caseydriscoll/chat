@@ -1,7 +1,5 @@
 var prevstatus = '';
 
-// TODO: Convert to new ajax controller
-
 jQuery( document ).ready( function() {
 
 	jQuery( 'select' )
@@ -10,13 +8,13 @@ jQuery( document ).ready( function() {
 
 			jQuery( this ).next().show();
 
-			id = jQuery( this ).parent().parent().attr( 'id' ).split( '-' )[1];
+			var chat_id = jQuery( this ).parent().parent().attr( 'id' ).split( '-' )[1];
 
 			data = {
-				'action'     : 'change_chat_status',
-				'id'         : id,
-				'prevstatus' : prevstatus,
-				'status'     : this.value
+				'action'      : 'change_chat_status',
+				'chat_id'     : chat_id,
+				'prev_status' : prevstatus,
+				'status'      : this.value
 			};
 
 			console.log( data );
@@ -26,22 +24,28 @@ jQuery( document ).ready( function() {
 				data,
 				function( response ) {
 
-					prevstatus = response.data.status;
+					console.log( response );
 
-					jQuery( '#post-' + response.data.id ).find( 'img' ).hide();
+					var chat_id     = response.data.ID;
+					var post_status = response.data.post_status;
+					var prev_status = response.data.prev_status;
 
-					count = jQuery( '.' + response.data.status ).find( '.count' ).html().replace(/[()]/g, '');
-					jQuery( '.' + response.data.status ).find( '.count' ).html( '(' + ++count + ')' );
+					jQuery( '#post-' + chat_id ).find( 'img' ).hide();
 
-					count = jQuery( '.' + response.data.prevstatus ).find( '.count' ).html().replace(/[()]/g, '');
-					jQuery( '.' + response.data.prevstatus ).find( '.count' ).html( '(' + --count + ')' );
+					// Increment the new post_status
+					count = jQuery( '.' + post_status ).find( '.count' ).html().replace(/[()]/g, '');
+					jQuery( '.' + post_status ).find( '.count' ).html( '(' + ++count + ')' );
 
-					jQuery( '#post-' + response.data.id )
-						.removeClass( 'status-' + response.data.prevstatus )
-						.addClass( 'status-' + response.data.status );
+					// Decrement the old prev_status
+					count = jQuery( '.' + prev_status ).find( '.count' ).html().replace(/[()]/g, '');
+					jQuery( '.' + prev_status ).find( '.count' ).html( '(' + --count + ')' );
+
+					jQuery( '#post-' + chat_id )
+						.removeClass( 'status-' + prev_status )
+						.addClass( 'status-' + post_status );
 
 					if ( jQuery( '.post_status_page' ).val() != 'all' ) {
-						jQuery( '#post-' + response.data.id ).fadeOut( 'normal', function () {
+						jQuery( '#post-' + chat_id ).fadeOut( 'normal', function () {
 							jQuery( this ).remove();
 						} );
 					}
