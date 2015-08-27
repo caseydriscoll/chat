@@ -135,7 +135,18 @@ var PatchChatMessenger = React.createClass( {
 
 	componentDidMount: function() {
 		patchchat.init = true;
-		patchchat.spinner = jQuery( '.spinner' );
+
+		// Need to use inline-block, so overwritten
+		patchchat.spinner = {
+			show : function() { 
+				jQuery( '#patchchatmessenger .spinner' ).css( 'display', 'inline-block' ); 
+			},
+
+			hide : function() {
+				jQuery( '#patchchatmessenger .spinner' ).css( 'display', 'none' ); 
+			} 
+		}
+
 		this.loadCommentsFromServer();
 	},
 
