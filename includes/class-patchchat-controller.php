@@ -207,7 +207,7 @@ class PatchChat_Controller {
 	 */
 	public static function get_user_state( $user_id ) {
 
-		$user_chats = PatchChat_Controller::get_array( $user_id );
+		$user_chats = PatchChat_Transient_State::get( $user_id );
 
 		// if user is an agent, get new chats too
 		$user = new WP_User( $user_id );
@@ -215,24 +215,11 @@ class PatchChat_Controller {
 		if ( ! empty( $user->roles ) && is_array( $user->roles ) ) {
 			foreach ( $user->roles as $role )
 				if ( $role == 'administrator' ) {
-					$user_chats = array_merge( $user_chats, PatchChat_Controller::get_array( 'new' ) );
+					$user_chats = array_merge( $user_chats, PatchChat_Transient_State::get( 'new' ) );
 				}
 		}
 
 		return $user_chats;
-	}
-
-
-	/**
-	 * Get a PatchChat Transient Array
-	 *
-	 */
-	private static function get_array( $array_name ) {
-
-		$set = PatchChat_Transient_State::get( $array_name );
-
-		return $set;
-
 	}
 
 
