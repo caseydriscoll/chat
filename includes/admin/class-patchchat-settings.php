@@ -145,6 +145,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 13:55:02 - Refactors send and receive sound fields
 	 * @edited  2015-08-19 16:37:29 - Adds setting for chat-instructions
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
+	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
 	 */
 	public static function register_fields() {
 
@@ -221,6 +222,37 @@ class PatchChat_Settings {
 		) );
 
 
+		/* Chat UI */
+		$cmb->add_field( array(
+			'name' => __( 'Chat UI', 'patchchat' ),
+			'id'   => 'chat-ui',
+			'type' => 'title',
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Minimize Icon', 'patchchat' ),
+			'desc' => __( 'The Font Awesome icon used to minimize chat box', 'patchchat' ),
+			'id'   => 'minimize-icon',
+			'type' => 'select',
+			'show_option_none' => true,
+			'options'          => array(
+					'fa-minus'               => 'Minus',
+					'fa-minus-circle'        => 'Minus Circle',
+					'fa-minus-square'        => 'Minus Square',
+					'fa-minus-square-o'      => 'Minus Square Open',
+					'fa-sort-down'           => 'Triangle Down',
+					'fa-toggle-down'         => 'Toggle Down',
+					'fa-angle-down'          => 'Angle Down',
+					'fa-angle-double-down'   => 'Angle Double Down',
+					'fa-arrow-down'          => 'Arrow Down',
+					'fa-arrow-circle-down'   => 'Arrow Circle Down',
+					'fa-arrow-circle-o-down' => 'Arrow Circle Open Down',
+					'fa-chevron-down'        => 'Chevron Down',
+					'fa-chevron-circle-down' => 'Chevron Circle Down',
+			),
+		) );
+
+
 		/* SOUNDS */
 		$cmb->add_field( array(
 			'name' => __( 'Sounds', 'patchchat' ),
@@ -277,6 +309,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 16:36:58 - Adds setting for chat-instructions
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * @edited  2015-08-22 09:40:02 - Adds 'labels' default settings
+	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
 	 * 
 	 * @return array $settings The array of settings
 	 */
@@ -337,6 +370,10 @@ class PatchChat_Settings {
 				$data['headerText'] = $settings['header-text'];
 			} else {
 				$data['headerText'] = self::$header_text;
+			}
+
+			if ( array_key_exists( 'minimize-icon', $settings ) ) {
+				$data['minimizeIcon'] = $settings['minimize-icon'];
 			}
 
 			if ( array_key_exists( 'chat-instructions', $settings ) ) {

@@ -49,14 +49,22 @@ var PatchChatBox = React.createClass( {
 
 
 var PatchChatBoxHeader = React.createClass( {
+
 	handleClick : function(e) {
 		jQuery( e.nativeEvent.target ).closest( '.patchchatbox' ).toggleClass( 'open' );
 	},
+
+	minimizeIcon : function() {
+		if ( 'minimizeIcon' in patchchat ) {
+			return <i className={'minimize fa ' + patchchat.minimizeIcon}></i>;
+		}
+	},
+
 	render : function () {
 		return (
 			<header onClick={this.handleClick}>
 				{patchchat.headerText}
-				<i className="minimize fa fa-minus"></i>
+				{this.minimizeIcon()}
 				<img className="spinner" src="/wp-admin/images/wpspin_light.gif" />
 			</header>
 		);

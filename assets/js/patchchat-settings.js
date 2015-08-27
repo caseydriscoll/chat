@@ -12,4 +12,15 @@ jQuery( document ).ready( function() {
 
 	} );
 
+	var minimizeIcon = jQuery( '#minimize-icon' ).val();
+
+	jQuery( '#minimize-icon' ).after( '<i class="fa ' + minimizeIcon + '" style="margin: 0 10px;"></i>' );
+
+	jQuery( '#minimize-icon' ).on( 'change', function(e) {
+
+		var minimizeIcon = e.target.value;
+
+		jQuery( '.fa' ).removeAttr( 'class' ).addClass( 'fa' ).addClass( minimizeIcon );
+	} );
+
 } );

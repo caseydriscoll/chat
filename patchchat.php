@@ -253,6 +253,8 @@ class PatchChat {
 			wp_enqueue_script( 'patchchat-settings' );
 			wp_localize_script( 'patchchat-settings', 'patchchat', array( 'audiourl' => plugins_url( '/assets/audio/', __FILE__ ) ) );
 
+			wp_enqueue_style( 'font-awesome' );
+
 		}
 
 		wp_enqueue_style( 'cmb2' );

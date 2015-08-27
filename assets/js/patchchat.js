@@ -202,12 +202,19 @@ var PatchChatBoxHeader = React.createClass({
 	handleClick: function handleClick(e) {
 		jQuery(e.nativeEvent.target).closest('.patchchatbox').toggleClass('open');
 	},
+
+	minimizeIcon: function minimizeIcon() {
+		if ('minimizeIcon' in patchchat) {
+			return React.createElement('i', { className: 'minimize fa ' + patchchat.minimizeIcon });
+		}
+	},
+
 	render: function render() {
 		return React.createElement(
 			'header',
 			{ onClick: this.handleClick },
 			patchchat.headerText,
-			React.createElement('i', { className: 'minimize fa fa-minus' }),
+			this.minimizeIcon(),
 			React.createElement('img', { className: 'spinner', src: '/wp-admin/images/wpspin_light.gif' })
 		);
 	}
