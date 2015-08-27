@@ -202,6 +202,7 @@ class PatchChat_Controller {
 	 * @author caseypatrickdriscoll
 	 *
 	 * @edited 2015-08-04 15:36:31 - Adds role check for getting user chats
+	 * @edited 2015-08-27 18:38:05 - Refactors to remove get_array()
 	 *
 	 * TODO: Add 'agent' role/capability instead of 'administrator'
 	 */
