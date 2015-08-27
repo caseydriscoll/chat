@@ -496,7 +496,7 @@ var PatchChatListItem = React.createClass({
 	},
 	render: function render() {
 		var chat_id = 'chat_' + this.props.chat.chat_id;
-		var classes = 'patchchatlistitem';
+		var classes = 'patchchatlistitem ' + this.props.chat.status;
 		if (this.props.idx == 0) classes += ' active';
 		return React.createElement(
 			'li',

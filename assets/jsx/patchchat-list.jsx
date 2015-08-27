@@ -59,7 +59,7 @@ var PatchChatListItem = React.createClass( {
 	},
 	render: function() {
 		var chat_id = 'chat_' + this.props.chat.chat_id;
-		var classes = 'patchchatlistitem';
+		var classes = 'patchchatlistitem ' + this.props.chat.status;
 		if ( this.props.idx == 0 ) classes += ' active';
 		return (
 			<li className={classes} role="presentation">

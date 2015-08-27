@@ -18,6 +18,8 @@
         #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit {
           margin-bottom: 0;
           border: none; }
+        #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem.new {
+          background: #ff6961; }
       #wpcontent #wpbody #patchchatmessenger #patchchatboxes {
         width: 500px;
         height: 100vh;

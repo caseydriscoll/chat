@@ -6,6 +6,7 @@ $offwhite: #fafafa;
 $white:    #ffffff;
 
 $blue:     #55acee;
+$lightred: #ff6961;
 
 #wpwrap {
 	box-sizing: border-box;
@@ -29,6 +30,13 @@ $blue:     #55acee;
 				#patchchatinit {
 					margin-bottom: 0;
 					border: none;
+				}
+
+				.patchchatlistitem {
+
+					&.new {
+						background: $lightred;
+					}
 				}
 			}
 
