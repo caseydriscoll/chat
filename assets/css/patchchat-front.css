@@ -38,10 +38,10 @@
             background: #333333;
             color: #ffffff;
             border-bottom: 1px solid #777777; }
+            #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open header .minimize {
+              display: block; }
           #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open ul.patchchatcomments {
             display: block; }
-        #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox * {
-          font-family: sans-serif; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header {
           padding: 3px 6px;
           cursor: pointer;
@@ -51,6 +51,12 @@
             display: none;
             float: right;
             margin: 6px; }
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header .minimize {
+            display: none;
+            float: right;
+            padding: 5px; }
+            #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header .minimize:hover {
+              color: #777777; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox ul.patchchatcomments {
           display: none;
           height: 300px; }

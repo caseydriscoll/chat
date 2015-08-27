@@ -142,6 +142,7 @@ class PatchChat {
 	 *
 	 * @edited 2015-08-09 16:38:21 - Adds cmb2
 	 * @edited 2015-08-11 20:12:17 - Adds patchchat-settings
+	 * @edited 2015-08-27 12:17:17 - Adds font-awesome and minimize icon
 	 */
 	public static function register_assets() {
 		wp_register_script( 'react-with-addons', plugins_url( '/assets/js/react-with-addons.js', __FILE__ ) );
@@ -150,6 +151,8 @@ class PatchChat {
 
 		wp_register_style( 'patchchat', plugins_url( '/assets/css/patchchat.css', __FILE__ ) );
 		wp_register_style( 'cmb2', plugins_url( '/includes/cmb2/css/cmb2.css', __FILE__ ) );
+
+		wp_register_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
 	}
 
 
@@ -193,13 +196,15 @@ class PatchChat {
 	 * Loads the scripts and styles for the user facing chatbox
 	 *
 	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-27 12:16:50 - Adds font-awesome and minimize icon
 	 */
 	static function load_front_assets() {
 
 		PatchChat::register_assets();
 
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/patchchat-front.css', __FILE__ ),
-			array( 'patchchat' ) );
+			array( 'patchchat', 'font-awesome' ) );
 
 
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/patchchat-front.js', __FILE__ ),

@@ -207,6 +207,7 @@ var PatchChatBoxHeader = React.createClass({
 			'header',
 			{ onClick: this.handleClick },
 			patchchat.headerText,
+			React.createElement('i', { className: 'minimize fa fa-minus' }),
 			React.createElement('img', { className: 'spinner', src: '/wp-admin/images/wpspin_light.gif' })
 		);
 	}

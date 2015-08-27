@@ -54,13 +54,11 @@ $blue:     #453AFF;
 						background: $dark;
 						color: $white;
 						border-bottom: 1px solid $grey;
+
+						.minimize { display: block; }
 					}
 
 					ul.patchchatcomments { display: block; }
-				}
-
-				* {
-					font-family: sans-serif;
 				}
 
 				header {
@@ -72,6 +70,15 @@ $blue:     #453AFF;
 					.spinner {
 						display: none; float: right;
 						margin: 6px;
+					}
+
+					.minimize {
+						display: none; float: right;
+						padding: 5px;
+
+						&:hover { 
+							color: $grey;
+						}
 					}
 
 				}
