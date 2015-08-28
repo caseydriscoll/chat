@@ -238,7 +238,7 @@ class PatchChat {
 		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat' ) {
 
 			wp_enqueue_style( 'patchchat-back', plugins_url( '/assets/css/patchchat-back.css', __FILE__ ),
-				array( 'patchchat' ) );
+				array( 'patchchat', 'font-awesome' ) );
 
 			wp_enqueue_script( 'patchchat-back', plugins_url( '/assets/js/patchchat-back.js', __FILE__ ),
 				array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );

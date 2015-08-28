@@ -40,9 +40,31 @@ var PatchChatList = React.createClass( {
  *   It only initializes a new chat, which is then represented in the normal state components.
  */
 var PatchChatInit = React.createClass( {
+
+	handleClick : function(e) {
+
+		var button = jQuery( e.nativeEvent.target );
+
+		if ( button.hasClass( 'fa-plus-square' ) ) {
+			button.removeClass( 'fa-plus-square' ).addClass( 'fa-minus-square' );
+		} else {
+			button.removeClass( 'fa-minus-square' ).addClass( 'fa-plus-square' );
+		}
+
+		jQuery( '#patchchatinitbox' ).toggle();
+	},
+
+	startChat : function() {
+		if ( patchchat.admin == 'true' ) {
+			return <i className={'start-chat fa fa-plus-square'} onClick={this.handleClick}></i>;
+		}
+	},
+
 	render: function() {
 		return(
-			<li id="patchchatinit" className="patchchatlistitem"></li>
+			<li id="patchchatinit" className="patchchatlistitem">
+				{this.startChat()}
+			</li>
 		);
 	}
 } );

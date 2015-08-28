@@ -1,4 +1,5 @@
 var PatchChatInitBox = React.createClass( {
+
 	validate: function(e) {
 
 		e.preventDefault();
@@ -43,6 +44,7 @@ var PatchChatInitBox = React.createClass( {
 		}
 
 	},
+
 	render: function() {
 
 		var classes = 'patchchatbox open';
@@ -52,11 +54,12 @@ var PatchChatInitBox = React.createClass( {
 		// TODO: Make 'required' adjustable
 		// TODO: Make 'login' link optional
 		return(
+
 			<li id="patchchatinitbox" className={classes}>
 				<PatchChatBoxHeader />
 				<form onSubmit={this.validate}>
 					<p className="patchchat-instructions">{patchchat.instructions}</p>
-					<p>Already have an account? <a href="/wp-login.php">Login</a></p>
+					<p className="patchchat-loginlink">Already have an account? <a href="/wp-login.php">Login</a></p>
 					<p className="patchchat-message"></p>
 					<label>Name</label><input name="patchchat-name" type="name" required />
 					<label>Email</label><input name="patchchat-email" type="email" required />
@@ -67,4 +70,5 @@ var PatchChatInitBox = React.createClass( {
 			</li>
 		);
 	}
+
 } );

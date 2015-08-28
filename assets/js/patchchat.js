@@ -371,6 +371,7 @@ var PatchChatInitBox = React.createClass({
 			jQuery('.patchchat-message').html(error);
 		}
 	},
+
 	render: function render() {
 
 		var classes = 'patchchatbox open';
@@ -393,7 +394,7 @@ var PatchChatInitBox = React.createClass({
 				),
 				React.createElement(
 					'p',
-					null,
+					{ className: 'patchchat-loginlink' },
 					'Already have an account? ',
 					React.createElement(
 						'a',
@@ -425,6 +426,7 @@ var PatchChatInitBox = React.createClass({
 			)
 		);
 	}
+
 });
 
 // TODO: Make gravatar img size variable
@@ -478,8 +480,31 @@ var PatchChatList = React.createClass({
 var PatchChatInit = React.createClass({
 	displayName: 'PatchChatInit',
 
+	handleClick: function handleClick(e) {
+
+		var button = jQuery(e.nativeEvent.target);
+
+		if (button.hasClass('fa-plus-square')) {
+			button.removeClass('fa-plus-square').addClass('fa-minus-square');
+		} else {
+			button.removeClass('fa-minus-square').addClass('fa-plus-square');
+		}
+
+		jQuery('#patchchatinitbox').toggle();
+	},
+
+	startChat: function startChat() {
+		if (patchchat.admin == 'true') {
+			return React.createElement('i', { className: 'start-chat fa fa-plus-square', onClick: this.handleClick });
+		}
+	},
+
 	render: function render() {
-		return React.createElement('li', { id: 'patchchatinit', className: 'patchchatlistitem' });
+		return React.createElement(
+			'li',
+			{ id: 'patchchatinit', className: 'patchchatlistitem' },
+			this.startChat()
+		);
 	}
 });
 

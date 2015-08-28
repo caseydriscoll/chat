@@ -62,18 +62,3 @@
         display: none; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox.needed {
           display: inline-block; }
-        #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form {
-          display: none; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form p {
-            padding: 0;
-            margin: 0; }
-            #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form p a {
-              text-decoration: underline; }
-            #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form p.patchchat-message {
-              color: #ff0000; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form label {
-            display: block;
-            padding-top: 10px; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox form textarea {
-            position: absolute;
-            bottom: 0; }

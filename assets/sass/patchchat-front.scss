@@ -95,31 +95,6 @@ $blue:     #453AFF;
 
 				&.needed { display: inline-block; }
 
-				form {
-					display: none;
-
-					p {
-						padding: 0; margin: 0;
-
-						a {
-							text-decoration: underline;
-						}
-
-						&.patchchat-message {
-							color: $red;
-						}
-					}
-
-					label {
-						display: block;
-						padding-top: 10px;
-					}
-
-					textarea {
-						position: absolute;
-						bottom: 0;
-					}
-				}
 			}
 
 		}

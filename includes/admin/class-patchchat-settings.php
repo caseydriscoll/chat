@@ -338,8 +338,13 @@ class PatchChat_Settings {
 	static function localize() {
 
 		$data = array(
+			'admin'   => 'false',
 			'ajaxurl' => '/wp-admin/admin-ajax.php',
 		);
+
+		if ( is_admin() ) {
+			$data['admin'] = 'true';
+		}
 
 		$settings = get_option( self::$key );
 

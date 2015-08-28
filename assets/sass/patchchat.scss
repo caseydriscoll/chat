@@ -5,6 +5,7 @@ $light:    #bbbbbb;
 $offwhite: #fafafa;
 $white:    #ffffff;
 
+$red:      #ff0000;
 $blue:     #55acee;
 
 
@@ -73,9 +74,32 @@ $blue:     #55acee;
 
 				width: auto;
 				padding: 10px;
+				font-family: sans-serif;
+
+				p {
+					padding: 0; margin: 0;
+
+					a {
+						text-decoration: underline;
+					}
+
+					&.patchchat-message {
+						color: $red;
+					}
+				}
 
 				label {
 					padding: 20px 10px 0 0;
+				}
+
+				label {
+					display: block;
+					padding-top: 10px;
+				}
+
+				textarea {
+					position: absolute;
+					bottom: 0;
 				}
 
 				input {
@@ -138,6 +162,7 @@ $blue:     #55acee;
 						padding: 5px 8px;
 						margin: 3px 8px;
 						font-size: 14px;
+						font-family: sans-serif;
 						line-height: 18px;
 						border: 1px solid $light;
 						border-radius: 5px;

@@ -16,8 +16,18 @@
         position: relative;
         margin: 0; }
         #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit {
+          height: 38px;
           margin-bottom: 0;
-          border: none; }
+          border-bottom-color: 1px solid #333333;
+          background: #bbbbbb; }
+          #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit .start-chat {
+            display: none;
+            float: right;
+            margin: 8px 10px;
+            font-size: 21px;
+            color: #000000; }
+            #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit .start-chat:hover {
+              color: #ffffff; }
         #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem.new {
           background: #ff6961; }
       #wpcontent #wpbody #patchchatmessenger #patchchatboxes {
@@ -26,11 +36,16 @@
         margin-top: -32px; }
         #wpcontent #wpbody #patchchatmessenger #patchchatboxes #patchchatinitbox {
           display: none; }
-          #wpcontent #wpbody #patchchatmessenger #patchchatboxes #patchchatinitbox.needed {
-            display: inline-block; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes #patchchatinitbox form {
             display: none;
-            padding-bottom: 100px; }
+            position: relative;
+            z-index: auto;
+            bottom: auto;
+            width: auto;
+            padding-top: 80px; }
+            #wpcontent #wpbody #patchchatmessenger #patchchatboxes #patchchatinitbox form .patchchat-instructions,
+            #wpcontent #wpbody #patchchatmessenger #patchchatboxes #patchchatinitbox form .patchchat-loginlink {
+              display: none; }
         #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox {
           display: none;
           position: absolute;
