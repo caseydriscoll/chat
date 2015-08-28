@@ -207,9 +207,24 @@ class PatchChat_AJAX {
 	 *
 	 * @created 2015-07-18 17:49:02
 	 * @edited  2015-07-24 19:56:52 - Refactors to use move function
+	 * @edited  2015-08-28 18:12:26 - Adds user validation on change_chat_status
+	 *
+	 * TODO: Validate fields
 	 *
 	 */
 	public static function change_chat_status() {
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'Not logged in' );
+		}
+
+		$current_user = wp_get_current_user();
+
+		if ( $current_user->ID == 0 ) {
+			wp_send_json_error( 'Not a user' );
+		}
+
+		$user_id = $current_user->ID;
 
 		$chat = array(
 			'ID'          => $_POST['chat_id'],
@@ -220,7 +235,7 @@ class PatchChat_AJAX {
 		$response = PatchChat_Controller::change_status( $chat );
 
 		if ( $response ) {
-			wp_send_json_success( $chat );
+			wp_send_json_success( $response );
 		} else {
 			wp_send_json_error( 0 );
 		}
