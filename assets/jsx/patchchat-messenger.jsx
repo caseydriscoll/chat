@@ -155,9 +155,6 @@ var PatchChatMessenger = React.createClass( {
 
 					this.setState( { chats : response.data } );
 
-					var indicator = jQuery( '.patchchatlistitem[data-chat_id="' + response.chat_id + '"]' ).find( 'fa' );
-
-					indicator.removeClass( 'fa-spinner fa-spin' ).addClass( 'fa-circle' );
 				}
 
 			}.bind( this ),

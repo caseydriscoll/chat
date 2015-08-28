@@ -150,10 +150,6 @@ var PatchChatMessenger = React.createClass({
 				if (response.success) {
 
 					this.setState({ chats: response.data });
-
-					var indicator = jQuery('.patchchatlistitem[data-chat_id="' + response.chat_id + '"]').find('fa');
-
-					indicator.removeClass('fa-spinner fa-spin').addClass('fa-circle');
 				}
 			}).bind(this),
 			error: (function (response) {
@@ -553,11 +549,11 @@ var PatchChatListItem = React.createClass({
 
 		jQuery(e.nativeEvent.target).removeClass('fa-circle new open closed').addClass('fa-spinner fa-spin');
 
-		var item = jQuery(e.nativeEvent.target).parent();
+		var item = this.getDOMNode();
 
 		var chat = {
-			'chat_id': item.data('chat_id'),
-			'prevstatus': item.data('status')
+			'chat_id': item.getAttribute('data-chat_id'),
+			'prevstatus': item.getAttribute('data-status')
 		};
 
 		if (chat.prevstatus == 'new') chat.status = 'open';else if (chat.prevstatus == 'open') chat.status = 'closed';else if (chat.prevstatus == 'closed') chat.status = 'new';
