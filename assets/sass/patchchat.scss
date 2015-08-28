@@ -89,23 +89,15 @@ $blue:     #55acee;
 				}
 
 				label {
-					padding: 20px 10px 0 0;
-				}
-
-				label {
 					display: block;
 					padding-top: 10px;
-				}
-
-				textarea {
-					position: absolute;
-					bottom: 0;
 				}
 
 				input {
 					display: block;
 					width: 100%;
 					padding: 5px; margin-bottom: 10px;
+					font-family: sans-serif;
 				}
 
 				input[type=submit] {
