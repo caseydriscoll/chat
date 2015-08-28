@@ -292,17 +292,31 @@ var PatchChatComments = React.createClass({
 		this.componentDidUpdate();
 	},
 
+	icon: function icon(comment) {
+		if (comment.type == 'auto') return React.createElement('i', { className: 'fa fa-hand-peace-o' });
+	},
+
 	render: function render() {
+
 		var comments = this.props.chat.comments.map(function (comment) {
-			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
+			var classes = 'patchchatcomment';
 			var user = this.props.chat.users[comment.user].name;
+
+			if (comment.type == 'auto') classes += ' auto';else classes += ' ' + this.props.chat.users[comment.user].role;
+
 			return React.createElement(
 				'li',
 				{ className: classes, key: 'comment' + comment.id, title: user },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30' }),
-				comment.text
+				React.createElement(
+					'span',
+					null,
+					this.icon(comment),
+					comment.text
+				)
 			);
 		}, this);
+
 		return React.createElement(
 			'ul',
 			{ className: 'patchchatcomments' },
