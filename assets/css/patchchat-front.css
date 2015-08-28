@@ -71,7 +71,7 @@
       border-bottom: 1px solid #000000;
       border-left: 1px solid #000000;
       background: #fafafa; }
-      #patchchatmessenger #patchchatboxes .patchchatbox.open ul.patchchatcomments, #patchchatmessenger #patchchatboxes .patchchatbox.open form {
+      #patchchatmessenger #patchchatboxes .patchchatbox.active ul.patchchatcomments, #patchchatmessenger #patchchatboxes .patchchatbox.active form {
         display: block !important; }
       #patchchatmessenger #patchchatboxes .patchchatbox header {
         padding: 3px 6px;
@@ -199,16 +199,16 @@
         border: 1px #777777 solid;
         border-width: 1px 1px 0 1px;
         pointer-events: auto; }
-        #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open {
+        #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.active {
           width: 300px; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open header {
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.active header {
             padding: 5px 10px;
             background: #333333;
             color: #ffffff;
             border-bottom: 1px solid #777777; }
-            #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open header .minimize {
+            #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.active header .minimize {
               display: block; }
-          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.open ul.patchchatcomments {
+          #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox.active ul.patchchatcomments {
             display: block; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox header {
           padding: 3px 6px;

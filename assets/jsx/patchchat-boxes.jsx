@@ -4,8 +4,8 @@ var PatchChatBoxes = React.createClass( {
 		var patchchat_boxes = this.props.chats.map( function( chat, i ) {
 
 			var chat_id = 'chat_' + chat.chat_id;
-			var classes = 'patchchatbox';
-			if ( i == 0 ) classes += ' active open';
+			var classes = 'patchchatbox ' + chat.status;
+			if ( i == 0 ) classes += ' active';
 
 			return (
 				<PatchChatBox
@@ -51,7 +51,7 @@ var PatchChatBox = React.createClass( {
 var PatchChatBoxHeader = React.createClass( {
 
 	handleClick : function(e) {
-		jQuery( e.nativeEvent.target ).closest( '.patchchatbox' ).toggleClass( 'open' );
+		jQuery( e.nativeEvent.target ).closest( '.patchchatbox' ).toggleClass( 'active' );
 	},
 
 	minimizeIcon : function() {

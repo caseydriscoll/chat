@@ -103,6 +103,13 @@
 						display: block;
 					}
 
+					&.new,
+					&.closed {
+						form {
+							display: none !important;
+						}
+					}
+
 					header {
 						position: absolute;
 						z-index: 2;
@@ -139,7 +146,6 @@
 
 							span {
 								max-width: 60%;
-								word-break: break-all;
 							}
 						}
 					}

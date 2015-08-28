@@ -71,7 +71,7 @@
       border-bottom: 1px solid #000000;
       border-left: 1px solid #000000;
       background: #fafafa; }
-      #patchchatmessenger #patchchatboxes .patchchatbox.open ul.patchchatcomments, #patchchatmessenger #patchchatboxes .patchchatbox.open form {
+      #patchchatmessenger #patchchatboxes .patchchatbox.active ul.patchchatcomments, #patchchatmessenger #patchchatboxes .patchchatbox.active form {
         display: block !important; }
       #patchchatmessenger #patchchatboxes .patchchatbox header {
         padding: 3px 6px;
@@ -237,6 +237,8 @@
           box-sizing: border-box; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox.active {
             display: block; }
+          #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox.new form, #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox.closed form {
+            display: none !important; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox header {
             position: absolute;
             z-index: 2;
@@ -263,8 +265,7 @@
             -moz-box-sizing: border-box;
             box-sizing: border-box; }
             #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments .patchchatcomment span {
-              max-width: 60%;
-              word-break: break-all; }
+              max-width: 60%; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox form {
             position: absolute;
             z-index: 2;

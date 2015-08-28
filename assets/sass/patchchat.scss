@@ -121,7 +121,7 @@ $blue:     #55acee;
 			border-left: 1px solid $black;
 			background: $offwhite;
 
-			&.open {
+			&.active {
 				ul.patchchatcomments, form { display: block !important; }
 			}
 
