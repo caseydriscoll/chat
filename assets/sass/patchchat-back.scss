@@ -1,12 +1,4 @@
-$black:    #000000;
-$dark:     #333333;
-$grey:     #777777;
-$light:    #bbbbbb;
-$offwhite: #fafafa;
-$white:    #ffffff;
-
-$blue:     #55acee;
-$lightred: #ff6961;
+@import './patchchat.scss';
 
 #wpwrap {
 	box-sizing: border-box;

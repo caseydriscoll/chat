@@ -1,13 +1,4 @@
-$black:    #000000;
-$dark:     #333333;
-$grey:     #777777;
-$light:    #bbbbbb;
-$lighter:  #cccccc;
-$offwhite: #fafafa;
-$white:    #ffffff;
-
-$red:      #ff0000;
-$blue:     #453AFF;
+@import './patchchat.scss';
 
 #patchchatcontainer {
 	display: block; position: fixed;

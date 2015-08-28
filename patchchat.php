@@ -204,7 +204,7 @@ class PatchChat {
 		PatchChat::register_assets();
 
 		wp_enqueue_style( 'patchchat-front', plugins_url( '/assets/css/patchchat-front.css', __FILE__ ),
-			array( 'patchchat', 'font-awesome' ) );
+			array( 'font-awesome' ) );
 
 
 		wp_enqueue_script( 'patchchat-front', plugins_url( '/assets/js/patchchat-front.js', __FILE__ ),
@@ -238,7 +238,7 @@ class PatchChat {
 		} else if ( isset( $_GET['page'] ) && $_GET['page'] == 'patchchat' ) {
 
 			wp_enqueue_style( 'patchchat-back', plugins_url( '/assets/css/patchchat-back.css', __FILE__ ),
-				array( 'patchchat', 'font-awesome' ) );
+				array( 'font-awesome' ) );
 
 			wp_enqueue_script( 'patchchat-back', plugins_url( '/assets/js/patchchat-back.js', __FILE__ ),
 				array( 'jquery', 'react-with-addons', 'patchchat' ), '', true );
