@@ -153,6 +153,7 @@ class PatchChat_Controller {
 	 * @author  caseypatrickdriscoll
 	 *
 	 * @created 2015-08-27 15:13:52
+	 * @edited  2015-08-28 17:58:30 - Refactors to prevent open and closed transient states
 	 * 
 	 */
 	public static function change_status( $chat ) {
@@ -169,7 +170,8 @@ class PatchChat_Controller {
 
 		PatchChat_Transient::update( $chat['ID'], 'status', $chat['post_status'] );
 
-		PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
+		if ( $chat['prev_status'] == 'new' )
+			PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
 
 		return true;
 
