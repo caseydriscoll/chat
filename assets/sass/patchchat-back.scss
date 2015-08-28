@@ -123,14 +123,14 @@
 						-moz-box-sizing: border-box;
 						box-sizing: border-box;
 
-						.spinner {
-							display: none;
-							float: right;
-							margin: 6px;
-						}
-
 						i.minimize {
 							display: none;
+						}
+
+						i.patchchat-spinner {
+							display: none; float: right;
+							margin: 0px;
+							font-size: 18px !important;
 						}
 
 					}

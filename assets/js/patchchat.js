@@ -169,11 +169,11 @@ var PatchChatMessenger = React.createClass({
 		// Need to use inline-block, so overwritten
 		patchchat.spinner = {
 			show: function show() {
-				jQuery('#patchchatmessenger .spinner').css('display', 'inline-block');
+				jQuery('#patchchatmessenger .patchchat-spinner').css('display', 'inline-block');
 			},
 
 			hide: function hide() {
-				jQuery('#patchchatmessenger .spinner').css('display', 'none');
+				jQuery('#patchchatmessenger .patchchat-spinner').css('display', 'none');
 			}
 		};
 
@@ -245,6 +245,7 @@ var PatchChatBoxHeader = React.createClass({
 	displayName: 'PatchChatBoxHeader',
 
 	handleClick: function handleClick(e) {
+		if (patchchat.admin == 'true') return;
 		jQuery(e.nativeEvent.target).closest('.patchchatbox').toggleClass('active');
 	},
 
@@ -256,7 +257,7 @@ var PatchChatBoxHeader = React.createClass({
 
 	spinnerIcon: function spinnerIcon() {
 		if ('spinnerIcon' in patchchat) {
-			return React.createElement('i', { className: 'spinner fa ' + patchchat.spinnerIcon + ' fa-spin' });
+			return React.createElement('i', { className: 'patchchat-spinner fa ' + patchchat.spinnerIcon + ' fa-spin' });
 		}
 	},
 

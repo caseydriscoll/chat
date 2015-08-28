@@ -78,7 +78,7 @@
         cursor: pointer;
         background: #bbbbbb;
         font-size: 16px; }
-        #patchchatmessenger #patchchatboxes .patchchatbox header .spinner {
+        #patchchatmessenger #patchchatboxes .patchchatbox header .patchchat-spinner {
           display: none;
           float: right;
           margin: 6px; }

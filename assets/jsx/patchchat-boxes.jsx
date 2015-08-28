@@ -51,6 +51,7 @@ var PatchChatBox = React.createClass( {
 var PatchChatBoxHeader = React.createClass( {
 
 	handleClick : function(e) {
+		if ( patchchat.admin == 'true' ) return;
 		jQuery( e.nativeEvent.target ).closest( '.patchchatbox' ).toggleClass( 'active' );
 	},
 
@@ -62,7 +63,7 @@ var PatchChatBoxHeader = React.createClass( {
 
 	spinnerIcon : function() {
 		if ( 'spinnerIcon' in patchchat ) {
-			return <i className={'spinner fa ' + patchchat.spinnerIcon + ' fa-spin'}></i>;
+			return <i className={'patchchat-spinner fa ' + patchchat.spinnerIcon + ' fa-spin'}></i>;
 		}
 	},
 
