@@ -74,12 +74,29 @@ class PatchChat_Transient {
 	/**
 	 * Sets the transient by chat_id
 	 *
+	 * Also responsible for pushing the updates to the respective Transient States
+	 *
 	 * @author  caseypatrickdriscoll
 	 *
 	 * @created 2015-08-27 18:59:19
+	 * @edited  2015-08-28 12:30:12 - Refactors to push transient updates to state without move function
 	 */
 	public static function set( $chat_id, $transient ) {
 		set_transient( 'patchchat_' . $chat_id, $transient );
+
+
+		// TODO: Must then update ALL Transient Arrays this transient is in
+		// For now, just updating if 'new'
+		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
+
+		foreach ( $transient['users'] as $user_id => $user ) {
+
+			// TODO: Clean up this idea of admins and agents
+			if ( $transient['status'] == 'new' && $user_id == 1 ) continue;
+
+			PatchChat_Transient_State::update( $user_id, $transient );
+		}
+
 	}
 
 
@@ -152,6 +169,23 @@ class PatchChat_Transient {
 		return $transient;
 	}
 
+	/**
+	 * Updates a Transient with the given field
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-28 09:55:52
+	 */
+	public static function update( $chat_id, $key, $value ) {
+
+		$transient = PatchChat_Transient::get( $chat_id );
+
+		$transient[$key] = $value;
+
+		PatchChat_Transient::set( $chat_id, $transient );
+
+	}
+
 
 	/**
 	 * Updates a PatchChat_Transient, building it if it doesn't exist
@@ -178,13 +212,6 @@ class PatchChat_Transient {
 		);
 
 		PatchChat_Transient::set( $chat_id, $transient );
-
-		// TODO: Must then update ALL Transient Arrays this transient is in
-		// For now, just updating if 'new'
-		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
-
-		foreach ( $transient['users'] as $user_id => $user )
-			PatchChat_Transient_State::update( $user_id, $transient );
 
 		return $transient;
 	}

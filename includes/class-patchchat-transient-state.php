@@ -121,7 +121,7 @@ class PatchChat_Transient_State {
 
 
 	/**
-	 * Updates a transient array with a given transient
+	 * Updates a transient array with a given transient, or adds it if it doesn't exist.
 	 *
 	 * @author caseypatrickdriscoll
 	 *
@@ -134,68 +134,18 @@ class PatchChat_Transient_State {
 		$transient_state = PatchChat_Transient_State::get( $state_name );
 
 		foreach ( $transient_state as $i => $old_transient ) {
-			if ( $old_transient['chat_id'] == $transient['chat_id'] )
-				$transient_state[$i] = $transient;
+
+			if ( $old_transient['chat_id'] == $transient['chat_id'] ) {
+				unset( $transient_state[ $i ] );
+			}
+
 		}
+
+		array_unshift( $transient_state, $transient );
 
 		PatchChat_Transient_State::set( $state_name, $transient_state );
 
 		return $transient_state;
-	}
-
-
-	/**
-	 * Moves a chat from one transient to another
-	 * Used in the PatchChat_Controller::change_status function
-	 *
-	 * For example, moves a chat from the 'new' transient to a transient of its own
-	 *
-	 * @author caseypatrickdriscoll
-	 *
-	 * @created 2015-07-24 19:37:58
-	 *
-	 * @param $id
-	 * @param $from
-	 * @param $to The status to move it to
-	 */
-	public static function move( $chat ) {
-
-		$chat_id = $chat['ID'];
-		$from    = $chat['prev_status'];
-		$to      = $chat['post_status'];
-
-		if ( $from == 'new' && $to == 'open' ) {
-
-			// This is checked in PatchChat_AJAX too (never hurts to double check)
-			if ( ! is_user_logged_in() ) return array( 'error' => 'User is not logged in' );
-
-			$current_user = wp_get_current_user();
-
-			if ( $current_user->ID == 0 ) {
-				return array( 'error' => 'User is not logged in' );
-			}
-
-			$user_id = $current_user->ID;
-
-			$transient_state = PatchChat_Transient_State::get( $from );
-
-			foreach ( $transient_state as $key => $newchat ) {
-
-				if ( $newchat['chat_id'] == $chat_id ) {
-
-					PatchChat_Transient_State::trim( $from, $chat_id );
-
-					PatchChat_Transient_State::add( $user_id, $newchat );
-
-					break;
-				}
-			}
-
-		}
-
-		// TODO: Handle error validation
-		return true;
-
 	}
 
 

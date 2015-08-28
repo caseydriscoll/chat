@@ -89,8 +89,6 @@ class PatchChat_Controller {
 
 		$transient = PatchChat_Transient::build( $post_id );
 
-		$transient_state = PatchChat_Transient_State::add( 'new', $transient );
-
 		return PatchChat_Controller::get_user_state( $user_id );
 
 	}
@@ -169,9 +167,11 @@ class PatchChat_Controller {
 
 		wp_update_post( $chat );
 
-		// TODO: Change the actual individual transient
+		PatchChat_Transient::update( $chat['ID'], 'status', $chat['post_status'] );
 
-		return PatchChat_Transient_State::move( $chat );
+		PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
+
+		return true;
 
 	}
 
