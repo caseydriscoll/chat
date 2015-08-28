@@ -72,6 +72,39 @@ var PatchChatInit = React.createClass( {
 
 var PatchChatListItem = React.createClass( {
 
+	changeStatus : function(e) {
+		var chat       = jQuery( e.nativeEvent.target ).parent();
+		var prevstatus = chat.data( 'status' );
+
+		var status;
+
+		if ( prevstatus == 'new' )
+			status = 'open';
+		else if ( prevstatus == 'open' )
+			status = 'closed';
+		else if ( prevstatus == 'closed' )
+			status = 'new';
+
+		var data = {
+			'action'      : 'change_chat_status',
+			'chat_id'     : chat.data( 'chat_id' ),
+			'prev_status' : prevstatus,
+			'status'      : status
+		};
+
+		console.log( data );
+
+		jQuery.post(
+			patchchat.ajaxurl,
+			data,
+			function( response ) {
+
+				console.log( response );
+
+			}
+		);
+	},
+
 	click: function(e) {
 		e.preventDefault();
 		jQuery( e.nativeEvent.target ).tab('show');
@@ -90,8 +123,8 @@ var PatchChatListItem = React.createClass( {
 		var statusClasses = 'status fa fa-circle ' + this.props.chat.status;
 
 		return (
-			<li className={classes} role="presentation">
-				<i className={statusClasses}></i>
+			<li className={classes} role="presentation" data-chat_id={this.props.chat.chat_id} data-status={this.props.chat.status}>
+				<i className={statusClasses} onClick={this.changeStatus}></i>
 				<a href={'#' + chat_id} aria-controls={chat_id} role="tab" data-toggle="tab" onClick={this.click}>
 					{this.props.children}
 				</a>

@@ -511,6 +511,29 @@ var PatchChatInit = React.createClass({
 var PatchChatListItem = React.createClass({
 	displayName: 'PatchChatListItem',
 
+	changeStatus: function changeStatus(e) {
+		var chat = jQuery(e.nativeEvent.target).parent();
+		var prevstatus = chat.data('status');
+
+		var status;
+
+		if (prevstatus == 'new') status = 'open';else if (prevstatus == 'open') status = 'closed';else if (prevstatus == 'closed') status = 'new';
+
+		var data = {
+			'action': 'change_chat_status',
+			'chat_id': chat.data('chat_id'),
+			'prev_status': prevstatus,
+			'status': status
+		};
+
+		console.log(data);
+
+		jQuery.post(patchchat.ajaxurl, data, function (response) {
+
+			console.log(response);
+		});
+	},
+
 	click: function click(e) {
 		e.preventDefault();
 		jQuery(e.nativeEvent.target).tab('show');
@@ -530,8 +553,8 @@ var PatchChatListItem = React.createClass({
 
 		return React.createElement(
 			'li',
-			{ className: classes, role: 'presentation' },
-			React.createElement('i', { className: statusClasses }),
+			{ className: classes, role: 'presentation', 'data-chat_id': this.props.chat.chat_id, 'data-status': this.props.chat.status },
+			React.createElement('i', { className: statusClasses, onClick: this.changeStatus }),
 			React.createElement(
 				'a',
 				{ href: '#' + chat_id, 'aria-controls': chat_id, role: 'tab', 'data-toggle': 'tab', onClick: this.click },
