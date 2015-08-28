@@ -519,13 +519,19 @@ var PatchChatListItem = React.createClass({
 
 		jQuery(chatbox).find('textarea').focus();
 	},
+
 	render: function render() {
+
 		var chat_id = 'chat_' + this.props.chat.chat_id;
-		var classes = 'patchchatlistitem ' + this.props.chat.status;
+		var classes = 'patchchatlistitem';
 		if (this.props.idx == 0) classes += ' active';
+
+		var statusClasses = 'status fa fa-circle ' + this.props.chat.status;
+
 		return React.createElement(
 			'li',
 			{ className: classes, role: 'presentation' },
+			React.createElement('i', { className: statusClasses }),
 			React.createElement(
 				'a',
 				{ href: '#' + chat_id, 'aria-controls': chat_id, role: 'tab', 'data-toggle': 'tab', onClick: this.click },
@@ -533,4 +539,5 @@ var PatchChatListItem = React.createClass({
 			)
 		);
 	}
+
 });

@@ -196,8 +196,16 @@
             color: #000000; }
             #wpcontent #wpbody #patchchatmessenger ul#patchchatlist #patchchatinit .start-chat:hover {
               color: #ffffff; }
-        #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem.new {
-          background: #ff6961; }
+        #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem {
+          position: relative; }
+          #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem .status {
+            position: absolute;
+            right: 10px;
+            top: 25px; }
+            #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem .status.new {
+              color: #ff0000; }
+            #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem .status.open {
+              color: #769F33; }
       #wpcontent #wpbody #patchchatmessenger #patchchatboxes {
         width: 500px;
         height: 100vh;

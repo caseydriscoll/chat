@@ -71,6 +71,7 @@ var PatchChatInit = React.createClass( {
 
 
 var PatchChatListItem = React.createClass( {
+
 	click: function(e) {
 		e.preventDefault();
 		jQuery( e.nativeEvent.target ).tab('show');
@@ -79,16 +80,24 @@ var PatchChatListItem = React.createClass( {
 
 		jQuery( chatbox ).find( 'textarea' ).focus();
 	},
+
 	render: function() {
+
 		var chat_id = 'chat_' + this.props.chat.chat_id;
-		var classes = 'patchchatlistitem ' + this.props.chat.status;
+		var classes = 'patchchatlistitem';
 		if ( this.props.idx == 0 ) classes += ' active';
+
+		var statusClasses = 'status fa fa-circle ' + this.props.chat.status;
+
 		return (
 			<li className={classes} role="presentation">
+				<i className={statusClasses}></i>
 				<a href={'#' + chat_id} aria-controls={chat_id} role="tab" data-toggle="tab" onClick={this.click}>
 					{this.props.children}
 				</a>
 			</li>
 		);
+
 	}
+
 } );

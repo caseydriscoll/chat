@@ -40,9 +40,23 @@
 
 				.patchchatlistitem {
 
-					&.new {
-						background: $lightred;
+					position: relative;
+
+					.status {
+
+						position: absolute;
+						right: 10px; top: 25px;
+
+						&.new {
+							color: $red;
+						}
+
+						&.open {
+							color: $green;
+						}
+
 					}
+					
 				}
 			}
 
