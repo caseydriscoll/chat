@@ -154,6 +154,7 @@ class PatchChat_Controller {
 	 *
 	 * @created 2015-08-27 15:13:52
 	 * @edited  2015-08-28 17:58:30 - Refactors to prevent open and closed transient states
+	 * @edited  2015-08-28 18:14:09 - Adds fast update by returning user state on change_status
 	 * 
 	 */
 	public static function change_status( $chat ) {
@@ -173,7 +174,11 @@ class PatchChat_Controller {
 		if ( $chat['prev_status'] == 'new' )
 			PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
 
-		return true;
+		$current_user = wp_get_current_user();
+
+		$user_id = $current_user->ID;
+
+		return PatchChat_Controller::get_user_state( $user_id );
 
 	}
 
