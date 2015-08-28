@@ -254,6 +254,8 @@
               display: none;
               float: right;
               margin: 6px; }
+            #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox header i.minimize {
+              display: none; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments {
             position: absolute;
             z-index: 1;
