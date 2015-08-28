@@ -84,9 +84,6 @@ class PatchChat_Transient {
 	public static function set( $chat_id, $transient ) {
 		set_transient( 'patchchat_' . $chat_id, $transient );
 
-
-		// TODO: Must then update ALL Transient Arrays this transient is in
-		// For now, just updating if 'new'
 		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
 
 		foreach ( $transient['users'] as $user_id => $user ) {

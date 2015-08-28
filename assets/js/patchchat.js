@@ -125,6 +125,40 @@ var PatchChatMessenger = React.createClass({
 		});
 	},
 
+	changeStatus: function changeStatus(chat) {
+
+		var data = {
+			'action': 'change_chat_status',
+			'chat_id': chat.chat_id,
+			'prev_status': chat.prevstatus,
+			'status': chat.status
+		};
+
+		if (patchchat.debug == 'true') console.log('before change_chat_status: ', data);
+
+		jQuery.ajax({
+			method: 'POST',
+			url: patchchat.ajaxurl,
+			data: data,
+			success: (function (response) {
+
+				if (patchchat.debug == 'true') console.log('response change_chat_status: ', response);
+
+				clearTimeout(this.timeOutID);
+				this.timeOutID = setTimeout(this.loadCommentsFromServer, this.props.pulse);
+
+				if (response.success) {
+					var indicator = jQuery('.patchchatlistitem[data-chat_id="' + response.chat_id + '"]').find('fa');
+
+					indicator.removeClass('fa-spinner fa-spin').addClass('fa-circle');
+				}
+			}).bind(this),
+			error: (function (response) {
+				if (patchchat.debug == 'true') console.error('error response changeStatus: ', response);
+			}).bind(this)
+		});
+	},
+
 	getInitialState: function getInitialState() {
 		return { chats: new Array(0) };
 	},
@@ -150,7 +184,7 @@ var PatchChatMessenger = React.createClass({
 		return React.createElement(
 			'div',
 			{ id: 'patchchatmessenger' },
-			React.createElement(PatchChatList, { chats: this.state.chats }),
+			React.createElement(PatchChatList, { chats: this.state.chats, changeStatus: this.changeStatus }),
 			React.createElement(PatchChatBoxes, { chats: this.state.chats, submit: this.submit })
 		);
 	}
@@ -449,7 +483,7 @@ var PatchChatList = React.createClass({
 
 			return React.createElement(
 				PatchChatListItem,
-				{ chat: chat, idx: i + 1, key: chat.chat_id },
+				{ chat: chat, idx: i + 1, key: chat.chat_id, changeStatus: this.props.changeStatus },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40' }),
 				React.createElement(
 					'h3',
@@ -458,7 +492,7 @@ var PatchChatList = React.createClass({
 				),
 				chat.title
 			);
-		});
+		}, this);
 
 		return React.createElement(
 			'ul',
@@ -512,26 +546,19 @@ var PatchChatListItem = React.createClass({
 	displayName: 'PatchChatListItem',
 
 	changeStatus: function changeStatus(e) {
-		var chat = jQuery(e.nativeEvent.target).parent();
-		var prevstatus = chat.data('status');
 
-		var status;
+		jQuery(e.nativeEvent.target).removeClass('fa-circle new open closed').addClass('fa-spinner fa-spin');
 
-		if (prevstatus == 'new') status = 'open';else if (prevstatus == 'open') status = 'closed';else if (prevstatus == 'closed') status = 'new';
+		var item = jQuery(e.nativeEvent.target).parent();
 
-		var data = {
-			'action': 'change_chat_status',
-			'chat_id': chat.data('chat_id'),
-			'prev_status': prevstatus,
-			'status': status
+		var chat = {
+			'chat_id': item.data('chat_id'),
+			'prevstatus': item.data('status')
 		};
 
-		console.log(data);
+		if (chat.prevstatus == 'new') chat.status = 'open';else if (chat.prevstatus == 'open') chat.status = 'closed';else if (chat.prevstatus == 'closed') chat.status = 'new';
 
-		jQuery.post(patchchat.ajaxurl, data, function (response) {
-
-			console.log(response);
-		});
+		this.props.changeStatus(chat);
 	},
 
 	click: function click(e) {

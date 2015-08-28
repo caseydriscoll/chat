@@ -1,5 +1,6 @@
 // TODO: Make gravatar img size variable
 var PatchChatList = React.createClass( {
+
 	render: function() {
 
 		var chats = this.props.chats.reverse().map( function( chat, i ) {
@@ -14,13 +15,13 @@ var PatchChatList = React.createClass( {
 			users = users.join( ', ' );
 
 			return (
-				<PatchChatListItem chat={chat} idx={i+1} key={chat.chat_id}  >
+				<PatchChatListItem chat={chat} idx={i+1} key={chat.chat_id} changeStatus={this.props.changeStatus} >
 					<img src={'https://gravatar.com/avatar/' + chat.img + '.jpg?s=40'} />
 					<h3>{users}</h3>
 					{chat.title}
 				</PatchChatListItem>
 			);
-		} );
+		}, this );
 
 		return (
 			<ul id="patchchatlist" role="tablist">
@@ -72,37 +73,25 @@ var PatchChatInit = React.createClass( {
 
 var PatchChatListItem = React.createClass( {
 
-	changeStatus : function(e) {
-		var chat       = jQuery( e.nativeEvent.target ).parent();
-		var prevstatus = chat.data( 'status' );
+	changeStatus: function(e) {
 
-		var status;
+		jQuery( e.nativeEvent.target ).removeClass( 'fa-circle new open closed').addClass( 'fa-spinner fa-spin' );
 
-		if ( prevstatus == 'new' )
-			status = 'open';
-		else if ( prevstatus == 'open' )
-			status = 'closed';
-		else if ( prevstatus == 'closed' )
-			status = 'new';
+		var item = jQuery( e.nativeEvent.target ).parent();
 
-		var data = {
-			'action'      : 'change_chat_status',
-			'chat_id'     : chat.data( 'chat_id' ),
-			'prev_status' : prevstatus,
-			'status'      : status
-		};
+		var chat = {
+			'chat_id'    : item.data( 'chat_id' ),
+			'prevstatus' : item.data( 'status' )
+		}
 
-		console.log( data );
+		if ( chat.prevstatus == 'new' )
+			chat.status = 'open';
+		else if ( chat.prevstatus == 'open' )
+			chat.status = 'closed';
+		else if ( chat.prevstatus == 'closed' )
+			chat.status = 'new';
 
-		jQuery.post(
-			patchchat.ajaxurl,
-			data,
-			function( response ) {
-
-				console.log( response );
-
-			}
-		);
+		this.props.changeStatus( chat );
 	},
 
 	click: function(e) {

@@ -206,6 +206,8 @@
               color: #ff0000; }
             #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem .status.open {
               color: #769F33; }
+            #wpcontent #wpbody #patchchatmessenger ul#patchchatlist .patchchatlistitem .status:hover {
+              transform: scale(1.2); }
       #wpcontent #wpbody #patchchatmessenger #patchchatboxes {
         width: 500px;
         height: 100vh;

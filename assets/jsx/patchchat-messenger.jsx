@@ -129,6 +129,41 @@ var PatchChatMessenger = React.createClass( {
 		});
 	},
 
+	changeStatus : function( chat ) {
+
+		var data = {
+			'action'      : 'change_chat_status',
+			'chat_id'     : chat.chat_id,
+			'prev_status' : chat.prevstatus,
+			'status'      : chat.status
+		};
+
+		if ( patchchat.debug == 'true' ) console.log( 'before change_chat_status: ', data );
+
+		jQuery.ajax({
+			method  : 'POST',
+			url     : patchchat.ajaxurl,
+			data    : data,
+			success :function( response ) {
+
+				if ( patchchat.debug == 'true' ) console.log( 'response change_chat_status: ', response );
+
+				clearTimeout( this.timeOutID );
+				this.timeOutID = setTimeout( this.loadCommentsFromServer, this.props.pulse );
+
+				if ( response.success ) {
+					var indicator = jQuery( '.patchchatlistitem[data-chat_id="' + response.chat_id + '"]' ).find( 'fa' );
+
+					indicator.removeClass( 'fa-spinner fa-spin' ).addClass( 'fa-circle' );
+				}
+
+			}.bind( this ),
+			error   : function ( response ) {
+				if ( patchchat.debug == 'true' ) console.error( 'error response changeStatus: ', response );
+			}.bind( this )
+		});
+	},
+
 	getInitialState: function() {
 		return { chats: new Array(0) }
 	},
@@ -153,7 +188,7 @@ var PatchChatMessenger = React.createClass( {
 	render: function() {
 		return (
 			<div id="patchchatmessenger">
-				<PatchChatList  chats={this.state.chats} />
+				<PatchChatList  chats={this.state.chats} changeStatus={this.changeStatus} />
 				<PatchChatBoxes chats={this.state.chats} submit={this.submit} />
 			</div>
 		);
