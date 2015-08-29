@@ -15,6 +15,7 @@ class PatchChat_Controller {
 	 *
 	 * @edited 2015-08-03 16:32:16 - Adds user signon after creation
 	 * @edited 2015-08-28 20:11:39 - Adds PatchChat_Settings::instant_reply
+	 * @edited 2015-08-28 20:19:22 - Adds PatchChat_Settings::bot
 	 */
 	public static function create( $patchchat ) {
 
@@ -72,13 +73,11 @@ class PatchChat_Controller {
 
 
 		/* Insert default action comment reply */
-		// TODO: Should not be hardcoded! Should be setting for 'default agent'
-
 		$instant_reply = PatchChat_Settings::instant_reply( $user );
 
 		$comment = array(
 			'comment_post_ID'   => $post_id,
-			'user_id'           => 1,
+			'user_id'           => PatchChat_Settings::bot(),
 			'comment_content'   => $instant_reply,
 			'comment_type'      => 'auto',
 			'comment_date'      => current_time( 'mysql' ), // So it occurs after first comment time set above

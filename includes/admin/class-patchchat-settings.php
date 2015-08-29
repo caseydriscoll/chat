@@ -470,6 +470,22 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Returns the user id saved as the bot
+	 *
+	 * TODO: Add bot setting, remove hardcoding
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-28 20:17:30
+	 * 
+	 * @return int The user id of the auto bot user
+	 */
+	public static function bot() {
+		return 1;
+	}
+
+
+	/**
 	 * Helper method to prep and return all audio filenames
 	 *
 	 * @author caseypatrickdriscoll
