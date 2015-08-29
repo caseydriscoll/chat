@@ -80,16 +80,19 @@ class PatchChat_Transient {
 	 *
 	 * @created 2015-08-27 18:59:19
 	 * @edited  2015-08-28 12:30:12 - Refactors to push transient updates to state without move function
+	 * @edited  2015-08-29 13:57:00 - Adds bot for auto comments
 	 */
 	public static function set( $chat_id, $transient ) {
+
+		// 1. Set the chat transient
 		set_transient( 'patchchat_' . $chat_id, $transient );
 
+		// 2. Update all the necessary transient states
 		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
 
 		foreach ( $transient['users'] as $user_id => $user ) {
 
-			// TODO: Clean up this idea of admins and agents
-			if ( $transient['status'] == 'new' && $user_id == 1 ) continue;
+			if ( $user_id == PatchChat_Settings::bot() ) continue;
 
 			PatchChat_Transient_State::update( $user_id, $transient );
 		}

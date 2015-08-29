@@ -111,6 +111,22 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default bot username
+	 *
+	 * @var  string
+	 */
+	static $bot_username = 'patchchatbot';
+
+
+	/**
+	 * Default bot displayname
+	 *
+	 * @var  string
+	 */
+	static $bot_displayname = 'bot';
+
+
+	/**
 	 * Initialize the menu registration
 	 *
 	 * @edited 2015-08-09 16:43:55 - Adds cmb2
@@ -481,7 +497,45 @@ class PatchChat_Settings {
 	 * @return int The user id of the auto bot user
 	 */
 	public static function bot() {
-		return 1;
+
+		$settings = get_option( self::$key );
+
+		$bot_id = '';
+
+		if ( $settings === false || empty( $settings['bot_id'] ) ) {
+
+			$bot = get_user_by( 'username', self::$bot_username );
+
+			if ( $bot === false ) {
+
+				$bot = array(
+					'user_login'   => self::$bot_username,
+					'user_pass'    => NULL,
+					'display_name' => self::$bot_displayname,
+				);
+
+				$bot_id = wp_insert_user( $bot );
+
+			} else {
+
+				$bot_id = $bot->ID;
+			
+			}
+
+			if ( $settings === false )
+				$settings = array( 'bot_id' => $bot_id );
+			else
+				$settings['bot_id'] = $bot_id;
+
+			update_option( self::$key, $settings );
+
+		} else {
+
+			$bot_id = $settings['bot_id'];
+
+		}
+
+		return $bot_id;
 	}
 
 

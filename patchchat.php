@@ -40,6 +40,8 @@ class PatchChat {
 	 */
 	public static function init() {
 
+		register_activation_hook( __FILE__, 'PatchChat::install' );
+
 		PatchChat::includes();
 
 		PatchChat_AJAX::init();
@@ -62,6 +64,23 @@ class PatchChat {
 			add_action( 'wp_enqueue_scripts', 'PatchChat::load_front_assets' );
 
 		}
+	}
+
+
+	/**
+	 * Permorms a number of housekeeping tasks at time of plugin installation
+	 *
+	 * 1. Creates a 'bot' user that will own auto comments
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created  2015-08-29 13:57:00
+	 * 
+	 */
+	public static function install() {
+
+		PatchChat_Settings::bot();
+
 	}
 
 
