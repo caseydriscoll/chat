@@ -152,6 +152,7 @@ class PatchChat_Controller {
 	 * @created 2015-08-27 15:13:52
 	 * @edited  2015-08-28 17:58:30 - Refactors to prevent open and closed transient states
 	 * @edited  2015-08-28 18:14:09 - Adds fast update by returning user state on change_status
+	 * @edited  2015-08-28 20:38:24 - Adds auto comment for every status change
 	 * 
 	 */
 	public static function change_status( $chat ) {
@@ -166,7 +167,21 @@ class PatchChat_Controller {
 
 		wp_update_post( $chat );
 
+		/* Insert default action comment reply */
+		$comment = array(
+			'comment_post_ID'   => $chat['ID'],
+			'user_id'           => PatchChat_Settings::bot(),
+			'comment_content'   => __( 'Agent changed status to ' . $chat['post_status'], 'patchchat' ),
+			'comment_type'      => 'auto',
+			'comment_date'      => current_time( 'mysql' ), // So it occurs after first comment time set above
+		);
+
+		$comment_id = wp_insert_comment( $comment );
+
+		$comment['comment_id'] = $comment_id;
+
 		PatchChat_Transient::update( $chat['ID'], 'status', $chat['post_status'] );
+		PatchChat_Transient::add_comment( $chat['ID'], $comment );
 
 		if ( $chat['prev_status'] == 'new' )
 			PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
