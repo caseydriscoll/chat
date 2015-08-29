@@ -112,7 +112,7 @@ class PatchChat_Controller {
 		// Will build the Transient
 		PatchChat_Transient::get( $post_id );
 
-		return PatchChat_Controller::get_user_state();
+		return PatchChat_Controller::get_user_state( $user_id );
 
 	}
 
@@ -189,13 +189,18 @@ class PatchChat_Controller {
 	 *
 	 * @edited 2015-08-04 15:36:31 - Adds role check for getting user chats
 	 * @edited 2015-08-27 18:38:05 - Refactors to remove get_array()
+	 * @edited 2015-08-29 18:16:26 - Refactors for situations with no user_id because the user was just created
 	 *
 	 * TODO: Add 'agent' role/capability instead of 'administrator'
 	 */
-	public static function get_user_state() {
+	public static function get_user_state( $user_id = NULL ) {
 
-		$user     = wp_get_current_user();
-		$user_id  = $user->ID;
+		if ( $user_id == NULL ) {
+			$user    = wp_get_current_user();
+			$user_id = $user->ID;
+		} else {
+			$user    = get_user_by( 'id', $user_id );
+		}
 
 		$user_chats = PatchChat_Transient_State::get( $user_id );
 
