@@ -103,7 +103,9 @@ class PatchChat_Settings {
 
 
 	/**
-	 * 
+	 * Default option for the read receipt
+	 *
+	 * @var  string
 	 */
 	static $instant_reply = 'Welcome! We received your chat and will be with you in a moment.';
 
