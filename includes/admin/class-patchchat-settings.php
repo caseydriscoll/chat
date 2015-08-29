@@ -107,7 +107,7 @@ class PatchChat_Settings {
 	 *
 	 * @var  string
 	 */
-	static $instant_reply = 'Welcome! We received your chat and will be with you in a moment.';
+	static $instant_reply = 'Welcome {displayname}! We received your chat and will be with you in a moment.';
 
 
 	/**
@@ -240,7 +240,7 @@ class PatchChat_Settings {
 
 		$cmb->add_field( array(
 			'name' => __( 'Instant Reply', 'patchchat' ),
-			'desc' => __( 'The text that appears on as the first reply confirming receipt.', 'patchchat' ),
+			'desc' => __( 'The filter text for the first reply confirming receipt.<br/>Use {displayname}, {chatid} as tokens.', 'patchchat' ),
 			'id'   => 'instant-reply',
 			'type' => 'text',
 			'attributes' => array(
@@ -250,7 +250,7 @@ class PatchChat_Settings {
 
 		$cmb->add_field( array(
 			'name' => __( 'Status Change Message', 'patchchat' ),
-			'desc' => __( 'The filter text for status changes. Use {chatid}, {status}, {agentname} as tokens.', 'patchchat' ),
+			'desc' => __( 'The filter text for status changes.<br/>Use {chatid}, {status}, {agentname} as tokens.', 'patchchat' ),
 			'id'   => 'status-change-message',
 			'type' => 'text',
 			'attributes' => array(
@@ -486,24 +486,31 @@ class PatchChat_Settings {
 
 
 	/**
-	 * Returns the approriate string to for the instant read receipt
+	 * Returns the appropriate string to for the instant read receipt
 	 *
 	 * @author  caseypatrickdriscoll
 	 *
 	 * @created 2015-08-28 20:13:06
+	 * @edited  2015-08-29 18:57:19 - Refactors to make instant-reply dynamic with tokens
 	 *
-	 * @param WP_USER $user The given user
+	 * @param Array $options The available tokens for replacement
 	 *
 	 * @return  string The instant reply to leave as a comment
 	 */
-	public static function instant_reply( $user ) {
+	public static function instant_reply( $options ) {
 
 		$settings = get_option( self::$key );
 
 		if ( $settings === false || empty( $settings['instant-reply'] ) )
-			return __( self::$instant_reply, 'patchchat' );
+			$message =  __( self::$instant_reply, 'patchchat' );
 		else
-			return $settings['instant-reply'];
+			$message = $settings['instant-reply'];
+
+		foreach ( $options as $key => $value ) {
+			$message = str_replace( '{' . $key . '}', $value, $message );
+		}
+
+		return $message;
 
 	}
 

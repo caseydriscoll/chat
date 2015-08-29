@@ -98,10 +98,16 @@ class PatchChat_Controller {
 
 
 		/* Insert default action comment reply */
+
+		$options = array(
+			'chatid'      => $post_id,
+			'displayname' => $user->display_name,
+		);
+
 		$comment = array(
 			'comment_post_ID'   => $post_id,
 			'user_id'           => PatchChat_Settings::bot(),
-			'comment_content'   => PatchChat_Settings::instant_reply( $user ),
+			'comment_content'   => PatchChat_Settings::instant_reply( $options ),
 			'comment_type'      => 'auto',
 			'comment_date'      => current_time( 'mysql' ), // So it occurs after first comment time set above
 		);
