@@ -147,6 +147,7 @@ $blue:     #55acee;
 				li.patchchatcomment {
 
 					display: block;
+					margin-bottom: 0;
 
 					list-style: none;
 					clear: both;
@@ -176,7 +177,7 @@ $blue:     #55acee;
 						background-color: $egg;
 
 						i.fa {
-							padding-right: 5px;
+							padding-left: 5px;
 						}
 					}
 

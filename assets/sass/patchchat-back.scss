@@ -148,8 +148,12 @@
 
 						.patchchatcomment {
 
-							span {
+							& > span {
 								max-width: 60%;
+							}
+
+							&.auto > span {
+								max-width: 100%;
 							}
 						}
 					}

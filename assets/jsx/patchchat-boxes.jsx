@@ -120,8 +120,8 @@ var PatchChatComments = React.createClass( {
 				<li className={classes} key={'comment' + comment.id} title={user}>
 					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
 					<span>
-						{this.icon(comment)}
 						{comment.text}
+						{this.icon(comment)}
 					</span>
 				</li>
 			);

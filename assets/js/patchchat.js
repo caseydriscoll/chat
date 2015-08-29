@@ -311,8 +311,8 @@ var PatchChatComments = React.createClass({
 				React.createElement(
 					'span',
 					null,
-					this.icon(comment),
-					comment.text
+					comment.text,
+					this.icon(comment)
 				)
 			);
 		}, this);

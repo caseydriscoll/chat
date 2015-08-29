@@ -88,6 +88,7 @@
         overflow-y: scroll; }
         #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment {
           display: block;
+          margin-bottom: 0;
           list-style: none;
           clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment:after {
@@ -110,7 +111,7 @@
             border-color: #333333;
             background-color: #ffffcc; }
             #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.auto > span i.fa {
-              padding-right: 5px; }
+              padding-left: 5px; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment:not(.auto) > span {
             display: inline-block;
             position: relative;
@@ -246,7 +247,7 @@
           display: none;
           height: 300px; }
           #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox ul.patchchatcomments .auto > span {
-            max-width: 60%; }
+            max-width: 80%; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox form {
           display: none; }
       #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox {

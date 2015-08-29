@@ -171,7 +171,7 @@ class PatchChat_Controller {
 		$comment = array(
 			'comment_post_ID'   => $chat['ID'],
 			'user_id'           => PatchChat_Settings::bot(),
-			'comment_content'   => __( 'Agent changed status to ' . $chat['post_status'], 'patchchat' ),
+			'comment_content'   => __( 'Agent changed status to ' . $chat['post_status'] . '.', 'patchchat' ),
 			'comment_type'      => 'auto',
 			'comment_date'      => current_time( 'mysql' ), // So it occurs after first comment time set above
 		);
