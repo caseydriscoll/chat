@@ -77,11 +77,9 @@ class PatchChat_AJAX {
 			wp_send_json_error( 'Not a user' );
 		}
 
-		$user_id = $current_user->ID;
-
 		switch ( $_POST['method'] ) {
-			case 'get_user_state' : // Return current chats for given user
-				$chats = PatchChat_Controller::get_user_state( $user_id );
+			case 'get_user_state' : // Return current chats for current user
+				$chats = PatchChat_Controller::get_user_state();
 				break;
 
 			default:
