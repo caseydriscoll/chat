@@ -191,6 +191,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
 	 * @edited  2015-08-28 20:11:39 - Adds PatchChat_Settings::instant_reply
+	 * @edited  2015-08-29 19:01:02 - Refactors to move js-debug to bottom
 	 */
 	public static function register_fields() {
 
@@ -202,14 +203,6 @@ class PatchChat_Settings {
 				'value' => array( self::$key, )
 			),
 		) );
-
-		$cmb->add_field( array(
-			'name' => __( 'Javascript Debugger', 'patchchat' ),
-			'desc' => __( 'Will output values to js console', 'patchchat' ),
-			'id'   => 'js-debug',
-			'type' => 'checkbox',
-		) );
-
 
 		/* MESSAGES */
 		$cmb->add_field( array(
@@ -353,6 +346,21 @@ class PatchChat_Settings {
 			'type' => 'select',
 			'show_option_none' => true,
 			'options'          => self::audio_options(),
+		) );
+
+
+		/* ADVANCED */
+		$cmb->add_field( array(
+			'name' => __( 'Advanced', 'patchchat' ),
+			'id'   => 'advanced-title',
+			'type' => 'title',
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Javascript Debugger', 'patchchat' ),
+			'desc' => __( 'Will output values to js console', 'patchchat' ),
+			'id'   => 'js-debug',
+			'type' => 'checkbox',
 		) );
 
 	}
