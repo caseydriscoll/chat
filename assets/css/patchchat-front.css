@@ -90,11 +90,15 @@
           display: block;
           list-style: none;
           clear: both; }
+          #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment:after {
+            content: "";
+            display: table;
+            clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.auto > span {
             display: inline-block;
             position: relative;
             float: right;
-            width: 30%;
+            width: auto;
             padding: 7px;
             margin: 5px 15px;
             font-size: 13px;
@@ -242,7 +246,7 @@
           display: none;
           height: 300px; }
           #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox ul.patchchatcomments .auto > span {
-            width: 60%; }
+            max-width: 60%; }
         #patchchatcontainer #patchchatmessenger ul#patchchatboxes .patchchatbox form {
           display: none; }
       #patchchatcontainer #patchchatmessenger ul#patchchatboxes #patchchatinitbox {

@@ -90,11 +90,15 @@
           display: block;
           list-style: none;
           clear: both; }
+          #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment:after {
+            content: "";
+            display: table;
+            clear: both; }
           #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments li.patchchatcomment.auto > span {
             display: inline-block;
             position: relative;
             float: right;
-            width: 30%;
+            width: auto;
             padding: 7px;
             margin: 5px 15px;
             font-size: 13px;
@@ -275,7 +279,6 @@
               margin: 0px;
               font-size: 18px !important; }
           #wpcontent #wpbody #patchchatmessenger #patchchatboxes .patchchatbox ul.patchchatcomments {
-            position: absolute;
             z-index: 1;
             top: 0;
             bottom: 0;

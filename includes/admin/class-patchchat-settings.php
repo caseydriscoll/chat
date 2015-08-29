@@ -103,6 +103,12 @@ class PatchChat_Settings {
 
 
 	/**
+	 * 
+	 */
+	static $instant_reply = 'Welcome! We received your chat and will be with you in a moment.';
+
+
+	/**
 	 * Initialize the menu registration
 	 *
 	 * @edited 2015-08-09 16:43:55 - Adds cmb2
@@ -154,6 +160,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 16:37:29 - Adds setting for chat-instructions
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
+	 * @edited  2015-08-28 20:11:39 - Adds PatchChat_Settings::instant_reply
 	 */
 	public static function register_fields() {
 
@@ -198,6 +205,16 @@ class PatchChat_Settings {
 			'type' => 'text',
 			'attributes' => array(
 				'placeholder' => __( self::$instructions, 'patchchat' ),
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Instant Reply', 'patchchat' ),
+			'desc' => __( 'The text that appears on as the first reply confirming receipt.', 'patchchat' ),
+			'id'   => 'instant-reply',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => __( self::$instant_reply, 'patchchat' ),
 			),
 		) );
 
@@ -425,6 +442,28 @@ class PatchChat_Settings {
 
 		return $data;
 
+	}
+
+
+	/**
+	 * Returns the approriate string to for the instant read receipt
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-28 20:13:06
+	 *
+	 * @param WP_USER $user The given user
+	 *
+	 * @return  string The instant reply to leave as a comment
+	 */
+	public static function instant_reply( $user ) {
+
+		$settings = get_option( self::$key );
+
+		if ( $settings === false || empty( $settings['instant-reply'] ) )
+			return __( self::$instant_reply, 'patchchat' );
+		else
+			return $settings['instant-reply'];
 	}
 
 

@@ -14,6 +14,7 @@ class PatchChat_Controller {
 	 *   return new transient to new user
 	 *
 	 * @edited 2015-08-03 16:32:16 - Adds user signon after creation
+	 * @edited 2015-08-28 20:11:39 - Adds PatchChat_Settings::instant_reply
 	 */
 	public static function create( $patchchat ) {
 
@@ -72,9 +73,8 @@ class PatchChat_Controller {
 
 		/* Insert default action comment reply */
 		// TODO: Should not be hardcoded! Should be setting for 'default agent'
-		// TODO: $instant_reply should be a setting
 
-		$instant_reply = 'Welcome user ' . $user_id . '! We received your chat and will be with you in a moment.';
+		$instant_reply = PatchChat_Settings::instant_reply( $user );
 
 		$comment = array(
 			'comment_post_ID'   => $post_id,
