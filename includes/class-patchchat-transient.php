@@ -76,45 +76,57 @@ class PatchChat_Transient {
 	 *
 	 * Also responsible for pushing the updates to the respective Transient States
 	 *
+	 * In theory, this should be the only method that updates any PatchChat_Transient_State
+	 *
 	 * @author  caseypatrickdriscoll
 	 *
 	 * @created 2015-08-27 18:59:19
 	 * @edited  2015-08-28 12:30:12 - Refactors to push transient updates to state without move function
 	 * @edited  2015-08-29 13:57:00 - Adds bot for auto comments
 	 */
-	public static function set( $chat_id, $transient ) {
+	public static function set( $chat_id, $transient, $update_state = 1 ) {
 
-		// 1. Set the chat transient
+		// 1. Set the individual chat transient
 		set_transient( 'patchchat_' . $chat_id, $transient );
 
-		// 2. Update all the necessary transient states
-		if ( $transient['status'] == 'new' ) PatchChat_Transient_State::update( 'new', $transient );
+		if ( ! $update_state ) return;
 
+		// 2. Update all the 'new' transient state, which is an outlier
+		if ( $transient['status'] == 'new' ) 
+			PatchChat_Transient_State::update( 'new', $transient );
+		else
+			PatchChat_Transient_State::trim( 'new', $chat_id );
+
+		// 3. Update all the individual user transients
 		foreach ( $transient['users'] as $user_id => $user ) {
 
 			if ( $user_id == PatchChat_Settings::bot() ) continue;
 
 			PatchChat_Transient_State::update( $user_id, $transient );
+
 		}
 
 	}
 
 
 	/**
-	 * Queries the DB and builds a Transient for a given PatchChat ID
+	 * Queries the DB and builds a Transient for a given PatchChat ID from scratch
+	 *
+	 * Should only be called from PatchChat_Transient::get()
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-29 16:43:15 - Refactors for more specialized performance and reusability
 	 *
 	 * @param $chat_id
 	 *
-	 * @return array
+	 * @return PatchChat_Transient
 	 */
-	public static function build( $chat_id ) {
+	private static function build( $chat_id ) {
 
+		// 1. Build main transient
 		$patchchat = get_post( $chat_id );
 
-		$comments = get_comments( array( 'post_id' => $chat_id, 'order' => 'ASC' ) );
-
-
-		// 1. Build main array
 		$transient = array(
 			'chat_id'    => $chat_id,
 			'title'      => $patchchat->post_title,
@@ -123,50 +135,20 @@ class PatchChat_Transient {
 			'last_time'  => $patchchat->post_modified,
 		);
 
-
-		// 2. Build users key in comments foreach
 		$transient['users'] = array();
-
-
-		// 3. Build comments key
 		$transient['comments'] = array();
 
-		foreach ( $comments as $comment ) {
+		PatchChat_Transient::set( $chat_id, $transient, 0 );
 
-			$user_id = $comment->user_id;
 
-			array_push(
-				$transient['comments'],
-				array(
-					'id'   => $comment->comment_ID,
-					'text' => $comment->comment_content,
-					'time' => $comment->comment_date,
-					'type' => $comment->comment_type,
-					'user' => $user_id,
-				)
-			);
+		// 2. Add comments (which will add users involved)
+		$comments = get_comments( array( 'post_id' => $chat_id, 'order' => 'ASC' ) );
 
-			if ( ! isset( $transient['users'][$user_id] ) ) {
+		foreach ( $comments as $comment )
+			self::add_comment( (array) $comment );
 
-				$user = get_user_by( 'id', $user_id );
+		return self::get( $chat_id );
 
-				$img = md5( strtolower( trim ( $user->user_email ) ) );
-				$status = '';
-
-				$transient['users'][$user_id] = array(
-					'img'    => $img,
-					'name'   => $user->display_name,
-					'role'   => $user->roles[0],
-					'email'  => $user->user_email,
-					'status' => $status,
-				);
-			}
-
-		}
-
-		PatchChat_Transient::set( $chat_id, $transient );
-
-		return $transient;
 	}
 
 	/**
@@ -196,14 +178,17 @@ class PatchChat_Transient {
 	 * @edited 2015-08-04 17:48:09 - Adds updating of user Transient State
 	 *
 	 */
-	public static function add_comment( $chat_id, $comment ) {
+	public static function add_comment( $comment ) {
+
+		$chat_id   = $comment['comment_post_ID'];
+		$user_id   = $comment['user_id'];
 
 		$transient = PatchChat_Transient::get( $chat_id );
 
 		array_push(
 			$transient['comments'],
 			array(
-				'id'   => $comment['comment_id'],
+				'id'   => $comment['comment_ID'],
 				'text' => $comment['comment_content'],
 				'time' => $comment['comment_date'],
 				'type' => $comment['comment_type'],
@@ -211,8 +196,38 @@ class PatchChat_Transient {
 			)
 		);
 
+		if ( ! isset( $transient['users'][$user_id] ) )
+			$transient['users'][$user_id] = self::generate_user_data( $user_id );
+
 		PatchChat_Transient::set( $chat_id, $transient );
 
 		return $transient;
 	}
+
+	/**
+	 * Helper function to convert a user to data that is needed for the transient
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-29 16:06:09
+	 * 
+	 * @param int $user_id Generate data for the user with this id
+	 */
+	private static function generate_user_data( $user_id ) {
+
+		$user = get_user_by( 'id', $user_id );
+
+		$img = md5( strtolower( trim ( $user->user_email ) ) );
+		$status = '';
+
+		return array(
+			'img'    => $img,
+			'name'   => $user->display_name,
+			'role'   => $user->roles[0],
+			'email'  => $user->user_email,
+			'status' => $status,
+		);
+
+	}
+
 }

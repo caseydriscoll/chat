@@ -84,7 +84,7 @@ class PatchChat_Controller {
 		$comment_id = wp_insert_comment( $comment );
 
 
-		$transient = PatchChat_Transient::build( $post_id );
+		$transient = PatchChat_Transient::get( $post_id );
 
 		return PatchChat_Controller::get_user_state( $user_id );
 
@@ -92,54 +92,27 @@ class PatchChat_Controller {
 
 
 	/**
-	 * Updates a patchchat by adding a comment
+	 * A reflection of the PatchChat_AJAX 'update' method
 	 *
-	 * @author caseypatrickdriscoll
+	 * Prepares an update for insertion
 	 *
-	 * @edited 2015-08-04 15:02:36 - Adds updating of transient array
+	 * Presumes data sanitized and validated from PatchChat_AJAX
 	 *
-	 * @param string $chat_id
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-29 16:41:42
+	 *
+	 * TODO: Error handling (add comment shouldn't return state, this method should)
 	 */
-	public static function add_comment( $patchchat ) {
-
-		// This is checked in PatchChat_AJAX too (never hurts to double check)
-		if ( ! is_user_logged_in() ) return array( 'error' => 'User is not logged in' );
-
-		$current_user = wp_get_current_user();
-
-		if ( $current_user->ID == 0 ) {
-			return array( 'error' => 'User is not logged in' );
-		}
-
-		$user_id = $current_user->ID;
-
-		$chat_id = $patchchat['chat_id'];
-		$text    = $patchchat['text'];
-
-		$time    = current_time( 'mysql' );
-		$text    = wp_strip_all_tags( $text );
-
+	public static function update( $chat ) {
 
 		$comment = array(
-			'comment_post_ID'   => $chat_id,
-			'user_id'           => $user_id,
-			'comment_content'   => $text,
-			'comment_date'      => $time,
-			'comment_type'      => '',
-			'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-			'comment_agent'     => $_SERVER['HTTP_USER_AGENT']
+			'comment_type' => '',
+			'comment_post_ID' => $chat['chat_id'],
+			'comment_content' => $chat['text'],
 		);
 
-		$comment_id = wp_insert_comment( $comment );
-
-		$comment['comment_id'] = $comment_id;
-
-
-		$transient = PatchChat_Transient::add_comment( $chat_id, $comment );
-
-		PatchChat_Transient_State::update( $user_id, $transient );
-
-		return PatchChat_Controller::get_user_state( $user_id );
+		return self::add_comment( $comment );
 
 	}
 
@@ -155,7 +128,7 @@ class PatchChat_Controller {
 	 * @edited  2015-08-28 20:38:24 - Adds auto comment for every status change
 	 * 
 	 */
-	public static function change_status( $chat ) {
+	public static function change_chat_status( $chat ) {
 
 		// TODO: Assign agent when becomes 'open'
 		// TODO: Create idea of assigned agents
@@ -165,32 +138,22 @@ class PatchChat_Controller {
 		// TODO: Style the selector based on status
 		// TODO: Add thumbs up or signal if POST is success
 
+		// 1. Update the post status and appropriate transients
 		wp_update_post( $chat );
+		PatchChat_Transient::update( $chat['ID'], 'status', $chat['post_status'] );
 
-		/* Insert default action comment reply */
+		// if ( $chat['prev_status'] == 'new' )
+		// 	PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
+
+
+		// 2. Add the comment
 		$comment = array(
-			'comment_post_ID'   => $chat['ID'],
-			'user_id'           => PatchChat_Settings::bot(),
-			'comment_content'   => __( 'Agent changed status to ' . $chat['post_status'] . '.', 'patchchat' ),
-			'comment_type'      => 'auto',
-			'comment_date'      => current_time( 'mysql' ), // So it occurs after first comment time set above
+			'comment_type'    => 'auto',
+			'comment_post_ID' => $chat['ID'],
+			'comment_content' => __( 'Agent changed status to ' . $chat['post_status'] . '.', 'patchchat' ),
 		);
 
-		$comment_id = wp_insert_comment( $comment );
-
-		$comment['comment_id'] = $comment_id;
-
-		PatchChat_Transient::update( $chat['ID'], 'status', $chat['post_status'] );
-		PatchChat_Transient::add_comment( $chat['ID'], $comment );
-
-		if ( $chat['prev_status'] == 'new' )
-			PatchChat_Transient_State::trim( $chat['prev_status'], $chat['ID'] );
-
-		$current_user = wp_get_current_user();
-
-		$user_id = $current_user->ID;
-
-		return PatchChat_Controller::get_user_state( $user_id );
+		return self::add_comment( $comment );
 
 	}
 
@@ -204,6 +167,7 @@ class PatchChat_Controller {
 	 * @edited 2015-08-27 18:38:05 - Refactors to remove get_array()
 	 *
 	 * TODO: Add 'agent' role/capability instead of 'administrator'
+	 * TODO: This should be a private helper method
 	 */
 	public static function get_user_state( $user_id ) {
 
@@ -220,6 +184,44 @@ class PatchChat_Controller {
 		}
 
 		return $user_chats;
+	}
+
+
+	/**
+	 * Updates a patchchat by adding a comment
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @edited 2015-08-04 15:02:36 - Adds updating of transient array
+	 * @edited 2015-08-29 16:43:15 - Refactors for more specialized performance and reusability
+	 *
+	 * @param Array $comment
+	 */
+	private static function add_comment( $comment ) {
+
+		$current_user = wp_get_current_user();
+
+		if ( $current_user->ID == 0 ) {
+			return array( 'error' => 'User is not logged in' );
+		}
+
+
+		$comment['user_id']           = $current_user->ID;
+		$comment['comment_date']      = current_time( 'mysql' );
+
+		$comment['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
+		$comment['comment_agent']     = $_SERVER['HTTP_USER_AGENT'];
+
+
+		$comment_id = wp_insert_comment( $comment );
+
+		$comment['comment_ID'] = $comment_id;
+
+
+		$transient = PatchChat_Transient::add_comment( $comment );
+
+		return PatchChat_Controller::get_user_state( $comment['user_id'] );
+
 	}
 
 
