@@ -111,6 +111,18 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default status change message
+	 *
+	 * Brackets are replaced by a certain set of select strings
+	 *
+	 * See status_change_message() for more details
+	 *
+	 * @var string
+	 */
+	static $status_change_message = 'Agent {agentname} changed status to {status}.';
+
+
+	/**
 	 * Default bot username
 	 *
 	 * @var  string
@@ -233,6 +245,16 @@ class PatchChat_Settings {
 			'type' => 'text',
 			'attributes' => array(
 				'placeholder' => __( self::$instant_reply, 'patchchat' ),
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Status Change Message', 'patchchat' ),
+			'desc' => __( 'The filter text for status changes. Use {chatid}, {status}, {agentname} as tokens.', 'patchchat' ),
+			'id'   => 'status-change-message',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => __( self::$status_change_message, 'patchchat' ),
 			),
 		) );
 
@@ -482,6 +504,42 @@ class PatchChat_Settings {
 			return __( self::$instant_reply, 'patchchat' );
 		else
 			return $settings['instant-reply'];
+
+	}
+
+
+	/**
+	 * Returns the message for when adding a 'status change' comment.
+	 *
+	 * A set of dynamic options are passed in, including:
+	 * - chatid
+	 * - status
+	 * - agentname
+	 *
+	 * See PatchChat_Controller::change_chat_status() for more info
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-29 18:45:19
+	 *
+	 * @param Array $options
+	 *
+	 * @return string $message The filtered string for the comment
+	 */
+	public static function status_change_message( $options ) {
+
+		$settings = get_option( self::$key );
+
+		if ( $settings === false || empty( $settings['status-change-message'] ) )
+			$message =  __( self::$status_change_message, 'patchchat' );
+		else
+			$message = $settings['status-change-message'];
+
+		foreach ( $options as $key => $value ) {
+			$message = str_replace( '{' . $key . '}', $value, $message );
+		}
+
+		return $message;
 	}
 
 
