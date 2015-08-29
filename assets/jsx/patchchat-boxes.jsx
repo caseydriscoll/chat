@@ -101,8 +101,10 @@ var PatchChatComments = React.createClass( {
 	},
 
 	icon: function( comment ) {
-		if ( comment.type == 'auto' )
-			return <i className="fa fa-hand-peace-o"></i>;
+		if ( patchchat.welcomeIcon && comment.type == 'auto' ) {
+			var classes = "fa " + patchchat.welcomeIcon;
+			return <i className={classes}></i>;
+		}
 	},
 
 	render: function() {

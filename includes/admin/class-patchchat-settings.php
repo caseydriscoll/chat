@@ -103,6 +103,14 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default option for spinner-icon
+	 *
+	 * @var  string
+	 */
+	static $welcome_icon = 'fa-hand-peace-o';
+
+
+	/**
 	 * Default option for the read receipt
 	 *
 	 * @var  string
@@ -322,6 +330,16 @@ class PatchChat_Settings {
 			),
 		) );
 
+		$cmb->add_field( array(
+			'name' => __( 'Welcome Icon', 'patchchat' ),
+			'desc' => __( 'The welcome icon, appears in auto comments.<br/>Can be any <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome icon</a>.', 'patchchat' ),
+			'id'   => 'welcome-icon',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => self::$welcome_icon,
+			),
+		) );
+
 
 		/* SOUNDS */
 		$cmb->add_field( array(
@@ -473,6 +491,10 @@ class PatchChat_Settings {
 				$data['spinnerIcon'] = $settings['spinner-icon'];
 			} else {
 				$data['spinnerIcon']  = self::$spinner_icon;
+			}
+
+			if ( array_key_exists( 'welcome-icon', $settings ) ) {
+				$data['welcomeIcon'] = $settings['welcome-icon'];
 			}
 
 			if ( array_key_exists( 'chat-instructions', $settings ) ) {
