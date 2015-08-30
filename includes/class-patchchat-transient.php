@@ -176,6 +176,7 @@ class PatchChat_Transient {
 	 *
 	 * @edited 2015-08-04 16:24:30 - Adds updating of 'new' Transient Array
 	 * @edited 2015-08-04 17:48:09 - Adds updating of user Transient State
+	 * @edited 2015-08-29 20:38:44 - Refactors to fix escaped quote problem
 	 *
 	 */
 	public static function add_comment( $comment ) {
@@ -185,11 +186,18 @@ class PatchChat_Transient {
 
 		$transient = PatchChat_Transient::get( $chat_id );
 
+		// TODO: Really? Get to the bottom of this quote problem
+		$comment_content = str_replace(
+			array( "\\\\", "\\'", "\\\"" ),
+			array( "\\", "'", "\"" ),
+			$comment['comment_content']
+		);
+
 		array_push(
 			$transient['comments'],
 			array(
 				'id'   => $comment['comment_ID'],
-				'text' => $comment['comment_content'],
+				'text' => $comment_content,
 				'time' => $comment['comment_date'],
 				'type' => $comment['comment_type'],
 				'user' => $comment['user_id'],
