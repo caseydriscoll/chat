@@ -8,7 +8,7 @@ var PatchChatList = React.createClass( {
 			var users = [];
 
 			for ( var user in chat.users ) {
-				if ( chat.users[user].role != 'administrator' )
+				if ( chat.users[user].role != 'administrator' && chat.users[user].name != 'bot' )
 					users.push( chat.users[user].name );
 			}
 

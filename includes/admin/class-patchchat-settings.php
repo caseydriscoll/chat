@@ -103,6 +103,50 @@ class PatchChat_Settings {
 
 
 	/**
+	 * Default option for spinner-icon
+	 *
+	 * @var  string
+	 */
+	static $welcome_icon = 'fa-hand-peace-o';
+
+
+	/**
+	 * Default option for the read receipt
+	 *
+	 * @var  string
+	 */
+	static $instant_reply = 'Welcome {displayname}! We received your chat and will be with you in a moment.';
+
+
+	/**
+	 * Default status change message
+	 *
+	 * Brackets are replaced by a certain set of select strings
+	 *
+	 * See status_change_message() for more details
+	 *
+	 * @var string
+	 */
+	static $status_change_message = 'Agent {agentname} changed status to {status}.';
+
+
+	/**
+	 * Default bot username
+	 *
+	 * @var  string
+	 */
+	static $bot_username = 'patchchatbot';
+
+
+	/**
+	 * Default bot displayname
+	 *
+	 * @var  string
+	 */
+	static $bot_displayname = 'bot';
+
+
+	/**
 	 * Initialize the menu registration
 	 *
 	 * @edited 2015-08-09 16:43:55 - Adds cmb2
@@ -154,6 +198,8 @@ class PatchChat_Settings {
 	 * @edited  2015-08-19 16:37:29 - Adds setting for chat-instructions
 	 * @edited  2015-08-19 16:45:35 - Adds setting for header-text
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
+	 * @edited  2015-08-28 20:11:39 - Adds PatchChat_Settings::instant_reply
+	 * @edited  2015-08-29 19:01:02 - Refactors to move js-debug to bottom
 	 */
 	public static function register_fields() {
 
@@ -165,14 +211,6 @@ class PatchChat_Settings {
 				'value' => array( self::$key, )
 			),
 		) );
-
-		$cmb->add_field( array(
-			'name' => __( 'Javascript Debugger', 'patchchat' ),
-			'desc' => __( 'Will output values to js console', 'patchchat' ),
-			'id'   => 'js-debug',
-			'type' => 'checkbox',
-		) );
-
 
 		/* MESSAGES */
 		$cmb->add_field( array(
@@ -198,6 +236,26 @@ class PatchChat_Settings {
 			'type' => 'text',
 			'attributes' => array(
 				'placeholder' => __( self::$instructions, 'patchchat' ),
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Instant Reply', 'patchchat' ),
+			'desc' => __( 'The filter text for the first reply confirming receipt.<br/>Use {displayname}, {chatid} as tokens.', 'patchchat' ),
+			'id'   => 'instant-reply',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => __( self::$instant_reply, 'patchchat' ),
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Status Change Message', 'patchchat' ),
+			'desc' => __( 'The filter text for status changes.<br/>Use {chatid}, {status}, {agentname} as tokens.', 'patchchat' ),
+			'id'   => 'status-change-message',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => __( self::$status_change_message, 'patchchat' ),
 			),
 		) );
 
@@ -272,6 +330,16 @@ class PatchChat_Settings {
 			),
 		) );
 
+		$cmb->add_field( array(
+			'name' => __( 'Welcome Icon', 'patchchat' ),
+			'desc' => __( 'The welcome icon, appears in auto comments.<br/>Can be any <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome icon</a>.', 'patchchat' ),
+			'id'   => 'welcome-icon',
+			'type' => 'text',
+			'attributes' => array(
+				'placeholder' => self::$welcome_icon,
+			),
+		) );
+
 
 		/* SOUNDS */
 		$cmb->add_field( array(
@@ -296,6 +364,21 @@ class PatchChat_Settings {
 			'type' => 'select',
 			'show_option_none' => true,
 			'options'          => self::audio_options(),
+		) );
+
+
+		/* ADVANCED */
+		$cmb->add_field( array(
+			'name' => __( 'Advanced', 'patchchat' ),
+			'id'   => 'advanced-title',
+			'type' => 'title',
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Javascript Debugger', 'patchchat' ),
+			'desc' => __( 'Will output values to js console', 'patchchat' ),
+			'id'   => 'js-debug',
+			'type' => 'checkbox',
 		) );
 
 	}
@@ -410,6 +493,10 @@ class PatchChat_Settings {
 				$data['spinnerIcon']  = self::$spinner_icon;
 			}
 
+			if ( array_key_exists( 'welcome-icon', $settings ) ) {
+				$data['welcomeIcon'] = $settings['welcome-icon'];
+			}
+
 			if ( array_key_exists( 'chat-instructions', $settings ) ) {
 				$data['instructions'] = $settings['chat-instructions'];
 			} else {
@@ -425,6 +512,125 @@ class PatchChat_Settings {
 
 		return $data;
 
+	}
+
+
+	/**
+	 * Returns the appropriate string to for the instant read receipt
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-28 20:13:06
+	 * @edited  2015-08-29 18:57:19 - Refactors to make instant-reply dynamic with tokens
+	 *
+	 * @param Array $options The available tokens for replacement
+	 *
+	 * @return  string The instant reply to leave as a comment
+	 */
+	public static function instant_reply( $options ) {
+
+		$settings = get_option( self::$key );
+
+		if ( $settings === false || empty( $settings['instant-reply'] ) )
+			$message =  __( self::$instant_reply, 'patchchat' );
+		else
+			$message = $settings['instant-reply'];
+
+		foreach ( $options as $key => $value ) {
+			$message = str_replace( '{' . $key . '}', $value, $message );
+		}
+
+		return $message;
+
+	}
+
+
+	/**
+	 * Returns the message for when adding a 'status change' comment.
+	 *
+	 * A set of dynamic options are passed in, including:
+	 * - chatid
+	 * - status
+	 * - agentname
+	 *
+	 * See PatchChat_Controller::change_chat_status() for more info
+	 *
+	 * @author caseypatrickdriscoll
+	 *
+	 * @created 2015-08-29 18:45:19
+	 *
+	 * @param Array $options
+	 *
+	 * @return string $message The filtered string for the comment
+	 */
+	public static function status_change_message( $options ) {
+
+		$settings = get_option( self::$key );
+
+		if ( $settings === false || empty( $settings['status-change-message'] ) )
+			$message =  __( self::$status_change_message, 'patchchat' );
+		else
+			$message = $settings['status-change-message'];
+
+		foreach ( $options as $key => $value ) {
+			$message = str_replace( '{' . $key . '}', $value, $message );
+		}
+
+		return $message;
+	}
+
+
+	/**
+	 * Returns the user id saved as the bot
+	 *
+	 * TODO: Add bot setting, remove hardcoding
+	 *
+	 * @author  caseypatrickdriscoll
+	 *
+	 * @created 2015-08-28 20:17:30
+	 * 
+	 * @return int The user id of the auto bot user
+	 */
+	public static function bot() {
+
+		$settings = get_option( self::$key );
+
+		$bot_id = '';
+
+		if ( $settings === false || empty( $settings['bot_id'] ) ) {
+
+			$bot = get_user_by( 'username', self::$bot_username );
+
+			if ( $bot === false ) {
+
+				$bot = array(
+					'user_login'   => self::$bot_username,
+					'user_pass'    => NULL,
+					'display_name' => self::$bot_displayname,
+				);
+
+				$bot_id = wp_insert_user( $bot );
+
+			} else {
+
+				$bot_id = $bot->ID;
+			
+			}
+
+			if ( $settings === false )
+				$settings = array( 'bot_id' => $bot_id );
+			else
+				$settings['bot_id'] = $bot_id;
+
+			update_option( self::$key, $settings );
+
+		} else {
+
+			$bot_id = $settings['bot_id'];
+
+		}
+
+		return $bot_id;
 	}
 
 

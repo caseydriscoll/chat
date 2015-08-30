@@ -100,17 +100,35 @@ var PatchChatComments = React.createClass( {
 		this.componentDidUpdate();
 	},
 
+	icon: function( comment ) {
+		if ( patchchat.welcomeIcon && comment.type == 'auto' ) {
+			var classes = "fa " + patchchat.welcomeIcon;
+			return <i className={classes}></i>;
+		}
+	},
+
 	render: function() {
+
 		var comments = this.props.chat.comments.map( function( comment ) {
-			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
+			var classes = 'patchchatcomment';
 			var user    = this.props.chat.users[comment.user].name;
+
+			if ( comment.type == 'auto' )
+				classes += ' auto';
+			else
+				classes += ' ' + this.props.chat.users[comment.user].role;
+
 			return (
 				<li className={classes} key={'comment' + comment.id} title={user}>
 					<img src={'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30'} />
-					{comment.text}
+					<span>
+						{comment.text}
+						{this.icon(comment)}
+					</span>
 				</li>
 			);
 		}, this );
+
 		return (
 			<ul className="patchchatcomments">
 				{comments}

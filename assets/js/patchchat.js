@@ -292,17 +292,34 @@ var PatchChatComments = React.createClass({
 		this.componentDidUpdate();
 	},
 
+	icon: function icon(comment) {
+		if (patchchat.welcomeIcon && comment.type == 'auto') {
+			var classes = "fa " + patchchat.welcomeIcon;
+			return React.createElement('i', { className: classes });
+		}
+	},
+
 	render: function render() {
+
 		var comments = this.props.chat.comments.map(function (comment) {
-			var classes = 'patchchatcomment ' + this.props.chat.users[comment.user].role;
+			var classes = 'patchchatcomment';
 			var user = this.props.chat.users[comment.user].name;
+
+			if (comment.type == 'auto') classes += ' auto';else classes += ' ' + this.props.chat.users[comment.user].role;
+
 			return React.createElement(
 				'li',
 				{ className: classes, key: 'comment' + comment.id, title: user },
 				React.createElement('img', { src: 'https://gravatar.com/avatar/' + comment.img + '.jpg?s=30' }),
-				comment.text
+				React.createElement(
+					'span',
+					null,
+					comment.text,
+					this.icon(comment)
+				)
 			);
 		}, this);
+
 		return React.createElement(
 			'ul',
 			{ className: 'patchchatcomments' },
@@ -476,7 +493,7 @@ var PatchChatList = React.createClass({
 			var users = [];
 
 			for (var user in chat.users) {
-				if (chat.users[user].role != 'administrator') users.push(chat.users[user].name);
+				if (chat.users[user].role != 'administrator' && chat.users[user].name != 'bot') users.push(chat.users[user].name);
 			}
 
 			users = users.join(', ');

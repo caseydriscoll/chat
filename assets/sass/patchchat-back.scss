@@ -137,7 +137,7 @@
 
 					ul.patchchatcomments {
 
-						position: absolute; z-index: 1;
+						z-index: 1;
 						top: 0; bottom: 0;
 						height: 95%;
 						padding: 80px 0 20px 0;
@@ -148,8 +148,12 @@
 
 						.patchchatcomment {
 
-							span {
+							& > span {
 								max-width: 60%;
+							}
+
+							&.auto > span {
+								max-width: 100%;
 							}
 						}
 					}

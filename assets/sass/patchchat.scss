@@ -8,6 +8,7 @@ $white:    #ffffff;
 $green:    #769F33;
 $red:      #ff0000;
 $lightred: #ff6961;
+$egg:      #ffffcc;
 $blue:     #55acee;
 
 
@@ -146,11 +147,41 @@ $blue:     #55acee;
 				li.patchchatcomment {
 
 					display: block;
+					margin-bottom: 0;
 
 					list-style: none;
 					clear: both;
 
-					span {
+					&:after {
+						content: "";
+						display: table;
+						clear: both;
+					}
+
+					&.auto > span {
+						display: inline-block; position: relative; float: right;
+						width: auto;
+						padding: 7px; margin: 5px 15px;
+
+						font: {
+							size: 13px;
+							family: sans-serif;
+						}
+						line-height: 16px;
+						text-align: left;
+
+						border: 1px solid $light;
+						border-radius: 2px;
+						border-color: $dark;
+
+						background-color: $egg;
+
+						i.fa {
+							padding-left: 5px;
+						}
+					}
+
+					&:not(.auto) > span {
 						display: inline-block; position: relative;
 						max-width: 80%;
 						padding: 5px 8px;
@@ -192,19 +223,19 @@ $blue:     #55acee;
 						
 					}
 
-					&.user span {
+					&.user > span {
 						float: left;
 					}
-					&.agent span {
+					&.agent > span {
 						float: right;
 						border-color: $dark;
 					}
 
-					&.subscriber span {
+					&.subscriber > span {
 						float: left;
 						margin-left: 15px;
 					}
-					&.administrator span {
+					&.administrator > span {
 						float: right;
 						margin-right: 15px;
 						border-color: $dark;

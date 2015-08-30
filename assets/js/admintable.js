@@ -1,4 +1,4 @@
-var prevstatus = '';
+var prevStatus = '';
 
 function add_status_menu( status ) {
 	var statusProper = status.charAt(0).toUpperCase() + status.slice(1);
@@ -11,17 +11,17 @@ function add_status_menu( status ) {
 jQuery( document ).ready( function() {
 
 	jQuery( 'select' )
-		.on( 'focus', function(e) { prevstatus = this.value; } )
+		.on( 'focus', function(e) { prevStatus = this.value; } )
 		.on( 'change', function(e) {
 
 			jQuery( this ).next().show();
 
-			var chat_id = jQuery( this ).parent().parent().attr( 'id' ).split( '-' )[1];
+			var chatID = jQuery( this ).parent().parent().attr( 'id' ).split( '-' )[1];
 
 			data = {
 				'action'      : 'change_chat_status',
-				'chat_id'     : chat_id,
-				'prev_status' : prevstatus,
+				'chat_id'     : chatID,
+				'prev_status' : prevStatus,
 				'status'      : this.value
 			};
 
@@ -34,41 +34,47 @@ jQuery( document ).ready( function() {
 
 					console.log( response );
 
-					var chat_id     = response.data.ID;
-					var post_status = response.data.post_status;
-					var prev_status = response.data.prev_status;
+					for ( var i = 0; i < response.data.length; i++ ) {
 
-					jQuery( '#post-' + chat_id ).find( 'img' ).hide();
+						var chatID     = response.data[i].chat_id;
+						var postStatus = response.data[i].status;
 
-					// Increment the new post_status
-					var menu = jQuery( '.subsubsub .' + post_status );
+						if ( prevStatus == postStatus ) return;
 
-					if ( menu.length == 0 ) {
-						add_status_menu( post_status );
-					} else {
-						count = jQuery( '.subsubsub .' + post_status ).find( '.count' ).html().replace( /[()]/g, '' );
-						jQuery( '.' + post_status ).find( '.count' ).html( '(' + ++count + ')' );
-					}
+						// Hide the spinner
+						jQuery( '#post-' + chatID ).find( 'img' ).hide();
 
-					// Decrement the old prev_status
-					count = jQuery( '.' + prev_status ).find( '.count' ).html().replace( /[()]/g, '' );
-					jQuery( '.' + prev_status ).find( '.count' ).html( '(' + --count + ')' );
+						// Increment the new post_status
+						var menu = jQuery( '.subsubsub .' + postStatus );
 
-					if ( count == 0 ) {
-						jQuery( '.subsubsub .' + prev_status ).remove();
-					}
+						if ( menu.length == 0 ) {
+							add_status_menu( postStatus );
+						} else {
+							postCount = jQuery( '.subsubsub .' + postStatus ).find( '.count' ).html().replace( /[()]/g, '' );
+							jQuery( '.' + postStatus ).find( '.count' ).html( '(' + ++postCount + ')' );
+						}
 
-					jQuery( '#post-' + chat_id )
-						.removeClass( 'status-' + prev_status )
-						.addClass( 'status-' + post_status );
+						// Decrement the old prevStatus or remove it
+						count = jQuery( '.' + prevStatus ).find( '.count' ).html().replace( /[()]/g, '' );
 
-					if ( jQuery( '.post_status_page' ).val() != 'all' ) {
-						jQuery( '#post-' + chat_id ).fadeOut( 'normal', function () {
-							jQuery( this ).remove();
-						} );
+						if ( count == 1 ) {
+							jQuery( '.subsubsub .' + prevStatus ).remove();
+						} else {
+							jQuery( '.' + prevStatus ).find( '.count' ).html( '(' + --count + ')' );
+						}
 
-						if ( count == 0 ) {
-							jQuery( '#the-list' ).append( '<tr class="no-items"><td class="colspanchange" colspan="6">No Chats found</td></tr>' );
+						jQuery( '#post-' + chatID )
+							.removeClass( 'status-' + prevStatus )
+							.addClass( 'status-' + postStatus );
+
+						if ( jQuery( '.post_status_page' ).val() != 'all' ) {
+							jQuery( '#post-' + chatID ).fadeOut( 'normal', function () {
+								jQuery( this ).remove();
+							} );
+
+							if ( count == 0 ) {
+								jQuery( '#the-list' ).append( '<tr class="no-items"><td class="colspanchange" colspan="6">No Chats found</td></tr>' );
+							}
 						}
 					}
 

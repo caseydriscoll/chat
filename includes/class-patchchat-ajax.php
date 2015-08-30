@@ -77,11 +77,9 @@ class PatchChat_AJAX {
 			wp_send_json_error( 'Not a user' );
 		}
 
-		$user_id = $current_user->ID;
-
 		switch ( $_POST['method'] ) {
-			case 'get_user_state' : // Return current chats for given user
-				$chats = PatchChat_Controller::get_user_state( $user_id );
+			case 'get_user_state' : // Return current chats for current user
+				$chats = PatchChat_Controller::get_user_state();
 				break;
 
 			default:
@@ -111,6 +109,7 @@ class PatchChat_AJAX {
 	 * @edited 2015-08-22 10:26:27 - Refactors preliminary validation
 	 * @edited 2015-08-22 10:28:56 - Refactors to check for email_exists
 	 * @edited 2015-08-22 10:31:56 - Refactors create validations
+	 * @edited 2015-08-29 16:40:38 - Refactors to use PatchChat_Controller::update()
 	 * 
 	 */
 	public static function post() {
@@ -179,10 +178,10 @@ class PatchChat_AJAX {
 				$chats = PatchChat_Controller::create( $chat );
 				break;
 
-			case 'update' : // Update a chat
+			case 'update' : // Update a chat by adding a comment
 
 				if ( is_user_logged_in() ) {
-					$chats = PatchChat_Controller::add_comment( $chat );
+					$chats = PatchChat_Controller::update( $chat );
 				} else {
 					$chats = array( 'error' => 'User is not logged in' );
 				}
@@ -209,7 +208,7 @@ class PatchChat_AJAX {
 	 * @edited  2015-07-24 19:56:52 - Refactors to use move function
 	 * @edited  2015-08-28 18:12:26 - Adds user validation on change_chat_status
 	 *
-	 * TODO: Validate fields
+	 * TODO: Validate and sanitize fields
 	 *
 	 */
 	public static function change_chat_status() {
@@ -218,21 +217,13 @@ class PatchChat_AJAX {
 			wp_send_json_error( 'Not logged in' );
 		}
 
-		$current_user = wp_get_current_user();
-
-		if ( $current_user->ID == 0 ) {
-			wp_send_json_error( 'Not a user' );
-		}
-
-		$user_id = $current_user->ID;
-
 		$chat = array(
 			'ID'          => $_POST['chat_id'],
 			'prev_status' => $_POST['prev_status'],
 			'post_status' => $_POST['status'],
 		);
 
-		$response = PatchChat_Controller::change_status( $chat );
+		$response = PatchChat_Controller::change_chat_status( $chat );
 
 		if ( $response ) {
 			wp_send_json_success( $response );

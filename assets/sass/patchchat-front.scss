@@ -72,6 +72,10 @@
 				ul.patchchatcomments {
 					display: none;
 					height: 300px;
+
+					.auto > span {
+						max-width: 80%;
+					}
 				}
 
 				form {
