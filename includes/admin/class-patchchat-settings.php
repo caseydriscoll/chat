@@ -415,6 +415,7 @@ class PatchChat_Settings {
 	 * @edited  2015-08-27 13:16:34 - Adds minimize-icon option
 	 * @edited  2015-08-27 13:28:10 - Adds default spinner-icon
 	 * @edited  2015-08-27 13:55:54 - Adds spinner-icon option
+   * @edited  2015-09-07 12:34:37 - Adds admin_url()
 	 * 
 	 * @return array $settings The array of settings
 	 */
@@ -422,7 +423,7 @@ class PatchChat_Settings {
 
 		$data = array(
 			'admin'   => 'false',
-			'ajaxurl' => '/wp-admin/admin-ajax.php',
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		);
 
 		if ( is_admin() ) {
