@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: PatchChat
+Plugin Name: Chat
 Version: 0.1-alpha
-Description: A high quality chat plugin made just for WordPress
-Author: PatchWorks
-Author URI: https://patch.works/
-Plugin URI: https://patch.works/plugin/patchchat
-Text Domain: patchworks
+Description: A react based chat plugin made just for WordPress
+Author: caseypatrickdriscoll 
+Author URI: https://caseypatrickdriscoll.com/
+Plugin URI: https://caseypatrickdriscoll.com
+Text Domain: chat
 Domain Path: /languages
 */
 
